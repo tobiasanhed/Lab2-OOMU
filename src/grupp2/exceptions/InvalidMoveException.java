@@ -9,6 +9,9 @@ package grupp2.exceptions;
  *
  * @author S142015
  */
-public class InvalidMoveException {
+public class InvalidMoveException extends Exception{
     
+    InvalidMoveException(){
+        super("Can't do that shit!");
+    }
 }

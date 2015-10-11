@@ -9,6 +9,10 @@ package grupp2.view;
  *
  * @author S142015
  */
-public class WinnerDialog {
+public class WinnerDialog implements IEndDialog{
     
+    @Override
+    public void printResult(){
+        
+    }
 }

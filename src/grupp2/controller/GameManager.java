@@ -10,5 +10,9 @@ package grupp2.controller;
  * @author S142015
  */
 public class GameManager {
+    private int currentPlayer = 0xc;
     
+    public void startGame(){
+        
+    }
 }

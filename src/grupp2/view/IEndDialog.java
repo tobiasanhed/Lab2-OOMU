@@ -10,5 +10,5 @@ package grupp2.view;
  * @author S142015
  */
 public interface IEndDialog {
-    
+    public void printResult();
 }

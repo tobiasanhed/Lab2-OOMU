@@ -5,10 +5,13 @@
  */
 package grupp2.view;
 
+import javafx.scene.control.Button;
+
 /**
  *
  * @author S142015
  */
 public class GameFrame {
-    
+    private Button newGame;
+    private Button endGame;
 }

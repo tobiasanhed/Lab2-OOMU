@@ -5,10 +5,15 @@
  */
 package grupp2.view;
 
+import grupp2.model.IPlayer;
+import java.util.ArrayList;
+
 /**
  *
  * @author S142015
  */
 public class SetUpGameDialog {
-    
+    public ArrayList<IPlayer> getPlayers(){
+        
+    }
 }

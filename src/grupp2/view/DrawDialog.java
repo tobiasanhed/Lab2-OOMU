@@ -9,6 +9,9 @@ package grupp2.view;
  *
  * @author S142015
  */
-public class DrawDialog {
-    
+public class DrawDialog implements IEndDialog{
+    @Override
+    public void printResult(){
+        
+    }
 }

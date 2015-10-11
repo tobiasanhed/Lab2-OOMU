@@ -10,5 +10,7 @@ package grupp2.view;
  * @author S142015
  */
 public class GameBoard {
-    
+    public void initializeObservers(){
+        
+    }
 }
