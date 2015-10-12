@@ -5,6 +5,8 @@
  */
 package grupp2.model;
 
+import java.awt.Point;
+
 /**
  *
  * @author S142015
@@ -15,5 +17,5 @@ public interface IPlayer {
     public void setMarkerID(int marker);
     public String getName();
     public int getMarkerID();
-    public int[] getDraw();
+    public Point getDraw();
 }

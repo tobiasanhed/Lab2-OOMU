@@ -5,6 +5,9 @@
  */
 package grupp2.model;
 
+import java.awt.Point;
+import java.util.Scanner;
+
 /**
  *
  * @author S142015
@@ -12,6 +15,15 @@ package grupp2.model;
 public class HumanPlayer implements IPlayer {
     private String name;
     private int markerID;
+    
+    public HumanPlayer(){
+        
+    }
+    
+    public HumanPlayer(String name, int markerID){
+        this.name = name;
+        this.markerID = markerID;
+    }
     
     @Override
     public void setName(String name){
@@ -34,8 +46,16 @@ public class HumanPlayer implements IPlayer {
     }
     
     @Override
-    public int[] getDraw(){
-        int[] draw = {1,1};
+    public Point getDraw(){
+        Scanner input = new Scanner(System.in);
+        int value1, value2;
+        
+        System.out.println("Please enter a move as coordinates!");
+        value1 = input.nextInt();
+        value2 = input.nextInt();
+        
+        Point draw =new Point(value1, value2);
+        
         return draw;
     }
 }

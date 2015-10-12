@@ -5,6 +5,8 @@
  */
 package grupp2.model;
 
+import java.awt.Point;
+
 /**
  *
  * @author S142015
@@ -12,6 +14,15 @@ package grupp2.model;
 public class ComputerPlayer implements IPlayer {
     private String name;
     private int markerID;
+
+    public ComputerPlayer(){
+        
+    }
+    
+    public ComputerPlayer(String name, int markerID){
+        this.name = name;
+        this.markerID = markerID;
+    }
     
     @Override
     public void setName(String name){
@@ -34,8 +45,8 @@ public class ComputerPlayer implements IPlayer {
     }
     
     @Override
-    public int[] getDraw(){
-        int[] draw = {1,1};
+    public Point getDraw(){
+        Point draw = new Point(1,1);
         return draw;
     }
 }

@@ -8,13 +8,14 @@ package grupp2.controller;
 import grupp2.model.GameGrid;
 import grupp2.model.HumanPlayer;
 import grupp2.model.IPlayer;
+import java.awt.Point;
 
 /**
  *
  * @author S142015
  */
 public class GameManager {
-    private int currentPlayer = 1;
+    private static int currentPlayer = 1;
     
     public void startGame(){
         GameGrid board = new GameGrid();
@@ -22,7 +23,10 @@ public class GameManager {
         
         IPlayer player1 = new HumanPlayer();
         IPlayer player2 = new HumanPlayer();
-        int[] draw;
+        Point draw;
+        
+        player1.setMarkerID(1);
+        player2.setMarkerID(2);
         
 
         while(true){
@@ -37,9 +41,10 @@ public class GameManager {
             board.setBoard(draw, currentPlayer);
         }
             
-        
-
-        
+    }
+    
+    public static int getCurrentPlayer(){
+        return currentPlayer;
     }
     
     public void printBoard(GameGrid board){
@@ -48,9 +53,9 @@ public class GameManager {
             for(int j = 0; j < board.getBoardSize(); j++){
                 System.out.print("|");
                 if(boardArray[i][j] == 1)
-                    System.out.print("W");
-                else if(boardArray[i][j] == 2)
                     System.out.print("B");
+                else if(boardArray[i][j] == 2)
+                    System.out.print("W");
                 else
                     System.out.print(" ");
             }
