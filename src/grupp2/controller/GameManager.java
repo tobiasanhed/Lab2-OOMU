@@ -6,6 +6,8 @@
 package grupp2.controller;
 
 import grupp2.model.GameGrid;
+import grupp2.model.HumanPlayer;
+import grupp2.model.IPlayer;
 
 /**
  *
@@ -16,17 +18,43 @@ public class GameManager {
     
     public void startGame(){
         GameGrid board = new GameGrid();
-        printBoard(board);
+        board.initializeBoard();
+        
+        IPlayer player1 = new HumanPlayer();
+        IPlayer player2 = new HumanPlayer();
+        int[] draw;
+        
+
+        while(true){
+            printBoard(board);
+            currentPlayer = player1.getMarkerID();
+            draw = player1.getDraw();
+            board.setBoard(draw, currentPlayer);
+            
+            printBoard(board);
+            currentPlayer = player2.getMarkerID();
+            draw = player2.getDraw(); 
+            board.setBoard(draw, currentPlayer);
+        }
+            
+        
+
+        
     }
     
     public void printBoard(GameGrid board){
+        int[][] boardArray = board.getBoard();
         for(int i = 0; i < board.getBoardSize(); i++){
-            for(int j = 0; j < board.getBoardSize(); i++){
+            for(int j = 0; j < board.getBoardSize(); j++){
                 System.out.print("|");
-                System.out.print("  ");
-                System.out.print("|");
+                if(boardArray[i][j] == 1)
+                    System.out.print("W");
+                else if(boardArray[i][j] == 2)
+                    System.out.print("B");
+                else
+                    System.out.print(" ");
             }
-            System.out.print("\n");
+            System.out.print("|\n");
         }
     }
 }
