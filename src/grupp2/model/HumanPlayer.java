@@ -9,27 +9,33 @@ package grupp2.model;
  *
  * @author S142015
  */
-public class HumanPlayer {
+public class HumanPlayer implements IPlayer {
     private String name;
     private int markerID;
     
+    @Override
     public void setName(String name){
-        
+        this.name = name;
     }
     
+    @Override
     public void setMarkerID(int marker){
-        
+        this.markerID = marker;
     }
     
+    @Override
     public String getName(){
-        
+        return name;
     }
     
+    @Override
     public int getMarkerID(){
-        
+        return markerID;
     }
     
+    @Override
     public int[] getDraw(){
-        
+        int[] draw = {1,1};
+        return draw;
     }
 }

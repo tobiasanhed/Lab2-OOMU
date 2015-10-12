@@ -5,6 +5,8 @@
  */
 package grupp2.view;
 
+import javafx.scene.control.Alert;
+
 /**
  *
  * @author S142015
@@ -12,6 +14,11 @@ package grupp2.view;
 public class DrawDialog implements IEndDialog{
     @Override
     public void printResult(){
-        
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Game Ended");
+        alert.setHeaderText("The game has ended.");
+        alert.setContentText("It was a draw..");
+
+        alert.showAndWait();
     }
 }

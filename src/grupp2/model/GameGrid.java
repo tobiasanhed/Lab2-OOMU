@@ -10,14 +10,19 @@ package grupp2.model;
  * @author S142015
  */
 public class GameGrid {
-    private static int [][]board = new int[8][8];
+    private final static int boardSize = 8;
+    private static int [][]board = new int[boardSize][boardSize];
     
     public int[][] getBoard(){
-        
+        return board;
     }
     
     public void setBoard(int board[][]){
         
+    }
+    
+    public int getBoardSize(){
+        return boardSize;
     }
     
     public void initalizeBoard(){
@@ -29,18 +34,19 @@ public class GameGrid {
     }
     
     public int getResult(){
-        
+        return 0;
     }
     
     public boolean isPossibleMove(){
-        
+        return true;
     }
     
     public boolean isGameOver(){
-        
+        return false;
     }
     
     public int[] getPossibleMove(){
-        
+        int[] draw = {1,1};
+        return draw;
     }
 }

@@ -5,6 +5,7 @@
  */
 package grupp2.othello;
 
+import grupp2.controller.GameManager;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -45,7 +46,9 @@ public class Othello extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        launch(args);
+        //launch(args);
+        GameManager game = new GameManager();
+        game.startGame();
     }
     
 }
