@@ -123,7 +123,7 @@ public class GameGrid {
                 this.board = temp.getState();
                 return false;
             }
-            this.board[i][coordinates.y] = GameManager.getCurrentPlayer();
+            setBoard(new Point(i, coordinates.y), GameManager.getCurrentPlayer());
         }
         this.board = temp.getState();
         return false;
@@ -147,7 +147,7 @@ public class GameGrid {
                 board =  temp.getState();
                 return false;
             }
-            setBoard(coordinates, GameManager.getCurrentPlayer());
+            setBoard(new Point(i, coordinates.y), GameManager.getCurrentPlayer());
         }
  
         board = temp.getState();
@@ -171,7 +171,7 @@ public class GameGrid {
                 this.board = temp.getState();
                 return false;
             }
-            this.board[coordinates.x][i] = GameManager.getCurrentPlayer();
+            setBoard(new Point(coordinates.x, i), GameManager.getCurrentPlayer());
         }
         this.board = temp.getState();
         return false;   
@@ -193,7 +193,7 @@ public class GameGrid {
                 this.board = temp.getState();
                 return false;
             }
-            this.board[coordinates.x][i] = GameManager.getCurrentPlayer();
+            setBoard(new Point(coordinates.x, i), GameManager.getCurrentPlayer());
         }
         this.board = temp.getState();
         return false; 
@@ -216,7 +216,7 @@ public class GameGrid {
                 this.board = temp.getState();
                 return false;
             }
-            this.board[x][y] = GameManager.getCurrentPlayer();
+            setBoard(new Point(x, y), GameManager.getCurrentPlayer());
             y--;
             
         }
@@ -242,7 +242,7 @@ public class GameGrid {
                 this.board = temp.getState();
                 return false;
             }
-            this.board[x][y] = GameManager.getCurrentPlayer();
+            setBoard(new Point(x, y), GameManager.getCurrentPlayer());
             y++;
         }
           this.board = temp.getState();
@@ -266,7 +266,7 @@ public class GameGrid {
                 this.board = temp.getState();
                 return false;
             }
-            this.board[x][y] = GameManager.getCurrentPlayer();
+            setBoard(new Point(x, y), GameManager.getCurrentPlayer());
             y++;
         }
           this.board = temp.getState();
@@ -290,7 +290,7 @@ public class GameGrid {
                 this.board = temp.getState();
                 return false;
             }
-            this.board[x][y] = GameManager.getCurrentPlayer();
+            setBoard(new Point(x, y), GameManager.getCurrentPlayer());
             y--;
         }
           this.board = temp.getState();
