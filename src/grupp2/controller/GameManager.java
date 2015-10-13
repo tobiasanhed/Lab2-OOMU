@@ -30,15 +30,34 @@ public class GameManager {
         
 
         while(true){
-            printBoard(board);
             currentPlayer = player1.getMarkerID();
-            draw = player1.getDraw();
-            board.setBoard(draw, currentPlayer);
-            
+
             printBoard(board);
+            
+            while (true) {
+                draw = player1.getDraw();
+                if (board.isPossibleMove(draw)) {
+                    board.setBoard(draw, currentPlayer);
+                    break;
+                } else {
+                    System.out.println("No!");
+                }
+            }
+
             currentPlayer = player2.getMarkerID();
-            draw = player2.getDraw(); 
-            board.setBoard(draw, currentPlayer);
+
+            printBoard(board);
+            
+            while (true) {
+                draw = player2.getDraw();
+                if (board.isPossibleMove(draw)) {
+                    board.setBoard(draw, currentPlayer);
+                    break;
+                } else {
+                    System.out.println("No!");
+                }
+
+            }
         }
             
     }
@@ -47,14 +66,14 @@ public class GameManager {
         return currentPlayer;
     }
     
-    public void printBoard(GameGrid board){
+    public static void printBoard(GameGrid board){
         int[][] boardArray = board.getBoard();
         for(int i = 0; i < board.getBoardSize(); i++){
             for(int j = 0; j < board.getBoardSize(); j++){
                 System.out.print("|");
-                if(boardArray[i][j] == 1)
+                if(boardArray[j][i] == 1)
                     System.out.print("B");
-                else if(boardArray[i][j] == 2)
+                else if(boardArray[j][i] == 2)
                     System.out.print("W");
                 else
                     System.out.print(" ");
