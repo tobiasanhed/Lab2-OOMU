@@ -16,6 +16,7 @@ import java.awt.Point;
  */
 public class GameManager implements Runnable {
     private static int currentPlayer = 1;
+    private static boolean isComputer;
     
     public void startGame(){
         GameGrid board = new GameGrid();
@@ -31,6 +32,7 @@ public class GameManager implements Runnable {
 
         while(true){
             currentPlayer = player1.getMarkerID();
+            isComputer = player1.getIsComputer();
 
             printBoard(board);
             
@@ -45,7 +47,8 @@ public class GameManager implements Runnable {
             }
 
             currentPlayer = player2.getMarkerID();
-
+            isComputer = player2.getIsComputer();
+            
             printBoard(board);
             
             while (true) {
@@ -64,6 +67,10 @@ public class GameManager implements Runnable {
     
     public static int getCurrentPlayer(){
         return currentPlayer;
+    }
+    
+    public static boolean getIsComputerPlayer(){
+        return isComputer;
     }
     
     public static void printBoard(GameGrid board){

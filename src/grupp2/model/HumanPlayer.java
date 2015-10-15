@@ -15,6 +15,7 @@ import java.util.Scanner;
 public class HumanPlayer implements IPlayer {
     private String name;
     private int markerID;
+    private final boolean isComputer = false;
     
     public HumanPlayer(){
         
@@ -23,6 +24,11 @@ public class HumanPlayer implements IPlayer {
     public HumanPlayer(String name, int markerID){
         this.name = name;
         this.markerID = markerID;
+    }
+    
+    @Override
+    public boolean getIsComputer(){
+        return isComputer;
     }
     
     @Override

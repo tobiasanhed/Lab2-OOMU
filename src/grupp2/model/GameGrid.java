@@ -95,7 +95,8 @@ public class GameGrid{
     public boolean isGameOver() {
         /*kolla om brädet är fullt, köra en getPossibleMoves, är ArrayListen tom så 
          finns det inga drag att göra och spelet är slut.*/
-        return false;
+        ArrayList moves = getPossibleMoves();
+        return checkIfBoardIsFull() || moves.isEmpty();
     }
 
     public ArrayList<Point> getPossibleMoves() {
@@ -119,14 +120,15 @@ public class GameGrid{
     private boolean checkRight(Point coordinates) {
         //Kolla höger
 
-
         for (int i = coordinates.x + 1; i < getBoardSize(); i++) {
             if (board[i][coordinates.y] == 0) {
                 return false;
             }
             if ((board[i][coordinates.y] == GameManager.getCurrentPlayer()) && i > coordinates.x + 1) {
-                for(int ii = i; ii != coordinates.x; ii--)
-                    setBoard(new Point(ii, coordinates.y), GameManager.getCurrentPlayer());
+                if(!GameManager.getIsComputerPlayer()){
+                    for(int ii = i; ii != coordinates.x; ii--)
+                        setBoard(new Point(ii, coordinates.y), GameManager.getCurrentPlayer());
+                }
                 return true;
             } else if ((board[i][coordinates.y] == GameManager.getCurrentPlayer()) && i <= coordinates.x + 1) {
                 return false;
@@ -142,8 +144,10 @@ public class GameGrid{
                 return false;
             }
             if ((board[i][coordinates.y] == GameManager.getCurrentPlayer()) && i < coordinates.x - 1) {
-                for(int ii = i; ii != coordinates.x; ii++)
-                    setBoard(new Point(ii, coordinates.y), GameManager.getCurrentPlayer());
+                if(!GameManager.getIsComputerPlayer()){
+                    for(int ii = i; ii != coordinates.x; ii++)
+                        setBoard(new Point(ii, coordinates.y), GameManager.getCurrentPlayer());
+                }
                 return true;
             } else if ((board[i][coordinates.y] == GameManager.getCurrentPlayer()) && i >= coordinates.x - 1) {
                 return false;
@@ -160,8 +164,10 @@ public class GameGrid{
                 return false;
             }
             if ((board[coordinates.x][i] == GameManager.getCurrentPlayer()) && i > coordinates.y + 1) {
-                for(int ii = i; ii != coordinates.y; ii--)
-                    setBoard(new Point(coordinates.x, ii), GameManager.getCurrentPlayer());
+                if(!GameManager.getIsComputerPlayer()){
+                    for(int ii = i; ii != coordinates.y; ii--)
+                        setBoard(new Point(coordinates.x, ii), GameManager.getCurrentPlayer());
+                }
                 return true;
             } else if ((board[coordinates.x][i] == GameManager.getCurrentPlayer()) && i <= coordinates.y + 1) {
                 return false;
@@ -177,8 +183,10 @@ public class GameGrid{
                 return false;
             }
             if ((board[coordinates.x][i] == GameManager.getCurrentPlayer()) && i < coordinates.y - 1) {
-                for(int ii = i; ii != coordinates.y; ii++)
-                    setBoard(new Point(coordinates.x, ii), GameManager.getCurrentPlayer());
+                if(!GameManager.getIsComputerPlayer()){
+                    for(int ii = i; ii != coordinates.y; ii++)
+                        setBoard(new Point(coordinates.x, ii), GameManager.getCurrentPlayer());
+                }
                 return true;
             } else if ((board[coordinates.x][i] == GameManager.getCurrentPlayer()) && i >= coordinates.y - 1) {
                 return false;
@@ -195,9 +203,11 @@ public class GameGrid{
                 return false;
             }
             if ((board[x][y] == GameManager.getCurrentPlayer()) && x > coordinates.x + 1) {
-                for(int xx = x; xx != coordinates.x; xx--){
-                    setBoard(new Point(xx, y), GameManager.getCurrentPlayer());
-                    y++;
+                if(!GameManager.getIsComputerPlayer()){
+                    for(int xx = x; xx != coordinates.x; xx--){
+                        setBoard(new Point(xx, y), GameManager.getCurrentPlayer());
+                        y++;
+                    }
                 }
                 return true;
             } else if ((board[x][y] == GameManager.getCurrentPlayer()) && x <= coordinates.x + 1) {
@@ -218,9 +228,11 @@ public class GameGrid{
                 return false;
             }
             if ((board[x][y] == GameManager.getCurrentPlayer()) && x > coordinates.x + 1) {
-                for(int xx = x; xx != coordinates.x; xx--){
-                    setBoard(new Point(xx, y), GameManager.getCurrentPlayer());
-                    y--;
+                if(!GameManager.getIsComputerPlayer()){
+                    for(int xx = x; xx != coordinates.x; xx--){
+                        setBoard(new Point(xx, y), GameManager.getCurrentPlayer());
+                        y--;
+                    }
                 }
                 return true;
             } else if ((board[x][y] == GameManager.getCurrentPlayer()) && x <= coordinates.x + 1) {
@@ -240,9 +252,11 @@ public class GameGrid{
                 return false;
             }
             if ((board[x][y] == GameManager.getCurrentPlayer()) && x < coordinates.x - 1) {
-                for(int xx = x; xx != coordinates.x; xx++){
-                    setBoard(new Point(xx, y), GameManager.getCurrentPlayer());
-                    y--;
+                if(!GameManager.getIsComputerPlayer()){
+                    for(int xx = x; xx != coordinates.x; xx++){
+                        setBoard(new Point(xx, y), GameManager.getCurrentPlayer());
+                        y--;
+                    }
                 }
                 return true;
             } else if ((board[x][y] == GameManager.getCurrentPlayer()) && x >= coordinates.x - 1) {
@@ -263,9 +277,11 @@ public class GameGrid{
                 return false;
             }
             if ((board[x][y] == GameManager.getCurrentPlayer()) && x < coordinates.x - 1) {
-                for(int xx = x; xx != coordinates.x; xx++){
-                    setBoard(new Point(xx, y), GameManager.getCurrentPlayer());
-                    y++;
+                if(!GameManager.getIsComputerPlayer()){
+                    for(int xx = x; xx != coordinates.x; xx++){
+                        setBoard(new Point(xx, y), GameManager.getCurrentPlayer());
+                        y++;
+                    }
                 }
                 return true;
             } else if ((board[x][y] == GameManager.getCurrentPlayer()) && x >= coordinates.x - 1) {
@@ -282,5 +298,13 @@ public class GameGrid{
         return ((board[coordinates.x][coordinates.y] == 0));
     }
 
+    private boolean checkIfBoardIsFull(){
+        for(int i = 0; i < getBoardSize(); i++)
+            for(int j = 0; j < getBoardSize(); j++){
+                if(checkIfEmptySpot(new Point(j, i)))
+                    return false;
+            }
+        return true;
+    }
 
 }
