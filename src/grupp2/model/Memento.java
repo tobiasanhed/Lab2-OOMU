@@ -9,14 +9,14 @@ package grupp2.model;
  *
  * @author Rasmus
  */
-public class Memento {
-    private int[][] state;
+public class Memento{
+    private GameGrid state;
     
-    public Memento (int[][] state){
+    public Memento (GameGrid state){
         this.state = state;
     }
     
-    public int[][] getState(){
-        return this.state;
+    public GameGrid getState(){
+        return (state);
     }
 }

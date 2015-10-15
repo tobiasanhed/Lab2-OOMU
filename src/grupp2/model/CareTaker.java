@@ -5,18 +5,20 @@
  */
 package grupp2.model;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Rasmus
  */
 public class CareTaker {
-    private Memento memento;
+    private ArrayList<Memento> savedStates = new ArrayList();
      
-    public Memento getMemento(){
-        return this.memento;
+    public Memento getMemento(int index){
+        return savedStates.get(index);
     }
     
-    public void setMemento(Memento memento){
-        this.memento = memento;
+    public void addMemento(Memento memento){
+        savedStates.add(memento);
     }
 }

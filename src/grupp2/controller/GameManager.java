@@ -14,7 +14,7 @@ import java.awt.Point;
  *
  * @author S142015
  */
-public class GameManager {
+public class GameManager implements Runnable {
     private static int currentPlayer = 1;
     
     public void startGame(){
@@ -68,8 +68,8 @@ public class GameManager {
     
     public static void printBoard(GameGrid board){
         int[][] boardArray = board.getBoard();
-        for(int i = 0; i < board.getBoardSize(); i++){
-            for(int j = 0; j < board.getBoardSize(); j++){
+        for(int i = 0; i < GameGrid.getBoardSize(); i++){
+            for(int j = 0; j < GameGrid.getBoardSize(); j++){
                 System.out.print("|");
                 if(boardArray[j][i] == 1)
                     System.out.print("B");
@@ -80,5 +80,10 @@ public class GameManager {
             }
             System.out.print("|\n");
         }
+    }
+
+    @Override
+    public void run() {
+        this.startGame();
     }
 }
