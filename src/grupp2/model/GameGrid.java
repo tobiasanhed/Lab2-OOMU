@@ -15,9 +15,9 @@ import java.util.ArrayList;
  */
 public class GameGrid{
 
-    private static int boardSize = 8;
-    private static int whitePlayer = 2;
-    private static int blackPlayer = 1;
+    private static final int boardSize = 8;
+    private static final int whitePlayer = 2;
+    private static final int blackPlayer = 1;
     private int[][] board = new int[boardSize][boardSize];
     
 
@@ -101,13 +101,12 @@ public class GameGrid{
     public ArrayList<Point> getPossibleMoves() {
         ArrayList<Point> possibleDraws = new ArrayList();
         Point coordinates = new Point();
-        GameGrid temp = this;
+
         for (int i = 0; i < getBoardSize(); i++) {
             for (int j = 0; j < getBoardSize(); j++) {
                 coordinates.setLocation(j, i);
 
                 if (isPossibleMove(coordinates)) {
-                    //this.board = temp.board;
                     possibleDraws.add(coordinates);
 
                 }
@@ -116,220 +115,165 @@ public class GameGrid{
 
         return possibleDraws;
     }
-    
-    public Memento createMemento() {
-        return new Memento(this);
-    }
-
-    public void restoreMemento(Memento memento) {
-        GameGrid haha;
-        haha = memento.getState();
-        this.setWholeBoard(haha.getBoard());
-    }
 
     private boolean checkRight(Point coordinates) {
         //Kolla höger
-        CareTaker caretaker = new CareTaker();
-        GameGrid originator = new GameGrid();
-        originator.setWholeBoard(this.getBoard());
-        caretaker.addMemento(originator.createMemento());
+
 
         for (int i = coordinates.x + 1; i < getBoardSize(); i++) {
             if (board[i][coordinates.y] == 0) {
-                originator.restoreMemento(caretaker.getMemento(0));
                 return false;
             }
             if ((board[i][coordinates.y] == GameManager.getCurrentPlayer()) && i > coordinates.x + 1) {
+                for(int ii = i; ii != coordinates.x; ii--)
+                    setBoard(new Point(ii, coordinates.y), GameManager.getCurrentPlayer());
                 return true;
             } else if ((board[i][coordinates.y] == GameManager.getCurrentPlayer()) && i <= coordinates.x + 1) {
-                originator.restoreMemento(caretaker.getMemento(0));
                 return false;
             }
-            setBoard(new Point(i, coordinates.y), GameManager.getCurrentPlayer());
         }
-        originator.restoreMemento(caretaker.getMemento(0));
         return false;
     }
 
     private boolean checkLeft(Point coordinates) {
-        CareTaker caretaker = new CareTaker();
-        GameGrid originator = new GameGrid();
-        originator.setWholeBoard(this.getBoard());
-        caretaker.addMemento(originator.createMemento());
 
         for (int i = coordinates.x - 1; i >= 0; i--) {
             if (board[i][coordinates.y] == 0) {
-                originator.restoreMemento(caretaker.getMemento(0));
                 return false;
             }
             if ((board[i][coordinates.y] == GameManager.getCurrentPlayer()) && i < coordinates.x - 1) {
-
+                for(int ii = i; ii != coordinates.x; ii++)
+                    setBoard(new Point(ii, coordinates.y), GameManager.getCurrentPlayer());
                 return true;
             } else if ((board[i][coordinates.y] == GameManager.getCurrentPlayer()) && i >= coordinates.x - 1) {
-                originator.restoreMemento(caretaker.getMemento(0));
                 return false;
             }
-            setBoard(new Point(i, coordinates.y), GameManager.getCurrentPlayer());
         }
 
-        originator.restoreMemento(caretaker.getMemento(0));
         return false;
     }
 
     private boolean checkDown(Point coordinates) {
-        CareTaker caretaker = new CareTaker();
-        GameGrid originator = new GameGrid();
-        originator.setWholeBoard(this.getBoard());
-        caretaker.addMemento(originator.createMemento());
 
         for (int i = coordinates.y + 1; i < getBoardSize(); i++) {
             if (board[coordinates.x][i] == 0) {
-                originator.restoreMemento(caretaker.getMemento(0));
                 return false;
             }
             if ((board[coordinates.x][i] == GameManager.getCurrentPlayer()) && i > coordinates.y + 1) {
+                for(int ii = i; ii != coordinates.y; ii--)
+                    setBoard(new Point(coordinates.x, ii), GameManager.getCurrentPlayer());
                 return true;
             } else if ((board[coordinates.x][i] == GameManager.getCurrentPlayer()) && i <= coordinates.y + 1) {
-                originator.restoreMemento(caretaker.getMemento(0));
                 return false;
             }
-            setBoard(new Point(coordinates.x, i), GameManager.getCurrentPlayer());
         }
-        originator.restoreMemento(caretaker.getMemento(0));
         return false;
     }
 
     private boolean checkUp(Point coordinates) {
-        CareTaker caretaker = new CareTaker();
-        GameGrid originator = new GameGrid();
-        originator.setWholeBoard(this.getBoard());
-        caretaker.addMemento(originator.createMemento());
-        
+
         for (int i = coordinates.y - 1; i >= 0; i--) {
             if (board[coordinates.x][i] == 0) {
-                originator.restoreMemento(caretaker.getMemento(0));
                 return false;
             }
             if ((board[coordinates.x][i] == GameManager.getCurrentPlayer()) && i < coordinates.y - 1) {
+                for(int ii = i; ii != coordinates.y; ii++)
+                    setBoard(new Point(coordinates.x, ii), GameManager.getCurrentPlayer());
                 return true;
             } else if ((board[coordinates.x][i] == GameManager.getCurrentPlayer()) && i >= coordinates.y - 1) {
-                originator.restoreMemento(caretaker.getMemento(0));
                 return false;
             }
-            setBoard(new Point(coordinates.x, i), GameManager.getCurrentPlayer());
         }
-        originator.restoreMemento(caretaker.getMemento(0));
         return false;
     }
 
     private boolean checkDiagonallyRightUp(Point coordinates) {
-        CareTaker caretaker = new CareTaker();
-        GameGrid originator = new GameGrid();
-        originator.setWholeBoard(this.getBoard());
-        caretaker.addMemento(originator.createMemento());
 
         int y = coordinates.y - 1;
         for (int x = coordinates.x + 1; x < getBoardSize() && y >= 0; x++) {
             if (board[x][y] == 0) {
-                originator.restoreMemento(caretaker.getMemento(0));
-
                 return false;
             }
             if ((board[x][y] == GameManager.getCurrentPlayer()) && x > coordinates.x + 1) {
+                for(int xx = x; xx != coordinates.x; xx--){
+                    setBoard(new Point(xx, y), GameManager.getCurrentPlayer());
+                    y++;
+                }
                 return true;
             } else if ((board[x][y] == GameManager.getCurrentPlayer()) && x <= coordinates.x + 1) {
-                originator.restoreMemento(caretaker.getMemento(0));
-
                 return false;
             }
-            setBoard(new Point(x, y), GameManager.getCurrentPlayer());
             y--;
 
         }
-        originator.restoreMemento(caretaker.getMemento(0));
 
         return false;
     }
 
     private boolean checkDiagonallyRightDown(Point coordinates) {
-        CareTaker caretaker = new CareTaker();
-        GameGrid originator = new GameGrid();
-        originator.setWholeBoard(this.getBoard());
-        caretaker.addMemento(originator.createMemento());
 
         int y = coordinates.y + 1;
         for (int x = coordinates.x + 1; x < getBoardSize() && y < getBoardSize(); x++) {
             if (board[x][y] == 0) {
-                originator.restoreMemento(caretaker.getMemento(0));
-
                 return false;
             }
             if ((board[x][y] == GameManager.getCurrentPlayer()) && x > coordinates.x + 1) {
+                for(int xx = x; xx != coordinates.x; xx--){
+                    setBoard(new Point(xx, y), GameManager.getCurrentPlayer());
+                    y--;
+                }
                 return true;
             } else if ((board[x][y] == GameManager.getCurrentPlayer()) && x <= coordinates.x + 1) {
-                originator.restoreMemento(caretaker.getMemento(0));
                 return false;
             }
-            setBoard(new Point(x, y), GameManager.getCurrentPlayer());
             y++;
         }
-        originator.restoreMemento(caretaker.getMemento(0));
 
         return false;
     }
 
     private boolean checkDiagonallyLeftDown(Point coordinates) {
-        CareTaker caretaker = new CareTaker();
-        GameGrid originator = new GameGrid();
-        originator.setWholeBoard(this.getBoard());
-        caretaker.addMemento(originator.createMemento());
-        
+
         int y = coordinates.y + 1;
         for (int x = coordinates.x - 1; x >= 0 && y < getBoardSize(); x--) {
             if (board[x][y] == 0) {
-                originator.restoreMemento(caretaker.getMemento(0));
-
                 return false;
             }
             if ((board[x][y] == GameManager.getCurrentPlayer()) && x < coordinates.x - 1) {
+                for(int xx = x; xx != coordinates.x; xx++){
+                    setBoard(new Point(xx, y), GameManager.getCurrentPlayer());
+                    y--;
+                }
                 return true;
             } else if ((board[x][y] == GameManager.getCurrentPlayer()) && x >= coordinates.x - 1) {
-                originator.restoreMemento(caretaker.getMemento(0));
-
                 return false;
             }
-            setBoard(new Point(x, y), GameManager.getCurrentPlayer());
             y++;
         }
-        originator.restoreMemento(caretaker.getMemento(0));
 
         return false;
     }
 
     private boolean checkDiagonallyLeftUp(Point coordinates) {
-        CareTaker caretaker = new CareTaker();
-        GameGrid originator = new GameGrid();
-        originator.setWholeBoard(this.getBoard());
-        caretaker.addMemento(originator.createMemento());
-        
+
         int y = coordinates.y - 1;
         for (int x = coordinates.x - 1; x >= 0 && y >= 0; x--) {
             if (board[x][y] == 0) {
-                originator.restoreMemento(caretaker.getMemento(0));
 
                 return false;
             }
             if ((board[x][y] == GameManager.getCurrentPlayer()) && x < coordinates.x - 1) {
+                for(int xx = x; xx != coordinates.x; xx++){
+                    setBoard(new Point(xx, y), GameManager.getCurrentPlayer());
+                    y++;
+                }
                 return true;
             } else if ((board[x][y] == GameManager.getCurrentPlayer()) && x >= coordinates.x - 1) {
-                originator.restoreMemento(caretaker.getMemento(0));
 
                 return false;
             }
-            setBoard(new Point(x, y), GameManager.getCurrentPlayer());
             y--;
         }
-        originator.restoreMemento(caretaker.getMemento(0));
 
         return false;
     }
