@@ -5,7 +5,10 @@
  */
 package grupp2.model;
 
+import grupp2.controller.GameManager;
 import java.awt.Point;
+import java.util.ArrayList;
+import java.util.Random;
 
 /**
  *
@@ -52,7 +55,13 @@ public class ComputerPlayer implements IPlayer {
     
     @Override
     public Point getDraw(){
-        Point draw = new Point(1,1);
-        return draw;
+        ArrayList draws;
+        Random rand = new Random();
+        int drawIndex;
+        
+        draws = GameManager.getPossibleDraws();
+        drawIndex = rand.nextInt(draws.size() - 1);
+        
+        return (Point)draws.get(drawIndex);
     }
 }
