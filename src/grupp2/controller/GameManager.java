@@ -5,10 +5,12 @@
  */
 package grupp2.controller;
 
+import grupp2.model.ComputerPlayer;
 import grupp2.model.GameGrid;
 import grupp2.model.HumanPlayer;
 import grupp2.model.IPlayer;
 import java.awt.Point;
+import java.util.ArrayList;
 
 /**
  *
@@ -23,7 +25,7 @@ public class GameManager implements Runnable {
         board.initializeBoard();
         
         IPlayer player1 = new HumanPlayer();
-        IPlayer player2 = new HumanPlayer();
+        IPlayer player2 = new ComputerPlayer();
         Point draw;
         
         player1.setMarkerID(1);
@@ -38,6 +40,8 @@ public class GameManager implements Runnable {
             
             while (true) {
                 draw = player1.getDraw();
+                isComputer = false;
+                
                 if (board.isPossibleMove(draw)) {
                     board.setBoard(draw, currentPlayer);
                     break;
@@ -53,6 +57,8 @@ public class GameManager implements Runnable {
             
             while (true) {
                 draw = player2.getDraw();
+                isComputer = false;
+
                 if (board.isPossibleMove(draw)) {
                     board.setBoard(draw, currentPlayer);
                     break;
@@ -71,6 +77,9 @@ public class GameManager implements Runnable {
         return currentPlayer;
     }
    
+    public static ArrayList getPossibleDraws(){
+        return board.getPossibleMoves();
+    }
     
     public static boolean getIsComputerPlayer(){
         return isComputer;
@@ -94,6 +103,6 @@ public class GameManager implements Runnable {
 
     @Override
     public void run() {
-        this.startGame();
+        GameManager.startGame();
     }
 }

@@ -108,7 +108,7 @@ public class GameGrid{
                 coordinates.setLocation(j, i);
 
                 if (isPossibleMove(coordinates)) {
-                    possibleDraws.add(coordinates);
+                    possibleDraws.add(new Point(coordinates.x, coordinates.y));
 
                 }
             }
