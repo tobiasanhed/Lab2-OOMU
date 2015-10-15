@@ -8,6 +8,8 @@ package grupp2.view;
 import grupp2.controller.GameManager;
 import grupp2.model.GameGrid;
 import java.awt.Point;
+import java.util.Observable;
+import java.util.Observer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -22,7 +24,7 @@ import javafx.scene.shape.Circle;
  *
  * @author S142015
  */
-public class GameBoard {
+public class GameBoard extends Observable implements Observer{
     private GridPane board;
     
     public GameBoard(){
@@ -36,7 +38,7 @@ public class GameBoard {
 
         for (int i = 0; i < btn.length; i++) {
             for (int j = 0; j < btn.length; j++) {
-                if (currentBoard[i][j] == 1) {
+                if (currentBoard[i][j] == 2) {
                     Circle whiteMarker = new Circle(20);
                     StackPane circlepane = new StackPane();
                     whiteMarker.setFill(Color.WHITE);
@@ -44,7 +46,7 @@ public class GameBoard {
                     circlepane.setAlignment(Pos.CENTER);
                     board.add(circlepane, j, i);
                 
-                } else if (currentBoard[i][j] == 2) {
+                } else if (currentBoard[i][j] == 1) {
                     Circle blackMarker = new Circle(20);
                     StackPane circlepane = new StackPane();
                     blackMarker.setFill(Color.BLACK);
@@ -58,7 +60,7 @@ public class GameBoard {
                     btn[i][j].setOnMouseClicked(new EventHandler<MouseEvent>() {
                         @Override
                         public void handle(MouseEvent event) {
-                            System.out.println("bajs");
+                            //Anropa notify (notifiera lyssnarna)
                         }
 
                     });
@@ -74,6 +76,11 @@ public class GameBoard {
     }
     
     public void initializeObservers(){
+        
+    }
+
+    @Override
+    public void update(Observable o, Object o1) {
         
     }
 }

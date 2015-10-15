@@ -6,13 +6,15 @@
 package grupp2.model;
 
 import java.awt.Point;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Scanner;
 
 /**
  *
  * @author S142015
  */
-public class HumanPlayer implements IPlayer {
+public class HumanPlayer implements IPlayer, Observer {
     private String name;
     private int markerID;
     private final boolean isComputer = false;
@@ -63,5 +65,10 @@ public class HumanPlayer implements IPlayer {
         Point draw =new Point(value1, value2);
         
         return draw;
+    }
+
+    @Override
+    public void update(Observable o, Object o1) {
+        
     }
 }

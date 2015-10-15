@@ -94,6 +94,6 @@ public class GameManager implements Runnable {
 
     @Override
     public void run() {
-        this.startGame();
+        GameManager.startGame();
     }
 }
