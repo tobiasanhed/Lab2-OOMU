@@ -15,6 +15,7 @@ public interface IPlayer {
     
     public void setName(String name);
     public void setMarkerID(int marker);
+    public boolean getIsComputer();
     public String getName();
     public int getMarkerID();
     public Point getDraw();
