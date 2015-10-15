@@ -16,9 +16,9 @@ import java.awt.Point;
  */
 public class GameManager implements Runnable {
     private static int currentPlayer = 1;
+    private static GameGrid board = new GameGrid();
     
-    public void startGame(){
-        GameGrid board = new GameGrid();
+    public static void startGame(){
         board.initializeBoard();
         
         IPlayer player1 = new HumanPlayer();
@@ -61,10 +61,13 @@ public class GameManager implements Runnable {
         }
             
     }
-    
+    public static int[][] getBoard(){
+        return(board.getBoard());
+    }
     public static int getCurrentPlayer(){
         return currentPlayer;
     }
+   
     
     public static void printBoard(GameGrid board){
         int[][] boardArray = board.getBoard();

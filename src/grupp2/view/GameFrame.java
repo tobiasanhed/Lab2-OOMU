@@ -5,6 +5,9 @@
  */
 package grupp2.view;
 
+import grupp2.controller.GameManager;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -51,6 +54,21 @@ GameBoard kan t.ex. vara av typen javafx.scene.layout.Pane och utgör den grafis
         this.primaryStage.setTitle("Othello Game");
         this.primaryStage.setScene(scene);
         this.primaryStage.show();
+        newGame.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.println("Nytt spel");
+                GameManager.startGame();
+            }
+        
+        });
+        endGame.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent event) {
+                System.exit(1);
+            }
+            
+        });
 
     }
 

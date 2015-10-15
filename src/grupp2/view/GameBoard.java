@@ -5,10 +5,18 @@
  */
 package grupp2.view;
 
+import grupp2.controller.GameManager;
 import grupp2.model.GameGrid;
+import java.awt.Point;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 
 /**
  *
@@ -20,18 +28,43 @@ public class GameBoard {
     public GameBoard(){
         board = new GridPane();
         board.setAlignment(Pos.CENTER);
+        board.setStyle("-fx-background-color: green");
+        board.setGridLinesVisible(true);
+        int [][] currentBoard = GameManager.getBoard();
 
         Button[][] btn = new Button[GameGrid.getBoardSize()][GameGrid.getBoardSize()];
 
-        for ( int i = 0; i < btn.length; i++) {
-            for ( int j = 0; j < btn.length; j++) {
-                btn[i][j] = new Button("");
+        for (int i = 0; i < btn.length; i++) {
+            for (int j = 0; j < btn.length; j++) {
+                if (currentBoard[i][j] == 1) {
+                    Circle whiteMarker = new Circle(20);
+                    StackPane circlepane = new StackPane();
+                    whiteMarker.setFill(Color.WHITE);
+                    circlepane.getChildren().add(whiteMarker);
+                    circlepane.setAlignment(Pos.CENTER);
+                    board.add(circlepane, j, i);
+                
+                } else if (currentBoard[i][j] == 2) {
+                    Circle blackMarker = new Circle(20);
+                    StackPane circlepane = new StackPane();
+                    blackMarker.setFill(Color.BLACK);
+                    circlepane.getChildren().add(blackMarker);
+                    circlepane.setAlignment(Pos.CENTER);
+                    board.add(circlepane, j, i);
+                } else {
+                    btn[i][j] = new Button("");
+                    btn[i][j].setOpacity(0);
+                    btn[i][j].setPrefSize(50, 50);
+                    btn[i][j].setOnMouseClicked(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent event) {
+                            System.out.println("bajs");
+                        }
 
-                btn[i][j].setStyle("-fx-border-color: black;"
-                        + "-fx-background-color: green");
-                btn[i][j].setPrefSize(50, 50);
+                    });
+                    board.add(btn[i][j], j, i);
+                }
 
-                board.add(btn[i][j], j, i+2);
             }
         }
     }
