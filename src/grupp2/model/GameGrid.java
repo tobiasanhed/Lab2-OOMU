@@ -30,6 +30,7 @@ public class GameGrid extends Observable{
 
     public void setBoard(Point coordinates, int marker) {
         board[coordinates.x][coordinates.y] = marker;
+        GameManager.setBoardNotifier(board);
     }
 
     public void setWholeBoard(int[][] tempBoard) {

@@ -6,6 +6,9 @@
 package grupp2.view;
 
 import grupp2.controller.GameManager;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -30,13 +33,12 @@ GameBoard kan t.ex. vara av typen javafx.scene.layout.Pane och utgör den grafis
     GameBoard fångar dessutom upp användarens (HumanPlayer) val av ruta då denne gör ett drag.*/
     private Button newGame;
     private Button endGame;
-    private GameBoard graphicBoard;
+    private static GameBoard graphicBoard = new GameBoard();
     private Stage primaryStage;
     
     public GameFrame(Stage primaryStage){
         newGame = new Button("Nytt parti");
         endGame = new Button("Avsluta");
-        graphicBoard = new GameBoard();
         this.primaryStage = primaryStage;
         
         
@@ -46,7 +48,7 @@ GameBoard kan t.ex. vara av typen javafx.scene.layout.Pane och utgör den grafis
         top.setAlignment(Pos.CENTER);
         top.getChildren().addAll(newGame, endGame);
         
-        root.setCenter(graphicBoard.getGameBoardPane());
+        root.setCenter(this.graphicBoard.getGameBoardPane());
         root.setTop(top);
         
         Scene scene = new Scene(root, 500, 500);
@@ -70,7 +72,24 @@ GameBoard kan t.ex. vara av typen javafx.scene.layout.Pane och utgör den grafis
             
         });
 
+        
     }
 
+    public static void updateBoard(){
+        
+        Platform.runLater(new Runnable() { 
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(GameFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                graphicBoard.drawGraphicBoard();
+            }
+        });
+    }
+    
     
 }
+    

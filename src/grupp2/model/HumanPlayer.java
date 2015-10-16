@@ -5,6 +5,7 @@
  */
 package grupp2.model;
 
+import grupp2.controller.GameManager;
 import java.awt.Point;
 import java.util.Scanner;
 
@@ -53,16 +54,18 @@ public class HumanPlayer implements IPlayer {
     
     @Override
     public Point getDraw(){
-        Scanner input = new Scanner(System.in);
+        /*Scanner input = new Scanner(System.in);
         int value1, value2;
         
         System.out.println("Please enter a move as coordinates!");
         value1 = input.nextInt();
         value2 = input.nextInt();
         
-        Point draw =new Point(value1, value2);
         
-        return draw;
+        
+        Point draw =new Point(value1, value2);*/
+        
+        return GameManager.getCoord();
     }
 
 }

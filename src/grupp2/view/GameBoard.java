@@ -24,17 +24,18 @@ import javafx.scene.shape.Circle;
  *
  * @author S142015
  */
-public class GameBoard extends Observable implements Observer{
+public class GameBoard{
     private GridPane board;
-    
+    private int [][] currentBoard = GameManager.getBoard();
+    private Button[][] btn = new Button[GameGrid.getBoardSize()][GameGrid.getBoardSize()];
+
+
     public GameBoard(){
         board = new GridPane();
         board.setAlignment(Pos.CENTER);
         board.setStyle("-fx-background-color: green");
         board.setGridLinesVisible(true);
-        int [][] currentBoard = GameManager.getBoard();
 
-        Button[][] btn = new Button[GameGrid.getBoardSize()][GameGrid.getBoardSize()];
 
         for (int i = 0; i < btn.length; i++) {
             for (int j = 0; j < btn.length; j++) {
@@ -44,7 +45,7 @@ public class GameBoard extends Observable implements Observer{
                     whiteMarker.setFill(Color.WHITE);
                     circlepane.getChildren().add(whiteMarker);
                     circlepane.setAlignment(Pos.CENTER);
-                    board.add(circlepane, j, i);
+                    board.add(circlepane, i, j);
                 
                 } else if (currentBoard[i][j] == 1) {
                     Circle blackMarker = new Circle(20);
@@ -52,15 +53,57 @@ public class GameBoard extends Observable implements Observer{
                     blackMarker.setFill(Color.BLACK);
                     circlepane.getChildren().add(blackMarker);
                     circlepane.setAlignment(Pos.CENTER);
-                    board.add(circlepane, j, i);
+                    board.add(circlepane, i, j);
                 } else {
                     btn[i][j] = new Button("");
                     btn[i][j].setOpacity(0);
                     btn[i][j].setPrefSize(50, 50);
-                    btn[i][j].setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    Point draw = new Point(j, i);
+                    btn[i][j].setOnAction(new EventHandler<ActionEvent>() {
                         @Override
-                        public void handle(MouseEvent event) {
-                            //Anropa notify (notifiera lyssnarna)
+                        public void handle(ActionEvent event) {
+                            
+                            GameManager.setCoord(draw);
+                        }
+
+                    });
+                    board.add(btn[i][j], j, i);
+                }
+
+            }
+        }
+    }
+    
+    public void drawGraphicBoard(){
+        currentBoard = GameManager.getBoardNotifier();
+        
+        for (int i = 0; i < btn.length; i++) {
+            for (int j = 0; j < btn.length; j++) {
+                if (currentBoard[i][j] == 2) {
+                    Circle whiteMarker = new Circle(20);
+                    StackPane circlepane = new StackPane();
+                    whiteMarker.setFill(Color.WHITE);
+                    circlepane.getChildren().add(whiteMarker);
+                    circlepane.setAlignment(Pos.CENTER);
+                    board.add(circlepane, i, j);
+                
+                } else if (currentBoard[i][j] == 1) {
+                    Circle blackMarker = new Circle(20);
+                    StackPane circlepane = new StackPane();
+                    blackMarker.setFill(Color.BLACK);
+                    circlepane.getChildren().add(blackMarker);
+                    circlepane.setAlignment(Pos.CENTER);
+                    board.add(circlepane, i, j);
+                } else {
+                    btn[i][j] = new Button("");
+                    btn[i][j].setOpacity(0);
+                    btn[i][j].setPrefSize(50, 50);
+                    Point draw = new Point(j, i);
+                    btn[i][j].setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent event) {
+                            
+                            GameManager.setCoord(draw);
                         }
 
                     });
@@ -74,13 +117,5 @@ public class GameBoard extends Observable implements Observer{
     public GridPane getGameBoardPane(){
         return board;
     }
-    
-    public void initializeObservers(){
-        
-    }
 
-    @Override
-    public void update(Observable o, Object o1) {
-        
-    }
 }
