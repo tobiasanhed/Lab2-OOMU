@@ -8,12 +8,13 @@ package grupp2.model;
 import grupp2.controller.GameManager;
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Observable;
 
 /**
  *
  * @author S142015
  */
-public class GameGrid{
+public class GameGrid extends Observable{
 
     private static final int boardSize = 8;
     private static final int whitePlayer = 2;
