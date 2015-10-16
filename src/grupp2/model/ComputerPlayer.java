@@ -60,7 +60,12 @@ public class ComputerPlayer implements IPlayer {
         int drawIndex;
         
         draws = GameManager.getPossibleDraws();
-        drawIndex = rand.nextInt(draws.size() - 1);
+        if(draws.isEmpty())
+            return null;
+        else if(draws.size() == 1)
+            return (Point)draws.get(0);
+        else
+            drawIndex = rand.nextInt(draws.size() - 1);
         
         return (Point)draws.get(drawIndex);
     }

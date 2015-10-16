@@ -24,7 +24,7 @@ public class GameManager implements Runnable {
     public static void startGame(){
         board.initializeBoard();
         
-        IPlayer player1 = new HumanPlayer();
+        IPlayer player1 = new ComputerPlayer();
         IPlayer player2 = new ComputerPlayer();
         Point draw;
         
@@ -37,9 +37,12 @@ public class GameManager implements Runnable {
             isComputer = player1.getIsComputer();
 
             printBoard(board);
-            
+            if(board.isGameOver())
+                break;
             while (true) {
                 draw = player1.getDraw();
+                if(draw == null)
+                    break;
                 isComputer = false;
                 
                 if (board.isPossibleMove(draw)) {
@@ -54,9 +57,12 @@ public class GameManager implements Runnable {
             isComputer = player2.getIsComputer();
             
             printBoard(board);
-            
+            if(board.isGameOver())
+                break;
             while (true) {
                 draw = player2.getDraw();
+                if(draw == null)
+                    break;
                 isComputer = false;
 
                 if (board.isPossibleMove(draw)) {
