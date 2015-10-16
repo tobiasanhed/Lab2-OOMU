@@ -58,8 +58,22 @@ public class GameGrid extends Observable{
         this.initializeBoard();
     }
 
-    public int getResult() {
-        return 0;
+    public int[] getResult() {
+        int[] results = new int[2];
+        results[0] = 0;
+        results[1] = 0;
+        
+        for (int i = 0; i < getBoardSize(); i++) {
+            for (int j = 0; j < getBoardSize(); j++) {
+                if(board[i][j] == 1)
+                    results[0]++;
+                if(board[i][j] == 2)
+                    results[1]++;
+            }
+        }
+        
+        
+        return results;
     }
 
     private boolean checkIfInsideBoard(Point coordinates) {
@@ -104,7 +118,10 @@ public class GameGrid extends Observable{
     public ArrayList<Point> getPossibleMoves() {
         ArrayList<Point> possibleDraws = new ArrayList();
         Point coordinates = new Point();
-
+        boolean whereComputer = GameManager.getIsComputerPlayer();
+        
+        if(!whereComputer)
+            GameManager.setIsComputerPlayer(true);
         for (int i = 0; i < getBoardSize(); i++) {
             for (int j = 0; j < getBoardSize(); j++) {
                 coordinates.setLocation(j, i);
@@ -116,6 +133,7 @@ public class GameGrid extends Observable{
             }
         }
 
+        GameManager.setIsComputerPlayer(whereComputer);
         return possibleDraws;
     }
 

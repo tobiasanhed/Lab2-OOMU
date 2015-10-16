@@ -38,18 +38,25 @@ public class GameManager implements Runnable {
         player1.setMarkerID(1);
         player2.setMarkerID(2);
         
-
+        
         while(true){
             currentPlayer = player1.getMarkerID();
             isComputer = player1.getIsComputer();
 
             printBoard(board);
-            //if(board.isGameOver())
-              //  break;
+            if(board.isGameOver())
+                break;
             while (true) {
                 draw = player1.getDraw();
                 if(draw == null)
                     break;
+                if(isComputer){
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(GameManager.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
                 isComputer = false;
                 System.out.println(draw.x + "" + draw.y);
                 if (board.isPossibleMove(draw)) {
@@ -65,12 +72,21 @@ public class GameManager implements Runnable {
             isComputer = player2.getIsComputer();
             
             printBoard(board);
+            
             if(board.isGameOver())
                 break;
             while (true) {
                 draw = player2.getDraw();
                 if(draw == null)
                     break;
+                if(isComputer){
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(GameManager.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                
                 isComputer = false;
 
                 if (board.isPossibleMove(draw)) {
@@ -115,12 +131,17 @@ public class GameManager implements Runnable {
             return GameManager.board.getBoard();
         }
     }
-    
+    public static int[] getResult(){
+        return board.getResult();
+    }
     public static int[][] getBoard(){
         return(board.getBoard());
     }
     public static int getCurrentPlayer(){
         return currentPlayer;
+    }
+    public static void setIsComputerPlayer(boolean state){
+       isComputer = state;
     }
    
     public static ArrayList getPossibleDraws(){
