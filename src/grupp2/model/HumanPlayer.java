@@ -6,6 +6,7 @@
 package grupp2.model;
 
 import grupp2.controller.GameManager;
+import grupp2.exceptions.InvalidMoveException;
 import java.awt.Point;
 import java.util.Scanner;
 
@@ -53,19 +54,14 @@ public class HumanPlayer implements IPlayer {
     }
     
     @Override
-    public Point getDraw(){
-        /*Scanner input = new Scanner(System.in);
-        int value1, value2;
+    public Point getDraw() throws InvalidMoveException{
         
-        System.out.println("Please enter a move as coordinates!");
-        value1 = input.nextInt();
-        value2 = input.nextInt();
+        Point draw =GameManager.getCoord(); 
         
+        if(!GameManager.isPossibleDraw(draw))
+            throw new InvalidMoveException("Illegal Draw");
         
-        
-        Point draw =new Point(value1, value2);*/
-        
-        return GameManager.getCoord();
+        return draw;
     }
 
 }

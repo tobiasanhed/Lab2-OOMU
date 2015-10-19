@@ -6,6 +6,7 @@
 package grupp2.model;
 
 import grupp2.controller.GameManager;
+import grupp2.exceptions.InvalidMoveException;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Random;
@@ -54,10 +55,11 @@ public class ComputerPlayer implements IPlayer {
     }
     
     @Override
-    public Point getDraw(){
+    public Point getDraw() throws InvalidMoveException{
         ArrayList draws;
         Random rand = new Random();
         int drawIndex;
+        Point draw;
         
         draws = GameManager.getPossibleDraws();
         if(draws.isEmpty())
@@ -67,6 +69,12 @@ public class ComputerPlayer implements IPlayer {
         else
             drawIndex = rand.nextInt(draws.size() - 1);
         
-        return (Point)draws.get(drawIndex);
+        draw = (Point)draws.get(drawIndex);
+        
+        if(!GameManager.isPossibleDraw(draw))
+            throw new InvalidMoveException("Illegal Draw");
+        
+        
+        return draw;
     }
 }
