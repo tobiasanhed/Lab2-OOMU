@@ -11,7 +11,7 @@ package grupp2.exceptions;
  */
 public class InvalidMoveException extends Exception{
     
-    InvalidMoveException(){
-        super("Can't do that shit!");
+    public InvalidMoveException(String e){
+        super(e);
     }
 }

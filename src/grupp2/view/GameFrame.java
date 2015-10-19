@@ -14,8 +14,10 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
@@ -35,6 +37,8 @@ GameBoard kan t.ex. vara av typen javafx.scene.layout.Pane och utgör den grafis
     private Button endGame;
     private static GameBoard graphicBoard = new GameBoard();
     private Stage primaryStage;
+    private static Label resultLabel = new Label();
+    private static int[] results;
     
     public GameFrame(Stage primaryStage){
         newGame = new Button("Nytt parti");
@@ -43,10 +47,19 @@ GameBoard kan t.ex. vara av typen javafx.scene.layout.Pane och utgör den grafis
         
         
         BorderPane root = new BorderPane();
+        BorderPane top = new BorderPane();
+        Pane topLeft = new Pane();
         
-        HBox top = new HBox();
-        top.setAlignment(Pos.CENTER);
-        top.getChildren().addAll(newGame, endGame);
+        results = GameManager.getResult();
+        resultLabel.setText("Player 1: " + results[0] + "\n" + "Player 2: " + results[1]);
+        
+        
+        HBox topRight = new HBox();
+        topRight.setAlignment(Pos.CENTER);
+        topRight.getChildren().addAll(newGame, endGame);
+        topLeft.getChildren().add(resultLabel);
+        top.setLeft(topLeft);
+        top.setRight(topRight);
         
         root.setCenter(this.graphicBoard.getGameBoardPane());
         root.setTop(top);
@@ -76,6 +89,7 @@ GameBoard kan t.ex. vara av typen javafx.scene.layout.Pane och utgör den grafis
     }
 
     public static void updateBoard(){
+        results = GameManager.getResult();
         
         Platform.runLater(new Runnable() { 
             @Override
@@ -85,6 +99,7 @@ GameBoard kan t.ex. vara av typen javafx.scene.layout.Pane och utgör den grafis
                 } catch (InterruptedException ex) {
                     Logger.getLogger(GameFrame.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                resultLabel.setText("Player 1: " + results[0] + "\n" + "Player 2: " + results[1]);
                 graphicBoard.drawGraphicBoard();
             }
         });

@@ -5,6 +5,7 @@
  */
 package grupp2.model;
 
+import grupp2.exceptions.InvalidMoveException;
 import java.awt.Point;
 
 /**
@@ -18,5 +19,5 @@ public interface IPlayer {
     public boolean getIsComputer();
     public String getName();
     public int getMarkerID();
-    public Point getDraw();
+    public Point getDraw() throws InvalidMoveException;
 }
