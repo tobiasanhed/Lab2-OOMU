@@ -54,10 +54,6 @@ public class GameGrid extends Observable{
 
     }
 
-    public void resetBoard() {
-        this.initializeBoard();
-    }
-
     public int[] getResult() {
         int[] results = new int[2];
         results[0] = 0;

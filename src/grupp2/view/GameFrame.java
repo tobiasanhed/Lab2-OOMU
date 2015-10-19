@@ -61,7 +61,7 @@ GameBoard kan t.ex. vara av typen javafx.scene.layout.Pane och utgör den grafis
         top.setLeft(topLeft);
         top.setRight(topRight);
         
-        root.setCenter(this.graphicBoard.getGameBoardPane());
+        root.setCenter(GameFrame.graphicBoard.getGameBoardPane());
         root.setTop(top);
         
         Scene scene = new Scene(root, 500, 500);
@@ -72,10 +72,22 @@ GameBoard kan t.ex. vara av typen javafx.scene.layout.Pane och utgör den grafis
         newGame.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("Nytt spel");
-                GameManager.startGame();
+                
+                primaryStage.close();
+
+                Platform.runLater(new Runnable(){
+
+                    @Override
+                    public void run() {
+                        GameFrame graphicGame = new GameFrame(new Stage());
+                    }
+               
+               });
+               
+               Thread newThread = new Thread(new GameManager());
+               newThread.start();
+
             }
-        
         });
         endGame.setOnAction(new EventHandler<ActionEvent>(){
             @Override
