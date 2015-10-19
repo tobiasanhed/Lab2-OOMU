@@ -38,7 +38,8 @@ public class GameManager implements Runnable {
         int[] results;
         
         board.initializeBoard();
-        
+        GameFrame.updateBoard();
+
         IPlayer player1 = new HumanPlayer("P1", 1);
         IPlayer player2 = new ComputerPlayer("P2", 2);
         
@@ -70,6 +71,13 @@ public class GameManager implements Runnable {
                     board.setBoard(draw, currentPlayer);
                     GameFrame.updateBoard();
                     break;
+                }else{
+                    try {
+                        throw new InvalidMoveException("Illegal move.");
+                    } catch (InvalidMoveException ex) {
+                        Logger.getLogger(GameManager.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
                 }
             }
 
@@ -101,7 +109,15 @@ public class GameManager implements Runnable {
                     board.setBoard(draw, currentPlayer);
                     GameFrame.updateBoard();
                     break;
+                }else{
+                    try {
+                        throw new InvalidMoveException("Illegal move.");
+                    } catch (InvalidMoveException ex) {
+                        Logger.getLogger(GameManager.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
                 }
+                   
             }
         }
         results = GameManager.getResult();
@@ -174,6 +190,10 @@ public class GameManager implements Runnable {
     
     public static boolean getIsComputerPlayer(){
         return isComputer;
+    }
+    
+    public static void resetGame(){
+        startGame();
     }
     
     public static void printBoard(GameGrid board){

@@ -5,6 +5,10 @@
  */
 package grupp2.exceptions;
 
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+
 /**
  *
  * @author S142015
@@ -12,6 +16,19 @@ package grupp2.exceptions;
 public class InvalidMoveException extends Exception{
     
     public InvalidMoveException(String e){
-        super(e);
+        Platform.runLater(new Runnable(){
+            
+
+            @Override
+            public void run() {
+                Alert alert = new Alert(AlertType.WARNING);
+
+                alert.setTitle("Warning Dialog");
+                alert.setHeaderText(e);
+                alert.setContentText("Please enter an legal move..");
+
+                alert.showAndWait();            }
+        });
+        
     }
 }
