@@ -9,8 +9,15 @@ import grupp2.model.ComputerPlayer;
 import grupp2.model.IPlayer;
 import java.util.ArrayList;
 import java.util.Optional;
+import javafx.geometry.Insets;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
+import javafx.util.Pair;
 
 /**
  *
@@ -20,8 +27,29 @@ public class SetUpGameDialog {
     public ArrayList<IPlayer> getPlayers(){
         ArrayList<IPlayer> players = new ArrayList();
         
-        TextInputDialog playerDialog = new TextInputDialog("Player1");
-        Text textField = new Text("Player2");
+        Dialog<Pair<String, String>> playerDialog = new Dialog();
+        playerDialog.setTitle("Game Setup");
+        
+        
+        ButtonType loginButtonType = new ButtonType("OK", ButtonData.OK_DONE);
+        playerDialog.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
+        
+        GridPane pane = new GridPane();
+        pane.setHgap(15);
+        pane.setVgap(15);
+        pane.setPadding(new Insets(20, 150, 10, 10));
+        
+        TextField player1 = new TextField();
+        player1.setPromptText("Player 1");
+        TextField player2 = new TextField();
+        player1.setPromptText("Player 2");
+        
+        pane.add(player1, 0,0);
+        pane.add(player2, 1, 1);
+        
+        playerDialog.getDialogPane().setContent(pane);
+        
+        
         
         
         playerDialog.setTitle("Game Setup");
