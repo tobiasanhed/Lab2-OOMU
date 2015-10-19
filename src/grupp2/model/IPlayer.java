@@ -19,5 +19,5 @@ public interface IPlayer {
     public boolean getIsComputer();
     public String getName();
     public int getMarkerID();
-    public Point getDraw() throws InvalidMoveException;
+    public Point getDraw();
 }

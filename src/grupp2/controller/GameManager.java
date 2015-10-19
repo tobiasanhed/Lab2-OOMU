@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 
 /**
  *
@@ -34,7 +35,6 @@ public class GameManager implements Runnable {
     private static int notAvailableDraws = 0;
     
     public static void startGame(){
-        IEndDialog endDialog;
         int[] results;
         
         board.initializeBoard();
@@ -54,11 +54,8 @@ public class GameManager implements Runnable {
                     notAvailableDraws++;
                     break;
                 }
-                try {
-                    draw = player1.getDraw();
-                } catch (InvalidMoveException ex) {
-                    Logger.getLogger(GameManager.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                draw = player1.getDraw();
+                
                 notAvailableDraws = 0;
                 if(isComputer){
                     try {
@@ -68,8 +65,12 @@ public class GameManager implements Runnable {
                     }
                 }
                 isComputer = false;
-                board.setBoard(draw, currentPlayer);
-                GameFrame.updateBoard();
+                
+                if(board.isPossibleMove(draw)){
+                    board.setBoard(draw, currentPlayer);
+                    GameFrame.updateBoard();
+                    break;
+                }
             }
 
             currentPlayer = player2.getMarkerID();
@@ -83,11 +84,8 @@ public class GameManager implements Runnable {
                     notAvailableDraws++;
                     break;
                 }
-                try {
-                    draw = player2.getDraw();
-                } catch (InvalidMoveException ex) {
-                    Logger.getLogger(GameManager.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                draw = player2.getDraw();
+                
                 notAvailableDraws = 0;
                 if(isComputer){
                     try {
@@ -99,20 +97,32 @@ public class GameManager implements Runnable {
                 
                 isComputer = false;
 
-                board.setBoard(draw, currentPlayer);
-                GameFrame.updateBoard();
-
+                if(board.isPossibleMove(draw)){
+                    board.setBoard(draw, currentPlayer);
+                    GameFrame.updateBoard();
+                    break;
+                }
             }
         }
         results = GameManager.getResult();
-        if(results[0] == results[1])
-            endDialog = new DrawDialog(player1, player2);
-        else
-            endDialog = new WinnerDialog(player1, player2);
         
-            
-    }
+        Platform.runLater(new Runnable(){
+
+            @Override
+            public void run() {
+                IEndDialog endDialog;
+
+                if(results[0] == results[1])
+                    endDialog = new DrawDialog();
+                else
+                    endDialog = new WinnerDialog();
+
+                endDialog.printResult(player1, player2);
+            }
+        });
+           
     
+    }
     public static void setCoord(Point draw){
         synchronized(coordO){
             GameManager.draw = draw;

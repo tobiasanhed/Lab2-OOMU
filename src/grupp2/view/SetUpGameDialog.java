@@ -49,7 +49,7 @@ public class SetUpGameDialog {
         
         playerDialog.getDialogPane().setContent(pane);
         
-        
+        /*
         
         
         playerDialog.setTitle("Game Setup");
@@ -75,7 +75,7 @@ public class SetUpGameDialog {
         players.add(player1);
         players.add(player2);
         
-        
+        */
         return players;
         
     }

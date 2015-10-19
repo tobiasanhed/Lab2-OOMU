@@ -54,14 +54,9 @@ public class HumanPlayer implements IPlayer {
     }
     
     @Override
-    public Point getDraw() throws InvalidMoveException{
+    public Point getDraw(){
         
-        Point draw =GameManager.getCoord(); 
-        
-        if(!GameManager.isPossibleDraw(draw))
-            throw new InvalidMoveException("Illegal Draw");
-        
-        return draw;
+        return GameManager.getCoord();
     }
 
 }

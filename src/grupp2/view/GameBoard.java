@@ -8,8 +8,11 @@ package grupp2.view;
 import grupp2.controller.GameManager;
 import grupp2.model.GameGrid;
 import java.awt.Point;
+import grupp2.exceptions.InvalidMoveException;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -50,8 +53,14 @@ public class GameBoard{
                     Point draw = new Point(j, i);
                     btn[i][j].setOnAction(new EventHandler<ActionEvent>() {
                         @Override
-                        public void handle(ActionEvent event) {
-                            
+                        public void handle(ActionEvent event){
+                            /*if(!GameManager.isPossibleDraw(draw)){
+                                try {
+                                    throw new InvalidMoveException("Illegal move.");
+                                } catch (InvalidMoveException ex) {
+                                    Logger.getLogger(GameBoard.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                            }*/
                             GameManager.setCoord(draw);
                         }
 

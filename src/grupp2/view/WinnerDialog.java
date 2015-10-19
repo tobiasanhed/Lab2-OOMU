@@ -7,6 +7,7 @@ package grupp2.view;
 
 import grupp2.controller.GameManager;
 import grupp2.model.IPlayer;
+import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
@@ -27,12 +28,11 @@ public class WinnerDialog implements IEndDialog{
         alert.setTitle("End of the game!");
         alert.setHeaderText("The winner is...");
         if(result[0]>result[1])
-            alert.setContentText("The winner is" + player1.getName());  //Här ska vi anropa player1.getName
+            alert.setContentText(player1.getName());  //Här ska vi anropa player1.getName
         else
-            alert.setContentText("The winner is" + player2.getName()); //Hör ska vi anropa player2.getName
+            alert.setContentText(player2.getName()); //Hör ska vi anropa player2.getName
         
         alert.showAndWait();
-
     }
     
 }

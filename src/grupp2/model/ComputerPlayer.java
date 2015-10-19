@@ -55,7 +55,7 @@ public class ComputerPlayer implements IPlayer {
     }
     
     @Override
-    public Point getDraw() throws InvalidMoveException{
+    public Point getDraw(){
         ArrayList draws;
         Random rand = new Random();
         int drawIndex;
@@ -69,12 +69,6 @@ public class ComputerPlayer implements IPlayer {
         else
             drawIndex = rand.nextInt(draws.size() - 1);
         
-        draw = (Point)draws.get(drawIndex);
-        
-        if(!GameManager.isPossibleDraw(draw))
-            throw new InvalidMoveException("Illegal Draw");
-        
-        
-        return draw;
+        return (Point)draws.get(drawIndex);
     }
 }
