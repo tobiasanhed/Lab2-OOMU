@@ -24,6 +24,11 @@ import javafx.stage.Stage;
  *
  * @author S142015
  */
+
+/**
+ * This is the class where the graphical user interface is implemented.
+ * @author Rasmus
+ */
 public class GameFrame{
     /*5.2 Klass: GameFrame
 GameFrame är en instans av en javafx.stage.Stage och finns uppe så länge programmet körs. 
@@ -40,6 +45,11 @@ GameBoard kan t.ex. vara av typen javafx.scene.layout.Pane och utgör den grafis
     private static Label resultLabel = new Label();
     private static int[] results;
     
+    /**
+     * This is where the buttons for the GUI is placed on the board and the Scene
+     * for the game is set.
+     * @param primaryStage The stage where the game board is shown.
+     */
     public GameFrame(Stage primaryStage){
         newGame = new Button("Nytt parti");
         endGame = new Button("Avsluta");
@@ -99,7 +109,10 @@ GameBoard kan t.ex. vara av typen javafx.scene.layout.Pane och utgör den grafis
 
         
     }
-
+/**
+ * The updateBoard method is used to update the GUI after one of the players has
+ * played their turn.
+ */
     public static void updateBoard(){
         results = GameManager.getResult();
         

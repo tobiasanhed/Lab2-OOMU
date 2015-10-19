@@ -15,8 +15,19 @@ import javafx.scene.control.Alert.AlertType;
  *
  * @author S142015
  */
+
+/**
+ * This is the dialog that is shown when the game ends. It displays which player won the game.
+ * @author Rasmus
+ */
 public class WinnerDialog implements IEndDialog{
-   
+   /**
+    * The winner of the game is printed here, the method printResult has the two
+    * players of the game as parameters to determine whom of them is the winner
+    * of the game.
+    * @param player1 Represents player 1.
+    * @param player2 Represents player 2.
+    */
     @Override
     public void printResult(IPlayer player1, IPlayer player2){
         
