@@ -14,6 +14,11 @@ import java.util.Scanner;
  *
  * @author S142015
  */
+/**
+ * This is the class that contains the methods that handle the human players
+ * actions within the game.
+ * @author Rasmus
+ */
 public class HumanPlayer implements IPlayer {
     private String name;
     private int markerID;

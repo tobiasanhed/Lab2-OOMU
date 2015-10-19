@@ -27,12 +27,19 @@ import javafx.scene.shape.Circle;
  *
  * @author S142015
  */
+/**
+ * In this class is the game board and methods used to display the pieces on the board
+ * and to draw the actual game board.
+ * @author Rasmus
+ */
 public class GameBoard{
     private GridPane board;
     private int [][] currentBoard = GameManager.getBoard();
     private Button[][] btn = new Button[GameGrid.getBoardSize()][GameGrid.getBoardSize()];
 
-
+/**
+ * This is the method that initializes the GUI and puts the starting pieces onto the board.
+ */
     public GameBoard(){
         board = new GridPane();
         board.setAlignment(Pos.CENTER);
@@ -71,7 +78,10 @@ public class GameBoard{
             }
         }
     }
-    
+    /**
+     * The drawGraphicBoard method is used after the game board has been updated
+     * to display changes made to the state of the game board.
+     */
     public void drawGraphicBoard(){
         currentBoard = GameManager.getBoardNotifier();
         
@@ -100,11 +110,19 @@ public class GameBoard{
             }
         }
     }
-    
+    /**
+     * This method return the current state of the board.
+     * @return the current board state.
+     */
     public GridPane getGameBoardPane(){
         return board;
     }
-    
+    /**
+     * This method draws a white marker in the cell of the board where the white
+     * player has made their move.
+     * @param i x coordinate of the board.
+     * @param j y coordinate of the board.
+     */
     public void writeBlackMarker(int i, int j){
                     Circle blackMarker = new Circle(20);
                     StackPane circlepane = new StackPane();
@@ -113,6 +131,12 @@ public class GameBoard{
                     circlepane.setAlignment(Pos.CENTER);
                     board.add(circlepane, i, j);
     }
+      /**
+     * This method draws a white marker in the cell of the board where the black
+     * player has made their move.
+     * @param i x coordinate of the board.
+     * @param j y coordinate of the board.
+     */
     public void writeWhiteMarker(int i, int j){
                     Circle whiteMarker = new Circle(20);
                     StackPane circlepane = new StackPane();

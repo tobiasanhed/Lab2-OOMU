@@ -12,6 +12,11 @@ import java.awt.Point;
  *
  * @author S142015
  */
+/**
+ * This is the interface that is implemented by the players, the two classes that
+ * implement this interface are computerplayer and humanplayer.
+ * @author Rasmus
+ */
 public interface IPlayer {
     
     public void setName(String name);
