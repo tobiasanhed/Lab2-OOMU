@@ -8,6 +8,7 @@ import grupp2.model.IPlayer;
 import grupp2.view.DrawDialog;
 import grupp2.view.GameFrame;
 import grupp2.view.IEndDialog;
+import grupp2.view.SetUpGameDialog;
 import grupp2.view.WinnerDialog;
 import java.awt.Point;
 import java.util.ArrayList;
@@ -39,6 +40,15 @@ public class GameManager implements Runnable {
         board.initializeBoard();
         GameFrame.updateBoard();
 
+        SetUpGameDialog newGame = new SetUpGameDialog();
+        Platform.runLater(new Runnable(){
+
+            @Override
+            public void run() {
+                ArrayList<IPlayer> players = newGame.getPlayers();
+            }
+            
+        });
         IPlayer player1 = new HumanPlayer("P1", 1);
         IPlayer player2 = new ComputerPlayer("P2", 2);
         
