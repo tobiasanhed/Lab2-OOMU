@@ -40,20 +40,9 @@ public class GameBoard{
         for (int i = 0; i < btn.length; i++) {
             for (int j = 0; j < btn.length; j++) {
                 if (currentBoard[i][j] == 2) {
-                    Circle whiteMarker = new Circle(20);
-                    StackPane circlepane = new StackPane();
-                    whiteMarker.setFill(Color.WHITE);
-                    circlepane.getChildren().add(whiteMarker);
-                    circlepane.setAlignment(Pos.CENTER);
-                    board.add(circlepane, i, j);
-                
+                    writeWhiteMarker(i,j);
                 } else if (currentBoard[i][j] == 1) {
-                    Circle blackMarker = new Circle(20);
-                    StackPane circlepane = new StackPane();
-                    blackMarker.setFill(Color.BLACK);
-                    circlepane.getChildren().add(blackMarker);
-                    circlepane.setAlignment(Pos.CENTER);
-                    board.add(circlepane, i, j);
+                    writeBlackMarker(i,j);
                 } else {
                     btn[i][j] = new Button("");
                     btn[i][j].setOpacity(0);
@@ -80,20 +69,9 @@ public class GameBoard{
         for (int i = 0; i < btn.length; i++) {
             for (int j = 0; j < btn.length; j++) {
                 if (currentBoard[i][j] == 2) {
-                    Circle whiteMarker = new Circle(20);
-                    StackPane circlepane = new StackPane();
-                    whiteMarker.setFill(Color.WHITE);
-                    circlepane.getChildren().add(whiteMarker);
-                    circlepane.setAlignment(Pos.CENTER);
-                    board.add(circlepane, i, j);
-                
+                    writeWhiteMarker(i,j);
                 } else if (currentBoard[i][j] == 1) {
-                    Circle blackMarker = new Circle(20);
-                    StackPane circlepane = new StackPane();
-                    blackMarker.setFill(Color.BLACK);
-                    circlepane.getChildren().add(blackMarker);
-                    circlepane.setAlignment(Pos.CENTER);
-                    board.add(circlepane, i, j);
+                    writeBlackMarker(i,j);
                 } else {
                     btn[i][j] = new Button("");
                     btn[i][j].setOpacity(0);
@@ -116,6 +94,23 @@ public class GameBoard{
     
     public GridPane getGameBoardPane(){
         return board;
+    }
+    
+    public void writeBlackMarker(int i, int j){
+                    Circle blackMarker = new Circle(20);
+                    StackPane circlepane = new StackPane();
+                    blackMarker.setFill(Color.BLACK);
+                    circlepane.getChildren().add(blackMarker);
+                    circlepane.setAlignment(Pos.CENTER);
+                    board.add(circlepane, i, j);
+    }
+    public void writeWhiteMarker(int i, int j){
+                    Circle whiteMarker = new Circle(20);
+                    StackPane circlepane = new StackPane();
+                    whiteMarker.setFill(Color.WHITE);
+                    circlepane.getChildren().add(whiteMarker);
+                    circlepane.setAlignment(Pos.CENTER);
+                    board.add(circlepane, i, j);
     }
 
 }

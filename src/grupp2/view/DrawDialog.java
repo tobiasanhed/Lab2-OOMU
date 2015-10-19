@@ -5,6 +5,7 @@
  */
 package grupp2.view;
 
+import grupp2.model.IPlayer;
 import javafx.scene.control.Alert;
 
 /**
@@ -13,7 +14,7 @@ import javafx.scene.control.Alert;
  */
 public class DrawDialog implements IEndDialog{
     @Override
-    public void printResult(){
+    public void printResult(IPlayer player1, IPlayer player2){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Game Ended");
         alert.setHeaderText("The game has ended.");

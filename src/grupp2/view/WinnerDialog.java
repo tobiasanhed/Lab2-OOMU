@@ -5,6 +5,8 @@
  */
 package grupp2.view;
 
+import grupp2.controller.GameManager;
+import grupp2.model.IPlayer;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
@@ -13,15 +15,24 @@ import javafx.scene.control.Alert.AlertType;
  * @author S142015
  */
 public class WinnerDialog implements IEndDialog{
-    
+   
     @Override
-    public void printResult(){
+    public void printResult(IPlayer player1, IPlayer player2){
+        
+        int [] result = new int[2];
+               
+        result = GameManager.getResult(); //Denna ska läggas till för att kunna ta in resultatet
+        
         Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("Game Ended");
-        alert.setHeaderText("The game has ended.");
-        alert.setContentText(/*getWinner() + */" has won the game!");
-
+        alert.setTitle("End of the game!");
+        alert.setHeaderText("The winner is...");
+        if(result[0]>result[1])
+            alert.setContentText("The winner is" + player1.getName());  //Här ska vi anropa player1.getName
+        else
+            alert.setContentText("The winner is" + player2.getName()); //Hör ska vi anropa player2.getName
+        
         alert.showAndWait();
 
     }
+    
 }

@@ -5,10 +5,12 @@
  */
 package grupp2.view;
 
+import grupp2.model.IPlayer;
+
 /**
  *
  * @author S142015
  */
 public interface IEndDialog {
-    public void printResult();
+    public void printResult(IPlayer player1, IPlayer player2);
 }
