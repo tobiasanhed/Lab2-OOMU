@@ -5,18 +5,28 @@
  */
 package grupp2.view;
 
+import grupp2.controller.GameManager;
 import grupp2.model.ComputerPlayer;
 import grupp2.model.IPlayer;
 import java.util.ArrayList;
 import java.util.Optional;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Pair;
 
 /**
@@ -25,58 +35,75 @@ import javafx.util.Pair;
  */
 public class SetUpGameDialog {
     public ArrayList<IPlayer> getPlayers(){
-        ArrayList<IPlayer> players = new ArrayList();
+        ArrayList<IPlayer> playerArray = new ArrayList();
         
-        Dialog<Pair<String, String>> playerDialog = new Dialog();
-        playerDialog.setTitle("Game Setup");
+        final ToggleGroup playerOneGroup = new ToggleGroup();
+        final ToggleGroup playerTwoGroup = new ToggleGroup();
         
-        
-        ButtonType loginButtonType = new ButtonType("OK", ButtonData.OK_DONE);
-        playerDialog.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
-        
-        GridPane pane = new GridPane();
-        pane.setHgap(15);
-        pane.setVgap(15);
-        pane.setPadding(new Insets(20, 150, 10, 10));
-        
-        TextField player1 = new TextField();
-        player1.setPromptText("Player 1");
-        TextField player2 = new TextField();
-        player1.setPromptText("Player 2");
-        
-        pane.add(player1, 0,0);
-        pane.add(player2, 1, 1);
-        
-        playerDialog.getDialogPane().setContent(pane);
-        
-        /*
-        
-        
-        playerDialog.setTitle("Game Setup");
-        playerDialog.setHeaderText("Enter the name for the players and decide if it's a human or a computer player.");
-        playerDialog.setContentText("Please enter your name:");
-        playerDialog.getDialogPane().getChildren().add(textField);
+        Stage dialog = new Stage();
+        dialog.initStyle(StageStyle.UTILITY);
 
-        // Traditional way to get the response value.
-        Optional<String> result = playerDialog.showAndWait();
-        if (result.isPresent()){
-            System.out.println("Your name: " + result.get());
-        }
+        GridPane gridpane = new GridPane();
+        Scene scene = new Scene(gridpane, 400, 270);
+        gridpane.setPadding(new Insets(18));
+        gridpane.setHgap(15);
+        gridpane.setVgap(15);
+        
+        Label playerName1 = new Label("Player one name:");
+        playerName1.setStyle("-fx-font: 20px Tahoma; -fx-stroke: black; -fx-stroke-width:1;");
+        gridpane.add(playerName1, 0, 1);
+        TextField playerOneTf = new TextField();
+        gridpane.add(playerOneTf, 0, 2);
+        
+        Text instruction = new Text("Please choose type of player:");
+        gridpane.add(instruction, 0, 3);
+        
+        RadioButton playerOneCPU = new RadioButton("Computer player");
+        RadioButton playerOneHuman = new RadioButton("Human player");
+        
+        playerOneCPU.setToggleGroup(playerOneGroup);
+        playerOneCPU.setSelected(true);
+        gridpane.add(playerOneCPU, 0, 4);
+        
+        playerOneHuman.setToggleGroup(playerOneGroup);
+        gridpane.add(playerOneHuman, 0, 5);
+        
+        Label playerName2 = new Label("Player two name:");
+        playerName2.setStyle("-fx-font: 20px Tahoma; -fx-stroke: black; -fx-stroke-width:1;");
+        gridpane.add(playerName2, 1, 1);
+        TextField playerTwoTf = new TextField();
+        gridpane.add(playerTwoTf, 1, 2);
+        
+        RadioButton playerTwoCPU = new RadioButton("Computer player");
+        RadioButton playerTwoHuman = new RadioButton("Human player");
+        
+        playerTwoCPU.setToggleGroup(playerTwoGroup);
+        playerTwoCPU.setSelected(true);
+        gridpane.add(playerTwoCPU, 1, 4);
+        
+        playerTwoHuman.setToggleGroup(playerTwoGroup);
+        gridpane.add(playerTwoHuman, 1, 5);
+        
+        Button btn = new Button("I'm ready!");
+        gridpane.add(btn, 0, 6);
+        
+        btn.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent event) {
+                            //Här ska vi skapa player objekten tror jag
+                            //If radiobutton-val är human skapa en sån annars skapa en CPU
+                            //kör getText på tf som gäller för playerOne och använd get name för att sätta namnet på spelaren
+                            //Lägg till playerArray
+                            //Upprepa ovan för spelare nummer två
+                            //Returnera playerArrayen
+                        }
 
-        // The Java 8 way to get the response value (with lambda expression).
-        result.ifPresent(name -> System.out.println("Your name: " + name));
+                    });
         
-        IPlayer player1 = new ComputerPlayer();
-        player1.setName(result.get());
         
-        IPlayer player2 = new ComputerPlayer();
-        player1.setName(result.get());
+        dialog.setScene(scene);
+        dialog.show(); //Denna ska bort
         
-        players.add(player1);
-        players.add(player2);
-        
-        */
-        return players;
-        
+        return playerArray;
     }
 }
