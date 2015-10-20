@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Observable;
 
 /**
- *
+ * The GameGrid class manages the logic (rules) of the Othello game.
  * @author S142015
  */
 public class GameGrid extends Observable{
@@ -23,7 +23,10 @@ public class GameGrid extends Observable{
     
 
 
-
+    /**
+     * The getBoard method is a accessor function 
+     * @return 
+     */
     public int[][] getBoard() {
         return board;
     }

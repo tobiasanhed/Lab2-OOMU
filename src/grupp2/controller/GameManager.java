@@ -41,6 +41,7 @@ public class GameManager implements Runnable {
         GameFrame.updateBoard();
 
         SetUpGameDialog newGame = new SetUpGameDialog();
+        
         Platform.runLater(new Runnable(){
 
             @Override
