@@ -54,9 +54,12 @@ GameBoard kan t.ex. vara av typen javafx.scene.layout.Pane och utgör den grafis
      * @param primaryStage The stage where the game board is shown.
      */
     public GameFrame(Stage primaryStage){
+        this.primaryStage = primaryStage;
+
+    }
+    public void drawGraphic(){
         newGame = new Button("Nytt parti");
         endGame = new Button("Avsluta");
-        this.primaryStage = primaryStage;
         
         
         BorderPane root = new BorderPane();
@@ -88,6 +91,7 @@ GameBoard kan t.ex. vara av typen javafx.scene.layout.Pane och utgör den grafis
             public void handle(ActionEvent event) {
                 
 
+               //primaryStage.close();
                graphicBoard.getGameBoardPane().getChildren().removeAll(graphicBoard.getGameBoardPane());
                
                Thread newThread = new Thread(new GameManager());

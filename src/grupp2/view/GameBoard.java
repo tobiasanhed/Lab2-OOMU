@@ -17,7 +17,10 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -55,9 +58,21 @@ public class GameBoard{
                     writeBlackMarker(i,j);
                 } else {
                     btn[i][j] = new Button("");
-                    btn[i][j].setOpacity(0);
+                    btn[i][j].setOpacity(100);
+                    btn[i][j].setStyle("-fx-color: green");
                     btn[i][j].setPrefSize(50, 50);
                     Point draw = new Point(j, i);
+                    btn[i][j].setOnKeyPressed(new EventHandler<KeyEvent>(){
+                        
+                        @Override
+                        public void handle(KeyEvent event) {
+                            Button temp = (Button)event.getSource();
+                            if(event.getCode() == KeyCode.ENTER && temp.isFocused() && !GameManager.getIsComputerPlayer())
+                                GameManager.setCoord(draw);
+                                
+                        }
+                        
+                    });
                     btn[i][j].setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event){
