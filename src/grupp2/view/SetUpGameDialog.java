@@ -7,6 +7,7 @@ package grupp2.view;
 
 import grupp2.controller.GameManager;
 import grupp2.model.ComputerPlayer;
+import grupp2.model.HumanPlayer;
 import grupp2.model.IPlayer;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -34,15 +35,17 @@ import javafx.util.Pair;
  * @author S142015
  */
 public class SetUpGameDialog {
+    private static IPlayer playerOne, playerTwo;
+    ArrayList<IPlayer> playerArray = new ArrayList();
+    
     public ArrayList<IPlayer> getPlayers(){
-        ArrayList<IPlayer> playerArray = new ArrayList();
+        Stage dialog = new Stage();
         
         final ToggleGroup playerOneGroup = new ToggleGroup();
         final ToggleGroup playerTwoGroup = new ToggleGroup();
         
-        Stage dialog = new Stage();
         dialog.initStyle(StageStyle.UTILITY);
-
+        
         GridPane gridpane = new GridPane();
         Scene scene = new Scene(gridpane, 400, 270);
         gridpane.setPadding(new Insets(18));
@@ -90,20 +93,41 @@ public class SetUpGameDialog {
         btn.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
-                            //Här ska vi skapa player objekten tror jag
-                            //If radiobutton-val är human skapa en sån annars skapa en CPU
-                            //kör getText på tf som gäller för playerOne och använd get name för att sätta namnet på spelaren
-                            //Lägg till playerArray
-                            //Upprepa ovan för spelare nummer två
-                            //Returnera playerArrayen
+                            if (playerOneCPU.isSelected()) {
+                                playerOne = new ComputerPlayer((playerOneTf.getText()), 1);
+                                
+                                addToArray(playerOne);
+                            } else if (playerOneHuman.isSelected()) {
+                                playerOne = new HumanPlayer((playerTwoTf.getText()),1);
+                                addToArray(playerOne);
+                            }
+                            if (playerTwoCPU.isSelected()) {
+                                playerTwo = new ComputerPlayer((playerTwoTf.getText()),2);
+                                
+                                addToArray(playerTwo);
+                            } else if (playerTwoHuman.isSelected()) {
+                                playerTwo = new HumanPlayer((playerTwoTf.getText()),2);
+                                
+                                addToArray(playerTwo);    
+                                
+                            }
+                            dialog.close();
                         }
+                        
 
                     });
         
         
+        
         dialog.setScene(scene);
-        dialog.show(); //Denna ska bort
+        dialog.showAndWait();
         
         return playerArray;
+        
     }
+    public void addToArray(IPlayer player){
+        this.playerArray.add(player);
+    }
+    
+    
 }
