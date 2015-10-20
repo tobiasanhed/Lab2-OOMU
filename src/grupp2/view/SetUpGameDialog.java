@@ -5,6 +5,7 @@
  */
 package grupp2.view;
 
+import grupp2.model.HumanPlayer;
 import grupp2.controller.GameManager;
 import grupp2.model.ComputerPlayer;
 import grupp2.model.IPlayer;
@@ -92,17 +93,19 @@ public class SetUpGameDialog {
                         public void handle(ActionEvent event) {
                             //Här ska vi skapa player objekten tror jag
                             //If radiobutton-val är human skapa en sån annars skapa en CPU
+                            //if(playerOneGroup.)
                             //kör getText på tf som gäller för playerOne och använd get name för att sätta namnet på spelaren
                             //Lägg till playerArray
                             //Upprepa ovan för spelare nummer två
                             //Returnera playerArrayen
+                            
                         }
 
                     });
         
         
         dialog.setScene(scene);
-        dialog.show(); //Denna ska bort
+        dialog.showAndWait(); //Denna ska bort
         
         return playerArray;
     }

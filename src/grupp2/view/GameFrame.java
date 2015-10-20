@@ -41,7 +41,7 @@ GameBoard kan t.ex. vara av typen javafx.scene.layout.Pane och utgör den grafis
     private Button newGame;
     private Button endGame;
     private static GameBoard graphicBoard = new GameBoard();
-    private Stage primaryStage;
+    private static Stage primaryStage;
     private static Label resultLabel = new Label();
     private static int[] results;
     
@@ -128,6 +128,14 @@ GameBoard kan t.ex. vara av typen javafx.scene.layout.Pane och utgör den grafis
                 graphicBoard.drawGraphicBoard();
             }
         });
+    }
+    
+    public static void hideGameWindow(){
+        primaryStage.hide();
+    }
+    
+    public static void showGameWindow(){
+        primaryStage.show();
     }
     
     

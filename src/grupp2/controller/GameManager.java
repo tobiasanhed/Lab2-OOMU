@@ -29,7 +29,8 @@ public class GameManager implements Runnable {
     private static final Object coordO = new Object();
     private static final Object boardO = new Object();
     private static int notAvailableDraws = 0;
-    
+    private static IPlayer player1;
+    private static IPlayer player2;
     /**
      * This is the core-method of the game which initalizes the board and players
      * and call the right methods for making draws and updating the GUI.
@@ -37,20 +38,25 @@ public class GameManager implements Runnable {
     public static void startGame(){
         int[] results;
         
-        board.initializeBoard();
-        GameFrame.updateBoard();
-
+        
+        
+        
         SetUpGameDialog newGame = new SetUpGameDialog();
         Platform.runLater(new Runnable(){
 
             @Override
             public void run() {
+                GameFrame.hideGameWindow();
                 ArrayList<IPlayer> players = newGame.getPlayers();
+                player1 = players.get(0);
+                player2 = players.get(1);
+                GameFrame.showGameWindow();
             }
             
         });
-        IPlayer player1 = new HumanPlayer("P1", 1);
-        IPlayer player2 = new ComputerPlayer("P2", 2);
+        
+        board.initializeBoard();
+        GameFrame.updateBoard();
         
         while(true){
             currentPlayer = player1.getMarkerID();
