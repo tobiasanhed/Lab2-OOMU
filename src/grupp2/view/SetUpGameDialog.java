@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -25,6 +26,8 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -37,7 +40,7 @@ import javafx.util.Pair;
  */
 public class SetUpGameDialog {
     private static IPlayer playerOne, playerTwo;
-    ArrayList<IPlayer> playerArray = new ArrayList();
+    private ArrayList<IPlayer> playerArray = new ArrayList();
     
     public ArrayList<IPlayer> getPlayers(){
         Stage dialog = new Stage();
@@ -118,6 +121,36 @@ public class SetUpGameDialog {
 
                     });
         
+        gridpane.setOnKeyPressed(new EventHandler<KeyEvent>(){
+
+            @Override
+            public void handle(KeyEvent event) {
+                if(event.getCode() == KeyCode.ENTER){
+                
+                    if (playerOneCPU.isSelected()) {
+                        playerOne = new ComputerPlayer((playerOneTf.getText()), 1);
+
+                        addToArray(playerOne);
+                    } else if (playerOneHuman.isSelected()) {
+                        playerOne = new HumanPlayer((playerTwoTf.getText()),1);
+                        addToArray(playerOne);
+                    }
+                    if (playerTwoCPU.isSelected()) {
+                        playerTwo = new ComputerPlayer((playerTwoTf.getText()),2);
+
+                        addToArray(playerTwo);
+                    } else if (playerTwoHuman.isSelected()) {
+                        playerTwo = new HumanPlayer((playerTwoTf.getText()),2);
+
+                        addToArray(playerTwo);    
+
+                    }
+                    dialog.close();
+                
+                }
+            }
+            
+        });
         
         
         dialog.setScene(scene);
@@ -127,7 +160,7 @@ public class SetUpGameDialog {
         return playerArray;
         
     }
-    public void addToArray(IPlayer player){
+    private void addToArray(IPlayer player){
         this.playerArray.add(player);
     }
     

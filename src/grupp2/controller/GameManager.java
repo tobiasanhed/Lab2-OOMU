@@ -178,6 +178,13 @@ public class GameManager implements Runnable {
     
     }
     
+    public static ArrayList<IPlayer> getPlayers(){
+        ArrayList<IPlayer> players = new ArrayList();
+        players.add(player1);
+        players.add(player2);
+        return players;
+    }
+    
     /**
      * This function is called by the GUI and notifies the getCoord function whichs is called
      * by the humanplayer. It makes it possible to get a draw from the GUI to the logic of the game.
