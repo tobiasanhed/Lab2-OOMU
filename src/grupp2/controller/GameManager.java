@@ -12,6 +12,9 @@ import grupp2.view.SetUpGameDialog;
 import grupp2.view.WinnerDialog;
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
@@ -38,22 +41,42 @@ public class GameManager implements Runnable {
     public static void startGame(){
         int[] results;
         
-        
-        
-        
         SetUpGameDialog newGame = new SetUpGameDialog();
-        Platform.runLater(new Runnable(){
 
-            @Override
-            public void run() {
-                GameFrame.hideGameWindow();
-                ArrayList<IPlayer> players = newGame.getPlayers();
-                player1 = players.get(0);
-                player2 = players.get(1);
-                GameFrame.showGameWindow();
-            }
-            
-        });
+        final Lock lock = new ReentrantLock();
+        final Condition condition = lock.newCondition();
+        lock.lock();
+        try {
+            Platform.runLater(new Runnable() {
+
+                @Override
+                public void run() {
+                    lock.lock();
+                    GameFrame.hideGameWindow();
+                    ArrayList<IPlayer> players = newGame.getPlayers();
+                    player1 = players.get(0);
+                    player2 = players.get(1);
+                    GameFrame.showGameWindow();
+                    try {
+                         condition.signal();
+                    } finally {
+                        lock.unlock();
+                    }
+
+                }
+            });
+
+
+        try {
+            condition.await();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(GameManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        }finally {
+            lock.unlock();
+        }
+       
+        
         
         board.initializeBoard();
         GameFrame.updateBoard();
