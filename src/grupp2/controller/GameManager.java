@@ -147,7 +147,7 @@ public class GameManager implements Runnable {
                     break;
                 }else{
                     try {
-                        throw new InvalidMoveException("Illegal move.");
+                        throw new InvalidMoveException("Illegal move. Please try again.");
                     } catch (InvalidMoveException ex) {
                         Logger.getLogger(GameManager.class.getName()).log(Level.SEVERE, null, ex);
                     }

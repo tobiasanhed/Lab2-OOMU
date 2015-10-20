@@ -24,8 +24,8 @@ public class InvalidMoveException extends Exception{
                 Alert alert = new Alert(AlertType.WARNING);
 
                 alert.setTitle("Warning Dialog");
-                alert.setHeaderText(e);
-                alert.setContentText("Please enter an legal move..");
+                alert.setHeaderText("The move was invalid..");
+                alert.setContentText(e);
 
                 alert.showAndWait();            }
         });

@@ -76,7 +76,13 @@ public class GameBoard{
                     btn[i][j].setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event){
-                            if(!GameManager.getIsComputerPlayer())
+                            if(GameManager.getIsComputerPlayer()){
+                                try {
+                                    throw new InvalidMoveException("Not your turn, please wait for the computer to finish.");
+                                } catch (InvalidMoveException ex) {
+                                    Logger.getLogger(GameBoard.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                            }else
                                 GameManager.setCoord(draw);
                         }
 
