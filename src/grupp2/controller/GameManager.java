@@ -32,6 +32,7 @@ public class GameManager implements Runnable {
     private static int notAvailableDraws = 0;
     private static IPlayer player1;
     private static IPlayer player2;
+    
     /**
      * This is the core-method of the game which initalizes the board and players
      * and call the right methods for making draws and updating the GUI.
@@ -83,18 +84,19 @@ public class GameManager implements Runnable {
             currentPlayer = player1.getMarkerID();
             isComputer = player1.getIsComputer();
             
+            // If none of the players where able to make a draw we will break this loop and the game will finish.
             if(notAvailableDraws > 1)
                 break;
             
             while (true) {
                 if(board.isGameOver()){
-                    notAvailableDraws++;
+                    notAvailableDraws++; // This player was not able to make a draw and the turn goes to the other player.
                     break;
                 }
                 draw = player1.getDraw();
                 
-                notAvailableDraws = 0;
-                if(isComputer){
+                notAvailableDraws = 0; // When a player makes a move we reset this variable.
+                if(isComputer){ // If it's the computer that plays we want to make the illusion that it thinks.
                     try {
                         Thread.sleep(2000);
                     } catch (InterruptedException ex) {
@@ -120,18 +122,19 @@ public class GameManager implements Runnable {
             currentPlayer = player2.getMarkerID();
             isComputer = player2.getIsComputer();
             
+            // If none of the players where able to make a draw we will break this loop and the game will finish.
             if(notAvailableDraws > 1)
                 break;            
             
             while (true) {
                 if(board.isGameOver()){
-                    notAvailableDraws++;
+                    notAvailableDraws++; // This player was not able to make a draw and the turn goes to the other player.
                     break;
                 }
                 draw = player2.getDraw();
                 
-                notAvailableDraws = 0;
-                if(isComputer){
+                notAvailableDraws = 0; // When a player makes a move we reset this variable.
+                if(isComputer){ // If it's the computer that plays we want to make the illusion that it thinks.
                     try {
                         Thread.sleep(2000);
                     } catch (InterruptedException ex) {
@@ -176,6 +179,11 @@ public class GameManager implements Runnable {
     
     }
     
+    /**
+     * This function puts the players in a ArrayList and returns it to the caller. Is called from the GameFrame to put the names 
+     * in the resultfield.
+     * @return An arraylist with the current players.
+     */
     public static ArrayList<IPlayer> getPlayers(){
         ArrayList<IPlayer> players = new ArrayList();
         players.add(player1);
