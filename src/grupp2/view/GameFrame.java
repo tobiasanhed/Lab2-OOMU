@@ -8,6 +8,7 @@ package grupp2.view;
 import grupp2.controller.GameManager;
 import grupp2.model.IPlayer;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
@@ -15,8 +16,13 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -63,6 +69,20 @@ GameBoard kan t.ex. vara av typen javafx.scene.layout.Pane och utgör den grafis
         
         
         BorderPane root = new BorderPane();
+        
+        
+        root.setCenter(GameFrame.graphicBoard.getGameBoardPane());
+        root.setTop(initializeTop());
+        
+        Scene scene = new Scene(root, 500, 500);
+        
+        this.primaryStage.setTitle("Othello Game");
+        this.primaryStage.setScene(scene);
+        this.primaryStage.show();
+        
+    }
+    
+    private BorderPane initializeTop(){
         BorderPane top = new BorderPane();
         Pane topLeft = new Pane();
         
@@ -77,15 +97,8 @@ GameBoard kan t.ex. vara av typen javafx.scene.layout.Pane och utgör den grafis
         topLeft.getChildren().add(resultLabel);
         top.setLeft(topLeft);
         top.setRight(topRight);
+        top.setTop(initializeMenu());
         
-        root.setCenter(GameFrame.graphicBoard.getGameBoardPane());
-        root.setTop(top);
-        
-        Scene scene = new Scene(root, 500, 500);
-        
-        this.primaryStage.setTitle("Othello Game");
-        this.primaryStage.setScene(scene);
-        this.primaryStage.show();
         newGame.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent event) {
@@ -106,8 +119,54 @@ GameBoard kan t.ex. vara av typen javafx.scene.layout.Pane och utgör den grafis
             }
             
         });
+        return top;
+    } 
+    
+    private MenuBar initializeMenu(){
+        MenuBar menuBar = new MenuBar();
+        Menu fileMenu = new Menu("Arkiv");
+        Menu helpMenu = new Menu("Hjälp");
+        MenuItem aboutGameMenuItem = new MenuItem("Om");
+        MenuItem newGameMenuItem = new MenuItem("Nytt parti");
+        MenuItem exitMenuItem = new MenuItem("Avsluta");
+        fileMenu.getItems().addAll(newGameMenuItem, exitMenuItem);
+        helpMenu.getItems().addAll(aboutGameMenuItem);
+        menuBar.getMenus().addAll(fileMenu, helpMenu);
 
+        newGameMenuItem.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent event) {
+               //primaryStage.close();
+               graphicBoard.getGameBoardPane().getChildren().removeAll(graphicBoard.getGameBoardPane());
+               
+               Thread newThread = new Thread(new GameManager());
+               newThread.start();
+            }
+            
+        });
+        exitMenuItem.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                System.exit(1);
+            }
+        });
+        aboutGameMenuItem.setOnAction(new EventHandler<ActionEvent>(){
+
+            @Override
+            public void handle(ActionEvent event) {
+                Alert aboutDialog = new Alert(Alert.AlertType.INFORMATION);
+                aboutDialog.setTitle("Om det här spelet");
+                aboutDialog.setHeaderText("Det är är ett othello spel skapat av Thires Nilsson, Rasmus Lundquist\n"
+                        + "& Tobias Ånhed. Skapat för SA-linjen på Högskolan i Borås.");
+          
+                aboutDialog.show();
+                
+            }
         
+            
+        });
+
+        return menuBar;
     }
 /**
  * The updateBoard method is used to update the GUI after one of the players has
