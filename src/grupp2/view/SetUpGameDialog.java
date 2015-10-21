@@ -25,7 +25,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-
 /**
  * This is the implementation of the dialog that is displayed when the game is
  * started, it prompts the player/s to input the alias they want to be displayed
