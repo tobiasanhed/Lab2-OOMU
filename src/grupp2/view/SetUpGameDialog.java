@@ -5,26 +5,18 @@
  */
 package grupp2.view;
 
-import grupp2.model.HumanPlayer;
-import grupp2.controller.GameManager;
 import grupp2.model.ComputerPlayer;
 import grupp2.model.HumanPlayer;
 import grupp2.model.IPlayer;
 import java.util.ArrayList;
-import java.util.Optional;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar.ButtonData;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -32,18 +24,14 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.util.Pair;
 
-/**
- *
- * @author S142015
- */
+
 /**
  * This is the implementation of the dialog that is displayed when the game is
  * started, it prompts the player/s to input the alias they want to be displayed
  * during the game. In this dialog the player/s also chose if the players are going
  * to be computerplayers or humanplayers.
- * @author Rasmus
+ * @author Thires
  */
 public class SetUpGameDialog {
     private static IPlayer playerOne, playerTwo;

@@ -7,14 +7,8 @@ package grupp2.view;
 
 import grupp2.controller.GameManager;
 import grupp2.model.IPlayer;
-import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-
-/**
- *
- * @author S142015
- */
 
 /**
  * This is the dialog that is shown when the game ends. It displays which player won the game.

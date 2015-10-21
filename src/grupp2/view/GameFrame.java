@@ -8,7 +8,6 @@ package grupp2.view;
 import grupp2.controller.GameManager;
 import grupp2.model.IPlayer;
 import java.util.ArrayList;
-import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
@@ -18,7 +17,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -28,46 +26,29 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-/**
- *
- * @author S142015
- */
 
 /**
  * This is the class where the graphical user interface is implemented.
- * @author Rasmus
+ * @author Tobias
  */
 public class GameFrame{
-    /*5.2 Klass: GameFrame
-GameFrame är en instans av en javafx.stage.Stage och finns uppe så länge programmet körs. 
-    Den innehåller, bland annat, en instans av GameBoard samt knapparna ”Nytt parti” och ”Avsluta”.
-    
-5.3 Klass: GameBoard
-GameBoard kan t.ex. vara av typen javafx.scene.layout.Pane och utgör den grafiska representationen av 
-    spelplanen och används för att presentera den aktuella ställningen. 
-    GameBoard fångar dessutom upp användarens (HumanPlayer) val av ruta då denne gör ett drag.*/
-    private Button newGame;
-    private Button endGame;
+    private Button newGame = new Button("Nytt parti");
+    private Button endGame = new Button("Avsluta");
     private static GameBoard graphicBoard = new GameBoard();
     private static Stage primaryStage;
     private static Label resultLabel = new Label();
     private static int[] results;
     private static ArrayList<IPlayer> players;
 
-    /**
-     * This is where the buttons for the GUI is placed on the board and the Scene
-     * for the game is set.
-     * @param primaryStage The stage where the game board is shown.
-     */
     public GameFrame(Stage primaryStage){
         this.primaryStage = primaryStage;
 
     }
+    
+    /**
+     * This is the function that draws the GUI.
+     */
     public void drawGraphic(){
-        newGame = new Button("Nytt parti");
-        endGame = new Button("Avsluta");
-        
-        
         BorderPane root = new BorderPane();
         
         
@@ -82,6 +63,10 @@ GameBoard kan t.ex. vara av typen javafx.scene.layout.Pane och utgör den grafis
         
     }
     
+    /**
+     * This function sets up the top of the GUI, it consists of buttons, a resultlabel and the menu. 
+     * @return A borderpane that makes up the top of the GUI.
+     */
     private BorderPane initializeTop(){
         BorderPane top = new BorderPane();
         Pane topLeft = new Pane();
@@ -122,6 +107,10 @@ GameBoard kan t.ex. vara av typen javafx.scene.layout.Pane och utgör den grafis
         return top;
     } 
     
+    /**
+     * This function creates the menu of the GUI.
+     * @return a menubar representing the menu of the GUI
+     */
     private MenuBar initializeMenu(){
         MenuBar menuBar = new MenuBar();
         Menu fileMenu = new Menu("Arkiv");
@@ -168,6 +157,7 @@ GameBoard kan t.ex. vara av typen javafx.scene.layout.Pane och utgör den grafis
 
         return menuBar;
     }
+    
 /**
  * The updateBoard method is used to update the GUI after one of the players has
  * played their turn.
@@ -191,10 +181,16 @@ GameBoard kan t.ex. vara av typen javafx.scene.layout.Pane och utgör den grafis
         });
     }
     
+    /**
+     * This function enables the controller of the game to hide the game window.
+     */
     public static void hideGameWindow(){
         primaryStage.hide();
     }
     
+    /**
+     * This function enables the controller of the game to show the hidden game window.
+     */
     public static void showGameWindow(){
         primaryStage.show();
     }

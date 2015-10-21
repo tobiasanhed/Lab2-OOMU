@@ -6,7 +6,6 @@
 package grupp2.model;
 
 import grupp2.controller.GameManager;
-import grupp2.exceptions.InvalidMoveException;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Random;
@@ -15,7 +14,7 @@ import java.util.Random;
  * ComputerPlayer is the class which implements the interface Iplayer
  * and if either or both of the players are CPU:s one or two objects of this 
  * class will be created.
- * @author S142015
+ * @author Thires
  */
 public class ComputerPlayer implements IPlayer {
     private String name;

@@ -12,7 +12,7 @@ import javafx.scene.control.Alert.AlertType;
 /**
  * InvalidMoveException handles the error occurring when a player picks a invalid
  * move or plays whenever he's not suposed to.
- * @author S142015
+ * @author Thires
  */
 public class InvalidMoveException extends Exception{
     

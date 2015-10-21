@@ -6,13 +6,9 @@
 package grupp2.view;
 
 import grupp2.model.IPlayer;
-import javafx.application.Platform;
 import javafx.scene.control.Alert;
 
-/**
- *
- * @author S142015
- */
+
 /**
  * This is the dialog that is displayed when the game ends in a tie.
  * @author Rasmus

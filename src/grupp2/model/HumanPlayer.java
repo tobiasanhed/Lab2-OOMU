@@ -6,18 +6,12 @@
 package grupp2.model;
 
 import grupp2.controller.GameManager;
-import grupp2.exceptions.InvalidMoveException;
 import java.awt.Point;
-import java.util.Scanner;
 
-/**
- *
- * @author S142015
- */
 /**
  * This is the class that contains the methods that handle the human players
  * actions within the game.
- * @author Rasmus
+ * @author Tobias
  */
 public class HumanPlayer implements IPlayer {
     private String name;

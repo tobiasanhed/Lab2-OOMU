@@ -8,32 +8,22 @@ package grupp2.view;
 import grupp2.controller.GameManager;
 import grupp2.model.GameGrid;
 import java.awt.Point;
-import grupp2.exceptions.InvalidMoveException;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
-/**
- *
- * @author S142015
- */
+
 /**
  * In this class is the game board and methods used to display the pieces on the board
  * and to draw the actual game board.
- * @author Rasmus
+ * @author Thires
  */
 public class GameBoard{
     private GridPane board;

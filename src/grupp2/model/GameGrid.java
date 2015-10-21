@@ -12,7 +12,7 @@ import java.util.Observable;
 
 /**
  * The GameGrid class manages the logic (rules) of the Othello game.
- * @author S142015
+ * @author Tobias
  */
 public class GameGrid extends Observable{
 
