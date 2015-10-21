@@ -12,7 +12,9 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- *
+ * ComputerPlayer is the class which implements the interface Iplayer
+ * and if either or both of the players are CPU:s one or two objects of this 
+ * class will be created.
  * @author S142015
  */
 public class ComputerPlayer implements IPlayer {
@@ -23,7 +25,14 @@ public class ComputerPlayer implements IPlayer {
     public ComputerPlayer(){
         
     }
-    
+    /**
+     * ComputerPlayer constructor creates the computer player based on input 
+     * given by a human.
+     * @param name this parameter is the name of the CPU based on input.
+     * @param markerID this parameter is either value 1 or 2 depending on if the 
+     * player starts as player 1 and is the black marker or player 2 and plays with
+     * the white markers.
+     */
     public ComputerPlayer(String name, int markerID){
         this.name = name;
         this.markerID = markerID;
@@ -40,6 +49,7 @@ public class ComputerPlayer implements IPlayer {
     }
     
     @Override
+    
     public void setMarkerID(int marker){
         this.markerID = marker;
     }
