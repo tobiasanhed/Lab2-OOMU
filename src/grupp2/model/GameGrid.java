@@ -132,6 +132,10 @@ public class GameGrid extends Observable{
         Point coordinates = new Point();
         boolean whereComputer = GameManager.getIsComputerPlayer();
         
+        // Our functions to find legal moves is constructed to flip when the player is human and when we
+        // search to see if it exist any legal moves we don't want that.
+        // The simpliest way to solve this was to change this variable and then change it back to its originally state in the
+        // end of the function.
         if(!whereComputer)
             GameManager.setIsComputerPlayer(true);
         for (int i = 0; i < getBoardSize(); i++) {
