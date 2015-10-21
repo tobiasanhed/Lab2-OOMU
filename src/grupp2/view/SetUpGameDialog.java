@@ -38,6 +38,13 @@ import javafx.util.Pair;
  *
  * @author S142015
  */
+/**
+ * This is the implementation of the dialog that is displayed when the game is
+ * started, it prompts the player/s to input the alias they want to be displayed
+ * during the game. In this dialog the player/s also chose if the players are going
+ * to be computerplayers or humanplayers.
+ * @author Rasmus
+ */
 public class SetUpGameDialog {
     private static IPlayer playerOne, playerTwo;
     private ArrayList<IPlayer> playerArray = new ArrayList();
@@ -160,6 +167,13 @@ public class SetUpGameDialog {
         return playerArray;
         
     }
+    /**
+     * A Custom made method for adding the players entered into the array
+     * that is returned to the gamemanager. We made this to make sure the
+     * players where correctly entered into the arrayList.
+     * @param player the player that is going to be added at the current
+     * last position of the arrayList.
+     */
     private void addToArray(IPlayer player){
         this.playerArray.add(player);
     }
