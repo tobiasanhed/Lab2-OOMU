@@ -12,6 +12,9 @@ import grupp2.view.SetUpGameDialog;
 import grupp2.view.WinnerDialog;
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
@@ -29,7 +32,8 @@ public class GameManager implements Runnable {
     private static final Object coordO = new Object();
     private static final Object boardO = new Object();
     private static int notAvailableDraws = 0;
-    
+    private static IPlayer player1;
+    private static IPlayer player2;
     /**
      * This is the core-method of the game which initalizes the board and players
      * and call the right methods for making draws and updating the GUI.
@@ -37,21 +41,45 @@ public class GameManager implements Runnable {
     public static void startGame(){
         int[] results;
         
+        SetUpGameDialog newGame = new SetUpGameDialog();
+
+        final Lock lock = new ReentrantLock();
+        final Condition condition = lock.newCondition();
+        lock.lock();
+        try {
+            Platform.runLater(new Runnable() {
+
+                @Override
+                public void run() {
+                    lock.lock();
+                    GameFrame.hideGameWindow();
+                    ArrayList<IPlayer> players = newGame.getPlayers();
+                    player1 = players.get(0);
+                    player2 = players.get(1);
+                    GameFrame.showGameWindow();
+                    try {
+                         condition.signal();
+                    } finally {
+                        lock.unlock();
+                    }
+
+                }
+            });
+
+
+        try {
+            condition.await();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(GameManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        }finally {
+            lock.unlock();
+        }
+       
+        
+        
         board.initializeBoard();
         GameFrame.updateBoard();
-
-        SetUpGameDialog newGame = new SetUpGameDialog();
-        
-        Platform.runLater(new Runnable(){
-
-            @Override
-            public void run() {
-                ArrayList<IPlayer> players = newGame.getPlayers();
-            }
-            
-        });
-        IPlayer player1 = new HumanPlayer("P1", 1);
-        IPlayer player2 = new ComputerPlayer("P2", 2);
         
         while(true){
             currentPlayer = player1.getMarkerID();
@@ -148,6 +176,13 @@ public class GameManager implements Runnable {
         });
            
     
+    }
+    
+    public static ArrayList<IPlayer> getPlayers(){
+        ArrayList<IPlayer> players = new ArrayList();
+        players.add(player1);
+        players.add(player2);
+        return players;
     }
     
     /**

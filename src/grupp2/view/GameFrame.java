@@ -6,6 +6,8 @@
 package grupp2.view;
 
 import grupp2.controller.GameManager;
+import grupp2.model.IPlayer;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
@@ -41,10 +43,11 @@ GameBoard kan t.ex. vara av typen javafx.scene.layout.Pane och utgör den grafis
     private Button newGame;
     private Button endGame;
     private static GameBoard graphicBoard = new GameBoard();
-    private Stage primaryStage;
+    private static Stage primaryStage;
     private static Label resultLabel = new Label();
     private static int[] results;
-    
+    private static ArrayList<IPlayer> players;
+
     /**
      * This is where the buttons for the GUI is placed on the board and the Scene
      * for the game is set.
@@ -60,8 +63,9 @@ GameBoard kan t.ex. vara av typen javafx.scene.layout.Pane och utgör den grafis
         BorderPane top = new BorderPane();
         Pane topLeft = new Pane();
         
+        players = GameManager.getPlayers();
         results = GameManager.getResult();
-        resultLabel.setText("Player 1: " + results[0] + "\n" + "Player 2: " + results[1]);
+        resultLabel.setText(": " + results[0] + "\n" + ": " + results[1]);
         
         
         HBox topRight = new HBox();
@@ -83,16 +87,8 @@ GameBoard kan t.ex. vara av typen javafx.scene.layout.Pane och utgör den grafis
             @Override
             public void handle(ActionEvent event) {
                 
-                primaryStage.close();
 
-                Platform.runLater(new Runnable(){
-
-                    @Override
-                    public void run() {
-                        GameFrame graphicGame = new GameFrame(new Stage());
-                    }
-               
-               });
+               graphicBoard.getGameBoardPane().getChildren().removeAll(graphicBoard.getGameBoardPane());
                
                Thread newThread = new Thread(new GameManager());
                newThread.start();
@@ -115,19 +111,29 @@ GameBoard kan t.ex. vara av typen javafx.scene.layout.Pane och utgör den grafis
  */
     public static void updateBoard(){
         results = GameManager.getResult();
-        
+        players = GameManager.getPlayers();
+
         Platform.runLater(new Runnable() { 
             @Override
             public void run() {
+                
                 try {
                     Thread.sleep(50);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(GameFrame.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                resultLabel.setText("Player 1: " + results[0] + "\n" + "Player 2: " + results[1]);
+                resultLabel.setText(players.get(0).getName() + ": " + results[0] + "\n" + players.get(1).getName() + ": " + results[1]);
                 graphicBoard.drawGraphicBoard();
             }
         });
+    }
+    
+    public static void hideGameWindow(){
+        primaryStage.hide();
+    }
+    
+    public static void showGameWindow(){
+        primaryStage.show();
     }
     
     

@@ -61,14 +61,8 @@ public class GameBoard{
                     btn[i][j].setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event){
-                            /*if(!GameManager.isPossibleDraw(draw)){
-                                try {
-                                    throw new InvalidMoveException("Illegal move.");
-                                } catch (InvalidMoveException ex) {
-                                    Logger.getLogger(GameBoard.class.getName()).log(Level.SEVERE, null, ex);
-                                }
-                            }*/
-                            GameManager.setCoord(draw);
+                            if(!GameManager.getIsComputerPlayer())
+                                GameManager.setCoord(draw);
                         }
 
                     });
