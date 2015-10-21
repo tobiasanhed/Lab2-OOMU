@@ -24,18 +24,31 @@ public class GameGrid extends Observable{
 
 
     /**
-     * The getBoard method is a accessor function 
-     * @return 
+     * The getBoard method is a accessor function
+     * @return the int matrix which stores the markers placed on the board.
      */
     public int[][] getBoard() {
         return board;
     }
-
+    
+    /**
+     * setBoard method is a accessor function which lets the caller place a marker within
+     * the matrix that stores the markers placed on the board. This is used whenever
+     * the users makes a valid draw.
+     * @param coordinates is the parameter which is a Point with an x and a y value 
+     * that represents where the draw was made.
+     * @param marker is the value representing which player who made the move. 
+     * The values needs to be distinct in order to identify the different players.
+     */
     public void setBoard(Point coordinates, int marker) {
         board[coordinates.x][coordinates.y] = marker;
         GameManager.setBoardNotifier(board);
     }
 
+    /**
+     * setWholeBoard method 
+     * @param tempBoard 
+     */
     public void setWholeBoard(int[][] tempBoard) {
         board = tempBoard;
     }

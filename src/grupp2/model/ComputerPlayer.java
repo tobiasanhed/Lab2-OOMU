@@ -39,9 +39,6 @@ public class ComputerPlayer implements IPlayer {
     }
     
     @Override
-    /**
-     * Returns true if the player is a computerPlayer.
-     */
     public boolean getIsComputer(){
         return isComputer;
     }
