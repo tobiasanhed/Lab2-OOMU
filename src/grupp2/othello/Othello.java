@@ -31,6 +31,7 @@ public class Othello extends Application {
         Thread game = new Thread(new GameManager());
         game.start();
         GameFrame graphicGame = new GameFrame(primaryStage);
+        graphicGame.drawGraphic();
         
         /*
         SetUpGameDialog getPlayers = new SetUpGameDialog();

@@ -132,7 +132,7 @@ public class SetUpGameDialog {
 
                         addToArray(playerOne);
                     } else if (playerOneHuman.isSelected()) {
-                        playerOne = new HumanPlayer((playerTwoTf.getText()),1);
+                        playerOne = new HumanPlayer((playerOneTf.getText()),1);
                         addToArray(playerOne);
                     }
                     if (playerTwoCPU.isSelected()) {

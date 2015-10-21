@@ -1,9 +1,7 @@
 package grupp2.controller;
 
 import grupp2.exceptions.InvalidMoveException;
-import grupp2.model.ComputerPlayer;
 import grupp2.model.GameGrid;
-import grupp2.model.HumanPlayer;
 import grupp2.model.IPlayer;
 import grupp2.view.DrawDialog;
 import grupp2.view.GameFrame;
