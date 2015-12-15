@@ -4,6 +4,7 @@ import grupp2.exceptions.InvalidMoveException;
 import grupp2.model.GameGrid;
 import grupp2.model.IPlayer;
 import grupp2.view.DrawDialog;
+import grupp2.view.ErrorDialog;
 import grupp2.view.GameFrame;
 import grupp2.view.IEndDialog;
 import grupp2.view.SetUpGameDialog;
@@ -23,21 +24,29 @@ import javafx.application.Platform;
  * @author Tobias
  */
 public class GameManager implements Runnable {
-    private static int currentPlayer = 1;
-    private static boolean isComputer;
-    private static GameGrid board = new GameGrid();
-    private static Point draw = new Point();
-    private static final Object coordO = new Object();
-    private static final Object boardO = new Object();
-    private static int notAvailableDraws = 0;
-    private static IPlayer player1;
-    private static IPlayer player2;
+    private int currentPlayer = 1;
+    private boolean isComputer;
+    private GameGrid board = new GameGrid();
+    private Point draw = new Point();
+    private final Object coordO = new Object();
+    private final Object boardO = new Object();
+    private int notAvailableDraws = 0;
+    private IPlayer player1;
+    private IPlayer player2;
     
+    private static final GameManager INSTANCE = new GameManager();
+    
+    private GameManager (){
+        
+    }
+    public static GameManager getInstance(){
+        return INSTANCE;
+    }
     /**
      * This is the core-method of the game which initalizes the board and players
      * and call the right methods for making draws and updating the GUI.
      */
-    public static void startGame(){
+    public void startGame(){
         int[] results;
         
         SetUpGameDialog newGame = new SetUpGameDialog();
@@ -111,7 +120,8 @@ public class GameManager implements Runnable {
                     break;
                 }else{
                     try {
-                        throw new InvalidMoveException("Illegal move.");
+                        new ErrorDialog("Illegal move!");
+                        throw new InvalidMoveException();
                     } catch (InvalidMoveException ex) {
                         Logger.getLogger(GameManager.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -159,7 +169,7 @@ public class GameManager implements Runnable {
                    
             }
         }
-        results = GameManager.getResult();
+        results = getResult();
         
         Platform.runLater(new Runnable(){
 
@@ -184,7 +194,7 @@ public class GameManager implements Runnable {
      * in the resultfield.
      * @return An arraylist with the current players.
      */
-    public static ArrayList<IPlayer> getPlayers(){
+    public ArrayList<IPlayer> getPlayers(){
         ArrayList<IPlayer> players = new ArrayList();
         players.add(player1);
         players.add(player2);
@@ -196,9 +206,9 @@ public class GameManager implements Runnable {
      * by the humanplayer. It makes it possible to get a draw from the GUI to the logic of the game.
      * @param draw The coordinates of the draw.
      */
-    public static void setCoord(Point draw){
+    public void setCoord(Point draw){
         synchronized(coordO){
-            GameManager.draw = draw;
+            this.draw = draw;
             coordO.notify();
         }
     }
@@ -208,7 +218,7 @@ public class GameManager implements Runnable {
      * the coordinates to the logic of the game.
      * @return The coordinates of the draw.
      */
-    public static Point getCoord(){
+    public Point getCoord(){
         synchronized(coordO){
             try {
                 coordO.wait();
@@ -224,9 +234,9 @@ public class GameManager implements Runnable {
      * the notifies the getBoardNotifier which returns the matrix to the GUI.
      * @param board A matrix representing the board of the game.
      */
-    public static void setBoardNotifier(int[][] board){
+    public void setBoardNotifier(int[][] board){
         synchronized(boardO){
-            GameManager.board.setWholeBoard(board);
+            this.board.setWholeBoard(board);
             boardO.notify();
         }
     }
@@ -235,10 +245,10 @@ public class GameManager implements Runnable {
      * This method is called from the GUI and waits for the setBoardNotifier to signal that it's been updated.
      * @return A matrix representing the board.
      */
-    public static int[][] getBoardNotifier(){
+    public int[][] getBoardNotifier(){
         synchronized(boardO){
           
-            return GameManager.board.getBoard();
+            return board.getBoard();
         }
     }
     
@@ -246,7 +256,7 @@ public class GameManager implements Runnable {
      * Calls the logic of the game to calculate the scores of the game and returns it as an array.
      * @return An array with the scores.
      */
-    public static int[] getResult(){
+    public int[] getResult(){
         return board.getResult();
     }
     
@@ -254,7 +264,7 @@ public class GameManager implements Runnable {
      * Calls the logic of the game to get the matrix that represents the board.
      * @return A matrix that represents the board.
      */
-    public static int[][] getBoard(){
+    public int[][] getBoard(){
         return(board.getBoard());
     }
     
@@ -262,7 +272,7 @@ public class GameManager implements Runnable {
      * Returns the marker of the current player.
      * @return An int which is the current players marker.
      */
-    public static int getCurrentPlayer(){
+    public int getCurrentPlayer(){
         return currentPlayer;
     }
     
@@ -271,7 +281,7 @@ public class GameManager implements Runnable {
      * computer player or not.
      * @param state A boolean value that you want to be the new state.
      */
-    public static void setIsComputerPlayer(boolean state){
+    public void setIsComputerPlayer(boolean state){
        isComputer = state;
     }
 
@@ -280,7 +290,7 @@ public class GameManager implements Runnable {
      * @param draw A Point representing the coordinate.
      * @return A boolean value.
      */
-    public static boolean isPossibleDraw(Point draw){
+    public boolean isPossibleDraw(Point draw){
         return board.isPossibleMove(draw);
     }
     
@@ -288,7 +298,7 @@ public class GameManager implements Runnable {
      * Returns the result from getPossibleMoves which lays in the logic of the gameGrid.
      * @return An ArrayList with coordinates of the legal moves.
      */
-    public static ArrayList getPossibleDraws(){
+    public ArrayList getPossibleDraws(){
         return board.getPossibleMoves();
     }
     
@@ -296,14 +306,14 @@ public class GameManager implements Runnable {
      * Returns the boolean value of the variable isComputer.
      * @return A boolean value.
      */
-    public static boolean getIsComputerPlayer(){
+    public boolean getIsComputerPlayer(){
         return isComputer;
     }
     
     /**
      * This method starts the game again.
      */
-    public static void resetGame(){
+    public void resetGame(){
         startGame();
     }
     
@@ -311,7 +321,7 @@ public class GameManager implements Runnable {
      * This function is just for testing the logic of the game and is not used in the final game.
      * @param board An object of the GameGrid class.
      */
-    public static void printBoard(GameGrid board){
+    public void printBoard(GameGrid board){
         int[][] boardArray = board.getBoard();
         for(int i = 0; i < GameGrid.getBoardSize(); i++){
             for(int j = 0; j < GameGrid.getBoardSize(); j++){
@@ -332,6 +342,6 @@ public class GameManager implements Runnable {
      */
     @Override
     public void run() {
-        GameManager.startGame();
+        startGame();
     }
 }

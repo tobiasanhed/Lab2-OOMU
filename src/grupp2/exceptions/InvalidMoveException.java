@@ -14,22 +14,9 @@ public class InvalidMoveException extends Exception{
     /**
      * InvalidMoveException method creates an alert message in order to inform
      * the player(s) that the move is invalid.
-     * @param e is the error message created by the program.
      */
-    public InvalidMoveException(String e){
-        Platform.runLater(new Runnable(){
-            
-
-            @Override
-            public void run() {
-                Alert alert = new Alert(AlertType.WARNING);
-
-                alert.setTitle("Warning Dialog");
-                alert.setHeaderText(e);
-                alert.setContentText("Please enter an legal move..");
-
-                alert.showAndWait();            }
-        });
+    public InvalidMoveException(){
+        
         
     }
 }

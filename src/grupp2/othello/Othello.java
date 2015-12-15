@@ -22,11 +22,9 @@ public class Othello extends Application {
      */
     @Override
     public void start(Stage primaryStage) {
-        Thread game = new Thread(new GameManager());
+        Thread game = new Thread(GameManager.getInstance());
         game.start();
-        GameFrame graphicGame = new GameFrame(primaryStage);
-        graphicGame.drawGraphic();
-       
+        GameFrame graphicGame = new GameFrame();
     }
 
     /**

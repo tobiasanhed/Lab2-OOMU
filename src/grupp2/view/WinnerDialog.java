@@ -22,7 +22,7 @@ public class WinnerDialog implements IEndDialog{
         
         int [] result = new int[2];
                
-        result = GameManager.getResult(); //Denna ska läggas till för att kunna ta in resultatet
+        result = GameManager.getInstance().getResult(); //Denna ska läggas till för att kunna ta in resultatet
         
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("End of the game!");

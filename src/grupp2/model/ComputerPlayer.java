@@ -65,7 +65,7 @@ public class ComputerPlayer implements IPlayer {
         int drawIndex;
         Point draw;
         
-        draws = GameManager.getPossibleDraws();
+        draws = GameManager.getInstance().getPossibleDraws();
         if(draws.isEmpty())
             return null;
         else if(draws.size() == 1)

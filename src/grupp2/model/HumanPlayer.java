@@ -50,7 +50,7 @@ public class HumanPlayer implements IPlayer {
     @Override
     public Point getDraw(){
         
-        return GameManager.getCoord();
+        return GameManager.getInstance().getCoord();
     }
 
 }

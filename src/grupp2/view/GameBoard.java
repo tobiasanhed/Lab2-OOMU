@@ -27,7 +27,7 @@ import javafx.scene.shape.Circle;
  */
 public class GameBoard{
     private GridPane board;
-    private int [][] currentBoard = GameManager.getBoard();
+    private int [][] currentBoard = GameManager.getInstance().getBoard();
     private Button[][] btn = new Button[GameGrid.getBoardSize()][GameGrid.getBoardSize()];
 
 /**
@@ -57,8 +57,8 @@ public class GameBoard{
                         @Override
                         public void handle(KeyEvent event) {
                             Button temp = (Button)event.getSource();
-                            if(event.getCode() == KeyCode.ENTER && temp.isFocused() && !GameManager.getIsComputerPlayer())
-                                GameManager.setCoord(draw);
+                            if(event.getCode() == KeyCode.ENTER && temp.isFocused() && !GameManager.getInstance().getIsComputerPlayer())
+                                GameManager.getInstance().setCoord(draw);
                                 
                         }
                         
@@ -66,8 +66,8 @@ public class GameBoard{
                     btn[i][j].setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event){
-                            if(!GameManager.getIsComputerPlayer())
-                                GameManager.setCoord(draw);
+                            if(!GameManager.getInstance().getIsComputerPlayer())
+                                GameManager.getInstance().setCoord(draw);
                         }
 
                     });
@@ -82,7 +82,7 @@ public class GameBoard{
      * to display changes made to the state of the game board.
      */
     public void drawGraphicBoard(){
-        currentBoard = GameManager.getBoardNotifier();
+        currentBoard = GameManager.getInstance().getBoardNotifier();
         
         for (int i = 0; i < btn.length; i++) {
             for (int j = 0; j < btn.length; j++) {
@@ -99,7 +99,7 @@ public class GameBoard{
                         @Override
                         public void handle(ActionEvent event) {
                             
-                            GameManager.setCoord(draw);
+                            GameManager.getInstance().setCoord(draw);
                         }
 
                     });

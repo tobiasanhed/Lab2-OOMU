@@ -31,7 +31,7 @@ import javafx.stage.Stage;
  * This is the class where the graphical user interface is implemented.
  * @author Tobias
  */
-public class GameFrame{
+public class GameFrame extends Stage{
     private Button newGame = new Button("Nytt parti");
     private Button endGame = new Button("Avsluta");
     private static GameBoard graphicBoard = new GameBoard();
@@ -40,28 +40,16 @@ public class GameFrame{
     private static int[] results;
     private static ArrayList<IPlayer> players;
 
-    public GameFrame(Stage primaryStage){
-        this.primaryStage = primaryStage;
-
-    }
-    
-    /**
-     * This is the function that draws the GUI.
-     */
-    public void drawGraphic(){
+    public GameFrame(){
         BorderPane root = new BorderPane();
-        
         
         root.setCenter(GameFrame.graphicBoard.getGameBoardPane());
         root.setTop(initializeTop());
         
         Scene scene = new Scene(root, 500, 500);
-        
-        this.primaryStage.setTitle("Othello Game");
-        this.primaryStage.setScene(scene);
-        this.primaryStage.show();
-        
+        setScene(scene);
     }
+    
     
     /**
      * This function sets up the top of the GUI, it consists of buttons, a resultlabel and the menu. 
@@ -71,8 +59,8 @@ public class GameFrame{
         BorderPane top = new BorderPane();
         Pane topLeft = new Pane();
         
-        players = GameManager.getPlayers();
-        results = GameManager.getResult();
+        players = GameManager.getInstance().getPlayers();
+        results = GameManager.getInstance().getResult();
         resultLabel.setText(": " + results[0] + "\n" + ": " + results[1]);
         
         
@@ -92,7 +80,7 @@ public class GameFrame{
                //primaryStage.close();
                graphicBoard.getGameBoardPane().getChildren().removeAll(graphicBoard.getGameBoardPane());
                
-               Thread newThread = new Thread(new GameManager());
+               Thread newThread = new Thread(GameManager.getInstance());
                newThread.start();
 
             }
@@ -128,7 +116,7 @@ public class GameFrame{
                //primaryStage.close();
                graphicBoard.getGameBoardPane().getChildren().removeAll(graphicBoard.getGameBoardPane());
                
-               Thread newThread = new Thread(new GameManager());
+               Thread newThread = new Thread(GameManager.getInstance());
                newThread.start();
             }
             
@@ -163,8 +151,8 @@ public class GameFrame{
  * played their turn.
  */
     public static void updateBoard(){
-        results = GameManager.getResult();
-        players = GameManager.getPlayers();
+        results = GameManager.getInstance().getResult();
+        players = GameManager.getInstance().getPlayers();
 
         Platform.runLater(new Runnable() { 
             @Override
