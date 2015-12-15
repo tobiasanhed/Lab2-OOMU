@@ -15,7 +15,7 @@ public class DrawDialog implements IEndDialog{
      * @param player2 Represents player 2.
      */
     @Override
-    public void printResult(IPlayer player1, IPlayer player2){
+    public void printResult(IPlayer player1, IPlayer player2, int [] result){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("End of the game!");
         alert.setHeaderText("The game has ended.");

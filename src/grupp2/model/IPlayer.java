@@ -21,11 +21,6 @@ public interface IPlayer {
      */
     public void setMarkerID(int marker);
     /**
-     * This method is used to determine wether or not  a player is a computer.
-     * @return Returns true if a player is a computer player and false otherwise.
-     */
-    public boolean getIsComputer();
-    /**
      * Accessor function used to get the name of a player.
      * @return Returns the name of the player as a String.
      */

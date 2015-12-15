@@ -34,23 +34,27 @@ import javafx.stage.Stage;
 public class GameFrame extends Stage{
     private Button newGame = new Button("Nytt parti");
     private Button endGame = new Button("Avsluta");
-    private static GameBoard graphicBoard = new GameBoard();
-    private static Stage primaryStage;
-    private static Label resultLabel = new Label();
-    private static int[] results;
-    private static ArrayList<IPlayer> players;
+    private GameBoard graphicBoard = new GameBoard();
+    private Stage primaryStage;
+    private Label resultLabel = new Label();
+    private int[] results;
+    private ArrayList<IPlayer> players;
 
-    public GameFrame(){
+    private static final GameFrame INSTANCE = new GameFrame();
+
+    private GameFrame(){
         BorderPane root = new BorderPane();
         
-        root.setCenter(GameFrame.graphicBoard.getGameBoardPane());
+        root.setCenter(graphicBoard.getGameBoardPane());
         root.setTop(initializeTop());
         
         Scene scene = new Scene(root, 500, 500);
         setScene(scene);
     }
-    
-    
+
+    public static GameFrame getInstance(){
+        return INSTANCE;
+    }
     /**
      * This function sets up the top of the GUI, it consists of buttons, a resultlabel and the menu. 
      * @return A borderpane that makes up the top of the GUI.
@@ -150,7 +154,7 @@ public class GameFrame extends Stage{
  * The updateBoard method is used to update the GUI after one of the players has
  * played their turn.
  */
-    public static void updateBoard(){
+    public void updateBoard(){
         results = GameManager.getInstance().getResult();
         players = GameManager.getInstance().getPlayers();
 
@@ -172,14 +176,14 @@ public class GameFrame extends Stage{
     /**
      * This function enables the controller of the game to hide the game window.
      */
-    public static void hideGameWindow(){
+    public void hideGameWindow(){
         primaryStage.hide();
     }
     
     /**
      * This function enables the controller of the game to show the hidden game window.
      */
-    public static void showGameWindow(){
+    public void showGameWindow(){
         primaryStage.show();
     }
     

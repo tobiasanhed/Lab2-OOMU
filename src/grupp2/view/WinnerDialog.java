@@ -18,12 +18,8 @@ public class WinnerDialog implements IEndDialog{
     * @param player2 Represents player 2.
     */
     @Override
-    public void printResult(IPlayer player1, IPlayer player2){
-        
-        int [] result = new int[2];
-               
-        result = GameManager.getInstance().getResult(); //Denna ska läggas till för att kunna ta in resultatet
-        
+    public void printResult(IPlayer player1, IPlayer player2, int [] result){
+
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("End of the game!");
         alert.setHeaderText("The winner is...");

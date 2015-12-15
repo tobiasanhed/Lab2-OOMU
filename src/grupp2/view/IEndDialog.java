@@ -8,5 +8,5 @@ import grupp2.model.IPlayer;
  * @author Rasmus
  */
 public interface IEndDialog {
-    public void printResult(IPlayer player1, IPlayer player2);
+    public void printResult(IPlayer player1, IPlayer player2, int [] result);
 }

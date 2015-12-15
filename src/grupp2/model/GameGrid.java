@@ -14,7 +14,7 @@ public class GameGrid extends Observable{
     private static final int boardSize = 8;
     private static final int whitePlayer = 2;
     private static final int blackPlayer = 1;
-    private int[][] board = new int[boardSize][boardSize];
+    private int[][] boardMatrix = new int[boardSize][boardSize];
     
 
 
@@ -23,7 +23,7 @@ public class GameGrid extends Observable{
      * @return the int matrix which stores the markers placed on the board.
      */
     public int[][] getBoard() {
-        return board;
+        return boardMatrix;
     }
     
     /**
@@ -36,8 +36,9 @@ public class GameGrid extends Observable{
      * The values needs to be distinct in order to identify the different players.
      */
     public void setBoard(Point coordinates, int marker) {
-        board[coordinates.x][coordinates.y] = marker;
-        GameManager.getInstance().setBoardNotifier(board);
+        boardMatrix[coordinates.x][coordinates.y] = marker;
+
+        GameManager.getInstance().setBoardNotifier(boardMatrix);
     }
 
     /**
@@ -46,7 +47,7 @@ public class GameGrid extends Observable{
      * @param tempBoard the parameter is the matrix which you want to replace.
      */
     public void setWholeBoard(int[][] tempBoard) {
-        board = tempBoard;
+        boardMatrix = tempBoard;
     }
 
     /**
@@ -65,13 +66,13 @@ public class GameGrid extends Observable{
     public void initializeBoard() {
         for (int i = 0; i < getBoardSize(); i++) {
             for (int j = 0; j < getBoardSize(); j++) {
-                board[i][j] = 0;
+                boardMatrix[i][j] = 0;
             }
         }
-        board[3][4] = whitePlayer;
-        board[4][3] = whitePlayer;
-        board[3][3] = blackPlayer;
-        board[4][4] = blackPlayer;
+        boardMatrix[3][4] = whitePlayer;
+        boardMatrix[4][3] = whitePlayer;
+        boardMatrix[3][3] = blackPlayer;
+        boardMatrix[4][4] = blackPlayer;
 
     }
     
@@ -90,9 +91,9 @@ public class GameGrid extends Observable{
         
         for (int i = 0; i < getBoardSize(); i++) {
             for (int j = 0; j < getBoardSize(); j++) {
-                if(board[i][j] == 1)
+                if(boardMatrix[i][j] == 1)
                     results[0]++;
-                if(board[i][j] == 2)
+                if(boardMatrix[i][j] == 2)
                     results[1]++;
             }
         }
@@ -122,7 +123,7 @@ public class GameGrid extends Observable{
      * it is a valid move.
      */
     public boolean isPossibleMove(Point coordinates) {
-        board = getBoard();
+        boardMatrix = getBoard();
         boolean v1 = false, v2 = false, v3 = false, v4 = false, v5 = false,
                 v6 = false, v7 = false, v8 = false;
         if (checkIfInsideBoard(coordinates) && checkIfEmptySpot(coordinates)) {
@@ -169,14 +170,14 @@ public class GameGrid extends Observable{
     public ArrayList<Point> getPossibleMoves() {
         ArrayList<Point> possibleDraws = new ArrayList();
         Point coordinates = new Point();
-        boolean whereComputer = GameManager.getInstance().getIsComputerPlayer();
+        //boolean whereComputer = GameManager.getInstance().getIsComputerPlayer();
         
         // Our functions to find legal moves is constructed to flip when the player is human and when we
         // search to see if it exist any legal moves we don't want that.
         // The simpliest way to solve this was to change this variable and then change it back to its originally state in the
         // end of the function.
-        if(!whereComputer)
-            GameManager.getInstance().setIsComputerPlayer(true);
+        //if(!whereComputer)
+          //  GameManager.getInstance().setIsComputerPlayer(true);
         for (int i = 0; i < getBoardSize(); i++) {
             for (int j = 0; j < getBoardSize(); j++) {
                 coordinates.setLocation(j, i);
@@ -188,7 +189,7 @@ public class GameGrid extends Observable{
             }
         }
 
-        GameManager.getInstance().setIsComputerPlayer(whereComputer);
+        //GameManager.getInstance().setIsComputerPlayer(whereComputer);
         return possibleDraws;
     }
 
@@ -207,16 +208,16 @@ public class GameGrid extends Observable{
         //Kolla höger
 
         for (int i = coordinates.x + 1; i < getBoardSize(); i++) {
-            if (board[i][coordinates.y] == 0) {
+            if (boardMatrix[i][coordinates.y] == 0) {
                 return false;
             }
-            if ((board[i][coordinates.y] == GameManager.getInstance().getCurrentPlayer()) && i > coordinates.x + 1) {
-                if(!GameManager.getInstance().getIsComputerPlayer()){
+            if ((boardMatrix[i][coordinates.y] == GameManager.getInstance().getCurrentPlayer().getMarkerID()) && i > coordinates.x + 1) {
+                if(GameManager.getInstance().getCurrentPlayer() instanceof HumanPlayer){
                     for(int ii = i; ii != coordinates.x; ii--)
-                        setBoard(new Point(ii, coordinates.y), GameManager.getInstance().getCurrentPlayer());
+                        setBoard(new Point(ii, coordinates.y), GameManager.getInstance().getCurrentPlayer().getMarkerID());
                 }
                 return true;
-            } else if ((board[i][coordinates.y] == GameManager.getInstance().getCurrentPlayer()) && i <= coordinates.x + 1) {
+            } else if ((boardMatrix[i][coordinates.y] == GameManager.getInstance().getCurrentPlayer().getMarkerID()) && i <= coordinates.x + 1) {
                 return false;
             }
         }
@@ -237,16 +238,16 @@ public class GameGrid extends Observable{
     private boolean checkLeft(Point coordinates) {
 
         for (int i = coordinates.x - 1; i >= 0; i--) {
-            if (board[i][coordinates.y] == 0) {
+            if (boardMatrix[i][coordinates.y] == 0) {
                 return false;
             }
-            if ((board[i][coordinates.y] == GameManager.getInstance().getCurrentPlayer()) && i < coordinates.x - 1) {
-                if(!GameManager.getInstance().getIsComputerPlayer()){
+            if ((boardMatrix[i][coordinates.y] == GameManager.getInstance().getCurrentPlayer().getMarkerID()) && i < coordinates.x - 1) {
+                if(GameManager.getInstance().getCurrentPlayer() instanceof HumanPlayer){
                     for(int ii = i; ii != coordinates.x; ii++)
-                        setBoard(new Point(ii, coordinates.y), GameManager.getInstance().getCurrentPlayer());
+                        setBoard(new Point(ii, coordinates.y), GameManager.getInstance().getCurrentPlayer().getMarkerID());
                 }
                 return true;
-            } else if ((board[i][coordinates.y] == GameManager.getInstance().getCurrentPlayer()) && i >= coordinates.x - 1) {
+            } else if ((boardMatrix[i][coordinates.y] == GameManager.getInstance().getCurrentPlayer().getMarkerID()) && i >= coordinates.x - 1) {
                 return false;
             }
         }
@@ -268,16 +269,16 @@ public class GameGrid extends Observable{
     private boolean checkDown(Point coordinates) {
 
         for (int i = coordinates.y + 1; i < getBoardSize(); i++) {
-            if (board[coordinates.x][i] == 0) {
+            if (boardMatrix[coordinates.x][i] == 0) {
                 return false;
             }
-            if ((board[coordinates.x][i] == GameManager.getInstance().getCurrentPlayer()) && i > coordinates.y + 1) {
-                if(!GameManager.getInstance().getIsComputerPlayer()){
+            if ((boardMatrix[coordinates.x][i] == GameManager.getInstance().getCurrentPlayer().getMarkerID()) && i > coordinates.y + 1) {
+                if(GameManager.getInstance().getCurrentPlayer() instanceof HumanPlayer){
                     for(int ii = i; ii != coordinates.y; ii--)
-                        setBoard(new Point(coordinates.x, ii), GameManager.getInstance().getCurrentPlayer());
+                        setBoard(new Point(coordinates.x, ii), GameManager.getInstance().getCurrentPlayer().getMarkerID());
                 }
                 return true;
-            } else if ((board[coordinates.x][i] == GameManager.getInstance().getCurrentPlayer()) && i <= coordinates.y + 1) {
+            } else if ((boardMatrix[coordinates.x][i] == GameManager.getInstance().getCurrentPlayer().getMarkerID()) && i <= coordinates.y + 1) {
                 return false;
             }
         }
@@ -298,16 +299,16 @@ public class GameGrid extends Observable{
     private boolean checkUp(Point coordinates) {
 
         for (int i = coordinates.y - 1; i >= 0; i--) {
-            if (board[coordinates.x][i] == 0) {
+            if (boardMatrix[coordinates.x][i] == 0) {
                 return false;
             }
-            if ((board[coordinates.x][i] == GameManager.getInstance().getCurrentPlayer()) && i < coordinates.y - 1) {
-                if(!GameManager.getInstance().getIsComputerPlayer()){
+            if ((boardMatrix[coordinates.x][i] == GameManager.getInstance().getCurrentPlayer().getMarkerID()) && i < coordinates.y - 1) {
+                if(GameManager.getInstance().getCurrentPlayer() instanceof HumanPlayer){
                     for(int ii = i; ii != coordinates.y; ii++)
-                        setBoard(new Point(coordinates.x, ii), GameManager.getInstance().getCurrentPlayer());
+                        setBoard(new Point(coordinates.x, ii), GameManager.getInstance().getCurrentPlayer().getMarkerID());
                 }
                 return true;
-            } else if ((board[coordinates.x][i] == GameManager.getInstance().getCurrentPlayer()) && i >= coordinates.y - 1) {
+            } else if ((boardMatrix[coordinates.x][i] == GameManager.getInstance().getCurrentPlayer().getMarkerID()) && i >= coordinates.y - 1) {
                 return false;
             }
         }
@@ -329,18 +330,18 @@ public class GameGrid extends Observable{
 
         int y = coordinates.y - 1;
         for (int x = coordinates.x + 1; x < getBoardSize() && y >= 0; x++) {
-            if (board[x][y] == 0) {
+            if (boardMatrix[x][y] == 0) {
                 return false;
             }
-            if ((board[x][y] == GameManager.getInstance().getCurrentPlayer()) && x > coordinates.x + 1) {
-                if(!GameManager.getInstance().getIsComputerPlayer()){
+            if ((boardMatrix[x][y] == GameManager.getInstance().getCurrentPlayer().getMarkerID()) && x > coordinates.x + 1) {
+                if(GameManager.getInstance().getCurrentPlayer() instanceof HumanPlayer){
                     for(int xx = x; xx != coordinates.x; xx--){
-                        setBoard(new Point(xx, y), GameManager.getInstance().getCurrentPlayer());
+                        setBoard(new Point(xx, y), GameManager.getInstance().getCurrentPlayer().getMarkerID());
                         y++;
                     }
                 }
                 return true;
-            } else if ((board[x][y] == GameManager.getInstance().getCurrentPlayer()) && x <= coordinates.x + 1) {
+            } else if ((boardMatrix[x][y] == GameManager.getInstance().getCurrentPlayer().getMarkerID()) && x <= coordinates.x + 1) {
                 return false;
             }
             y--;
@@ -365,18 +366,18 @@ public class GameGrid extends Observable{
 
         int y = coordinates.y + 1;
         for (int x = coordinates.x + 1; x < getBoardSize() && y < getBoardSize(); x++) {
-            if (board[x][y] == 0) {
+            if (boardMatrix[x][y] == 0) {
                 return false;
             }
-            if ((board[x][y] == GameManager.getInstance().getCurrentPlayer()) && x > coordinates.x + 1) {
-                if(!GameManager.getInstance().getIsComputerPlayer()){
+            if ((boardMatrix[x][y] == GameManager.getInstance().getCurrentPlayer().getMarkerID()) && x > coordinates.x + 1) {
+                if(GameManager.getInstance().getCurrentPlayer() instanceof HumanPlayer){
                     for(int xx = x; xx != coordinates.x; xx--){
-                        setBoard(new Point(xx, y), GameManager.getInstance().getCurrentPlayer());
+                        setBoard(new Point(xx, y), GameManager.getInstance().getCurrentPlayer().getMarkerID());
                         y--;
                     }
                 }
                 return true;
-            } else if ((board[x][y] == GameManager.getInstance().getCurrentPlayer()) && x <= coordinates.x + 1) {
+            } else if ((boardMatrix[x][y] == GameManager.getInstance().getCurrentPlayer().getMarkerID()) && x <= coordinates.x + 1) {
                 return false;
             }
             y++;
@@ -400,18 +401,18 @@ public class GameGrid extends Observable{
 
         int y = coordinates.y + 1;
         for (int x = coordinates.x - 1; x >= 0 && y < getBoardSize(); x--) {
-            if (board[x][y] == 0) {
+            if (boardMatrix[x][y] == 0) {
                 return false;
             }
-            if ((board[x][y] == GameManager.getInstance().getCurrentPlayer()) && x < coordinates.x - 1) {
-                if(!GameManager.getInstance().getIsComputerPlayer()){
+            if ((boardMatrix[x][y] == GameManager.getInstance().getCurrentPlayer().getMarkerID()) && x < coordinates.x - 1) {
+                if(GameManager.getInstance().getCurrentPlayer() instanceof HumanPlayer){
                     for(int xx = x; xx != coordinates.x; xx++){
-                        setBoard(new Point(xx, y), GameManager.getInstance().getCurrentPlayer());
+                        setBoard(new Point(xx, y), GameManager.getInstance().getCurrentPlayer().getMarkerID());
                         y--;
                     }
                 }
                 return true;
-            } else if ((board[x][y] == GameManager.getInstance().getCurrentPlayer()) && x >= coordinates.x - 1) {
+            } else if ((boardMatrix[x][y] == GameManager.getInstance().getCurrentPlayer().getMarkerID()) && x >= coordinates.x - 1) {
                 return false;
             }
             y++;
@@ -435,19 +436,19 @@ public class GameGrid extends Observable{
 
         int y = coordinates.y - 1;
         for (int x = coordinates.x - 1; x >= 0 && y >= 0; x--) {
-            if (board[x][y] == 0) {
+            if (boardMatrix[x][y] == 0) {
 
                 return false;
             }
-            if ((board[x][y] == GameManager.getInstance().getCurrentPlayer()) && x < coordinates.x - 1) {
-                if(!GameManager.getInstance().getIsComputerPlayer()){
+            if ((boardMatrix[x][y] == GameManager.getInstance().getCurrentPlayer().getMarkerID()) && x < coordinates.x - 1) {
+                if(GameManager.getInstance().getCurrentPlayer() instanceof HumanPlayer){
                     for(int xx = x; xx != coordinates.x; xx++){
-                        setBoard(new Point(xx, y), GameManager.getInstance().getCurrentPlayer());
+                        setBoard(new Point(xx, y), GameManager.getInstance().getCurrentPlayer().getMarkerID());
                         y++;
                     }
                 }
                 return true;
-            } else if ((board[x][y] == GameManager.getInstance().getCurrentPlayer()) && x >= coordinates.x - 1) {
+            } else if ((boardMatrix[x][y] == GameManager.getInstance().getCurrentPlayer().getMarkerID()) && x >= coordinates.x - 1) {
 
                 return false;
             }
@@ -466,7 +467,7 @@ public class GameGrid extends Observable{
      * another players marker.
      */
     public boolean checkIfEmptySpot(Point coordinates) {
-        return ((board[coordinates.x][coordinates.y] == 0));
+        return ((boardMatrix[coordinates.x][coordinates.y] == 0));
     }
     
     /**

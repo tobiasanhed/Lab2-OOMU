@@ -2,6 +2,9 @@ package grupp2.model;
 
 import grupp2.controller.GameManager;
 import java.awt.Point;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * This is the class that contains the methods that handle the human players
@@ -11,8 +14,7 @@ import java.awt.Point;
 public class HumanPlayer implements IPlayer {
     private String name;
     private int markerID;
-    private final boolean isComputer = false;
-    
+
     public HumanPlayer(){
         
     }
@@ -21,12 +23,7 @@ public class HumanPlayer implements IPlayer {
         this.name = name;
         this.markerID = markerID;
     }
-    
-    @Override
-    public boolean getIsComputer(){
-        return isComputer;
-    }
-    
+
     @Override
     public void setName(String name){
         this.name = name;

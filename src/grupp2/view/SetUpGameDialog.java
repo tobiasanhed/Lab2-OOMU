@@ -33,86 +33,78 @@ import javafx.stage.StageStyle;
  * @author Thires
  */
 public class SetUpGameDialog {
-    private static IPlayer playerOne, playerTwo;
+    private IPlayer playerOne, playerTwo;
     private ArrayList<IPlayer> playerArray = new ArrayList();
-    
-    public ArrayList<IPlayer> getPlayers(){
-        Stage dialog = new Stage();
-        
+    private Button btn;
+    private GridPane gridpane;
+    private RadioButton playerOneCPU, playerOneHuman, playerTwoCPU, playerTwoHuman;
+    private TextField playerOneTf, playerTwoTf;
+    private Stage dialog;
+
+    public SetUpGameDialog(){
+        dialog = new Stage();
+
         final ToggleGroup playerOneGroup = new ToggleGroup();
         final ToggleGroup playerTwoGroup = new ToggleGroup();
-        
+
         dialog.initStyle(StageStyle.UTILITY);
-        
-        GridPane gridpane = new GridPane();
+
+        gridpane = new GridPane();
         Scene scene = new Scene(gridpane, 400, 270);
         gridpane.setPadding(new Insets(18));
         gridpane.setHgap(15);
         gridpane.setVgap(15);
-        
+
         Label playerName1 = new Label("Player one name:");
         playerName1.setStyle("-fx-font: 20px Tahoma; -fx-stroke: black; -fx-stroke-width:1;");
         gridpane.add(playerName1, 0, 1);
-        TextField playerOneTf = new TextField();
+        playerOneTf = new TextField();
         gridpane.add(playerOneTf, 0, 2);
-        
+
         Text instruction = new Text("Please choose type of player:");
         gridpane.add(instruction, 0, 3);
-        
-        RadioButton playerOneCPU = new RadioButton("Computer player");
-        RadioButton playerOneHuman = new RadioButton("Human player");
-        
+
+        playerOneCPU = new RadioButton("Computer player");
+        playerOneHuman = new RadioButton("Human player");
+
         playerOneCPU.setToggleGroup(playerOneGroup);
         playerOneCPU.setSelected(true);
         gridpane.add(playerOneCPU, 0, 4);
-        
+
         playerOneHuman.setToggleGroup(playerOneGroup);
         gridpane.add(playerOneHuman, 0, 5);
-        
+
         Label playerName2 = new Label("Player two name:");
         playerName2.setStyle("-fx-font: 20px Tahoma; -fx-stroke: black; -fx-stroke-width:1;");
         gridpane.add(playerName2, 1, 1);
-        TextField playerTwoTf = new TextField();
+        playerTwoTf = new TextField();
         gridpane.add(playerTwoTf, 1, 2);
-        
-        RadioButton playerTwoCPU = new RadioButton("Computer player");
-        RadioButton playerTwoHuman = new RadioButton("Human player");
-        
+
+        playerTwoCPU = new RadioButton("Computer player");
+        playerTwoHuman = new RadioButton("Human player");
+
         playerTwoCPU.setToggleGroup(playerTwoGroup);
         playerTwoCPU.setSelected(true);
         gridpane.add(playerTwoCPU, 1, 4);
-        
+
         playerTwoHuman.setToggleGroup(playerTwoGroup);
         gridpane.add(playerTwoHuman, 1, 5);
-        
-        Button btn = new Button("I'm ready!");
+
+        btn = new Button("I'm ready!");
         gridpane.add(btn, 0, 6);
-        
+
+        dialog.setScene(scene);
+        dialog.showAndWait();
+    }
+
+    public ArrayList<IPlayer> getPlayers(){
+
         btn.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
-                            if (playerOneCPU.isSelected()) {
-                                playerOne = new ComputerPlayer((playerOneTf.getText()), 1);
-                                
-                                addToArray(playerOne);
-                            } else if (playerOneHuman.isSelected()) {
-                                playerOne = new HumanPlayer((playerTwoTf.getText()),1);
-                                addToArray(playerOne);
-                            }
-                            if (playerTwoCPU.isSelected()) {
-                                playerTwo = new ComputerPlayer((playerTwoTf.getText()),2);
-                                
-                                addToArray(playerTwo);
-                            } else if (playerTwoHuman.isSelected()) {
-                                playerTwo = new HumanPlayer((playerTwoTf.getText()),2);
-                                
-                                addToArray(playerTwo);    
-                                
-                            }
+                            addPlayer();
                             dialog.close();
                         }
-                        
-
                     });
         
         gridpane.setOnKeyPressed(new EventHandler<KeyEvent>(){
@@ -120,50 +112,36 @@ public class SetUpGameDialog {
             @Override
             public void handle(KeyEvent event) {
                 if(event.getCode() == KeyCode.ENTER){
-                
-                    if (playerOneCPU.isSelected()) {
-                        playerOne = new ComputerPlayer((playerOneTf.getText()), 1);
-
-                        addToArray(playerOne);
-                    } else if (playerOneHuman.isSelected()) {
-                        playerOne = new HumanPlayer((playerOneTf.getText()),1);
-                        addToArray(playerOne);
-                    }
-                    if (playerTwoCPU.isSelected()) {
-                        playerTwo = new ComputerPlayer((playerTwoTf.getText()),2);
-
-                        addToArray(playerTwo);
-                    } else if (playerTwoHuman.isSelected()) {
-                        playerTwo = new HumanPlayer((playerTwoTf.getText()),2);
-
-                        addToArray(playerTwo);    
-
-                    }
+                    addPlayer();
                     dialog.close();
-                
                 }
             }
-            
         });
-        
-        
-        dialog.setScene(scene);
-        dialog.showAndWait();
 
-        
         return playerArray;
-        
     }
     /**
      * A Custom made method for adding the players entered into the array
      * that is returned to the gamemanager. We made this to make sure the
      * players where correctly entered into the arrayList.
-     * @param player the player that is going to be added at the current
-     * last position of the arrayList.
      */
-    private void addToArray(IPlayer player){
-        this.playerArray.add(player);
+    private void addPlayer(){
+        if (playerOneCPU.isSelected()) {
+            playerOne = new ComputerPlayer((playerOneTf.getText()), 1);
+
+            this.playerArray.add(playerOne);
+        } else if (playerOneHuman.isSelected()) {
+            playerOne = new HumanPlayer((playerOneTf.getText()),1);
+            this.playerArray.add(playerOne);
+        }
+        if (playerTwoCPU.isSelected()) {
+            playerTwo = new ComputerPlayer((playerTwoTf.getText()),2);
+
+            this.playerArray.add(playerTwo);
+        } else if (playerTwoHuman.isSelected()) {
+            playerTwo = new HumanPlayer((playerTwoTf.getText()),2);
+
+            this.playerArray.add(playerTwo);
+        }
     }
-    
-    
 }

@@ -8,6 +8,8 @@ package grupp2.view;
 import grupp2.controller.GameManager;
 import grupp2.model.GameGrid;
 import java.awt.Point;
+
+import grupp2.model.HumanPlayer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -27,8 +29,8 @@ import javafx.scene.shape.Circle;
  */
 public class GameBoard{
     private GridPane board;
-    private int [][] currentBoard = GameManager.getInstance().getBoard();
-    private Button[][] btn = new Button[GameGrid.getBoardSize()][GameGrid.getBoardSize()];
+    private int [][] currentBoard;
+    private Button[][] btn;
 
 /**
  * This is the method that initializes the GUI and puts the starting pieces onto the board.
@@ -38,42 +40,41 @@ public class GameBoard{
         board.setAlignment(Pos.CENTER);
         board.setStyle("-fx-background-color: green");
         board.setGridLinesVisible(true);
+        currentBoard = GameManager.getInstance().getBoard();
+        btn = new Button[GameGrid.getBoardSize()][GameGrid.getBoardSize()];
 
 
         for (int i = 0; i < btn.length; i++) {
             for (int j = 0; j < btn.length; j++) {
                 if (currentBoard[i][j] == 2) {
-                    writeWhiteMarker(i,j);
+                    writeMarker(i,j, Color.WHITE);
                 } else if (currentBoard[i][j] == 1) {
-                    writeBlackMarker(i,j);
+                    writeMarker(i,j, Color.BLACK);
                 } else {
                     btn[i][j] = new Button("");
                     btn[i][j].setOpacity(100);
                     btn[i][j].setStyle("-fx-color: green");
                     btn[i][j].setPrefSize(50, 50);
                     Point draw = new Point(j, i);
+
                     btn[i][j].setOnKeyPressed(new EventHandler<KeyEvent>(){
-                        
                         @Override
                         public void handle(KeyEvent event) {
                             Button temp = (Button)event.getSource();
-                            if(event.getCode() == KeyCode.ENTER && temp.isFocused() && !GameManager.getInstance().getIsComputerPlayer())
+                            if(event.getCode() == KeyCode.ENTER && temp.isFocused() && GameManager.getInstance().getCurrentPlayer() instanceof HumanPlayer)
                                 GameManager.getInstance().setCoord(draw);
-                                
                         }
-                        
                     });
+
                     btn[i][j].setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event){
-                            if(!GameManager.getInstance().getIsComputerPlayer())
+                            if(GameManager.getInstance().getCurrentPlayer() instanceof HumanPlayer)
                                 GameManager.getInstance().setCoord(draw);
                         }
-
                     });
                     board.add(btn[i][j], j, i);
                 }
-
             }
         }
     }
@@ -87,9 +88,9 @@ public class GameBoard{
         for (int i = 0; i < btn.length; i++) {
             for (int j = 0; j < btn.length; j++) {
                 if (currentBoard[i][j] == 2) {
-                    writeWhiteMarker(i,j);
+                    writeMarker(i,j, Color.WHITE);
                 } else if (currentBoard[i][j] == 1) {
-                    writeBlackMarker(i,j);
+                    writeMarker(i,j, Color.BLACK);
                 } else {
                     btn[i][j] = new Button("");
                     btn[i][j].setOpacity(0);
@@ -122,27 +123,12 @@ public class GameBoard{
      * @param i x coordinate of the board.
      * @param j y coordinate of the board.
      */
-    public void writeBlackMarker(int i, int j){
+    public void writeMarker(int i, int j, Color color){
                     Circle blackMarker = new Circle(20);
                     StackPane circlepane = new StackPane();
-                    blackMarker.setFill(Color.BLACK);
+                    blackMarker.setFill(color);
                     circlepane.getChildren().add(blackMarker);
                     circlepane.setAlignment(Pos.CENTER);
                     board.add(circlepane, i, j);
     }
-      /**
-     * This method draws a white marker in the cell of the board where the black
-     * player has made their move.
-     * @param i x coordinate of the board.
-     * @param j y coordinate of the board.
-     */
-    public void writeWhiteMarker(int i, int j){
-                    Circle whiteMarker = new Circle(20);
-                    StackPane circlepane = new StackPane();
-                    whiteMarker.setFill(Color.WHITE);
-                    circlepane.getChildren().add(whiteMarker);
-                    circlepane.setAlignment(Pos.CENTER);
-                    board.add(circlepane, i, j);
-    }
-
 }

@@ -14,7 +14,6 @@ import java.util.Random;
 public class ComputerPlayer implements IPlayer {
     private String name;
     private int markerID;
-    private final boolean isComputer = true;
 
     public ComputerPlayer(){
         
@@ -30,11 +29,6 @@ public class ComputerPlayer implements IPlayer {
     public ComputerPlayer(String name, int markerID){
         this.name = name;
         this.markerID = markerID;
-    }
-    
-    @Override
-    public boolean getIsComputer(){
-        return isComputer;
     }
     
     @Override
