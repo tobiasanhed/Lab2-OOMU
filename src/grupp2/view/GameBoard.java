@@ -123,7 +123,7 @@ public class GameBoard{
      * @param i x coordinate of the board.
      * @param j y coordinate of the board.
      */
-    public void writeMarker(int i, int j, Color color){
+    private void writeMarker(int i, int j, Color color){
                     Circle blackMarker = new Circle(20);
                     StackPane circlepane = new StackPane();
                     blackMarker.setFill(color);

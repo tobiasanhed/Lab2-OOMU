@@ -9,6 +9,8 @@ import grupp2.model.ComputerPlayer;
 import grupp2.model.HumanPlayer;
 import grupp2.model.IPlayer;
 import java.util.ArrayList;
+
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -40,6 +42,7 @@ public class SetUpGameDialog {
     private RadioButton playerOneCPU, playerOneHuman, playerTwoCPU, playerTwoHuman;
     private TextField playerOneTf, playerTwoTf;
     private Stage dialog;
+    private Scene scene;
 
     public SetUpGameDialog(){
         dialog = new Stage();
@@ -50,7 +53,7 @@ public class SetUpGameDialog {
         dialog.initStyle(StageStyle.UTILITY);
 
         gridpane = new GridPane();
-        Scene scene = new Scene(gridpane, 400, 270);
+        scene = new Scene(gridpane, 400, 270);
         gridpane.setPadding(new Insets(18));
         gridpane.setHgap(15);
         gridpane.setVgap(15);
@@ -93,20 +96,29 @@ public class SetUpGameDialog {
         btn = new Button("I'm ready!");
         gridpane.add(btn, 0, 6);
 
-        dialog.setScene(scene);
-        dialog.showAndWait();
+        setUpHandlers();
     }
 
+    public void showDialog(){
+        dialog.setScene(scene);
+        dialog.showAndWait();
+
+    }
     public ArrayList<IPlayer> getPlayers(){
 
+        return playerArray;
+    }
+
+    private void setUpHandlers(){
+
         btn.setOnAction(new EventHandler<ActionEvent>() {
-                        @Override
-                        public void handle(ActionEvent event) {
-                            addPlayer();
-                            dialog.close();
-                        }
-                    });
-        
+            @Override
+            public void handle(ActionEvent event) {
+                addPlayer();
+                dialog.close();
+            }
+        });
+
         gridpane.setOnKeyPressed(new EventHandler<KeyEvent>(){
 
             @Override
@@ -117,8 +129,6 @@ public class SetUpGameDialog {
                 }
             }
         });
-
-        return playerArray;
     }
     /**
      * A Custom made method for adding the players entered into the array
@@ -128,7 +138,6 @@ public class SetUpGameDialog {
     private void addPlayer(){
         if (playerOneCPU.isSelected()) {
             playerOne = new ComputerPlayer((playerOneTf.getText()), 1);
-
             this.playerArray.add(playerOne);
         } else if (playerOneHuman.isSelected()) {
             playerOne = new HumanPlayer((playerOneTf.getText()),1);
@@ -136,7 +145,6 @@ public class SetUpGameDialog {
         }
         if (playerTwoCPU.isSelected()) {
             playerTwo = new ComputerPlayer((playerTwoTf.getText()),2);
-
             this.playerArray.add(playerTwo);
         } else if (playerTwoHuman.isSelected()) {
             playerTwo = new HumanPlayer((playerTwoTf.getText()),2);

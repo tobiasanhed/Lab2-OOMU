@@ -35,7 +35,6 @@ public class GameFrame extends Stage{
     private Button newGame = new Button("Nytt parti");
     private Button endGame = new Button("Avsluta");
     private GameBoard graphicBoard = new GameBoard();
-    private Stage primaryStage;
     private Label resultLabel = new Label();
     private int[] results;
     private ArrayList<IPlayer> players;
@@ -43,17 +42,20 @@ public class GameFrame extends Stage{
     private static final GameFrame INSTANCE = new GameFrame();
 
     private GameFrame(){
-        BorderPane root = new BorderPane();
-        
-        root.setCenter(graphicBoard.getGameBoardPane());
-        root.setTop(initializeTop());
-        
-        Scene scene = new Scene(root, 500, 500);
-        setScene(scene);
     }
 
     public static GameFrame getInstance(){
         return INSTANCE;
+    }
+
+    public void drawFrame(){
+        BorderPane root = new BorderPane();
+
+        root.setCenter(graphicBoard.getGameBoardPane());
+        root.setTop(initializeTop());
+
+        Scene scene = new Scene(root, 500, 500);
+        setScene(scene);
     }
     /**
      * This function sets up the top of the GUI, it consists of buttons, a resultlabel and the menu. 
@@ -177,16 +179,14 @@ public class GameFrame extends Stage{
      * This function enables the controller of the game to hide the game window.
      */
     public void hideGameWindow(){
-        primaryStage.hide();
+        hide();
     }
     
     /**
      * This function enables the controller of the game to show the hidden game window.
      */
     public void showGameWindow(){
-        primaryStage.show();
+        show();
     }
-    
-    
 }
     

@@ -24,7 +24,7 @@ public class Othello extends Application {
     public void start(Stage primaryStage) {
         Thread game = new Thread(GameManager.getInstance());
         game.start();
-        new GameFrame();
+        GameFrame.getInstance().drawFrame();
     }
 
     /**

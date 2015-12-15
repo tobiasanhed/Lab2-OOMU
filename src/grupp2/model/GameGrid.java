@@ -15,8 +15,7 @@ public class GameGrid extends Observable{
     private static final int whitePlayer = 2;
     private static final int blackPlayer = 1;
     private int[][] boardMatrix = new int[boardSize][boardSize];
-    
-
+    private boolean flippingTime = false;
 
     /**
      * The getBoard method is a accessor function
@@ -32,13 +31,17 @@ public class GameGrid extends Observable{
      * the users makes a valid draw.
      * @param coordinates is the parameter which is a Point with an x and a y value 
      * that represents where the draw was made.
-     * @param marker is the value representing which player who made the move. 
-     * The values needs to be distinct in order to identify the different players.
      */
-    public void setBoard(Point coordinates, int marker) {
-        boardMatrix[coordinates.x][coordinates.y] = marker;
-
+    public void updateBoard(Point coordinates) {
+        flippingTime = true;
+        isPossibleMove(coordinates);
+        flipMarker(coordinates);
+        flippingTime = false;
         GameManager.getInstance().setBoardNotifier(boardMatrix);
+    }
+
+    private void flipMarker(Point coordinates){
+        boardMatrix[coordinates.x][coordinates.y] = GameManager.getInstance().getCurrentPlayer().getMarkerID();
     }
 
     /**
@@ -74,6 +77,7 @@ public class GameGrid extends Observable{
         boardMatrix[3][3] = blackPlayer;
         boardMatrix[4][4] = blackPlayer;
 
+        GameManager.getInstance().setBoardNotifier(boardMatrix);
     }
     
     /**
@@ -127,21 +131,21 @@ public class GameGrid extends Observable{
         boolean v1 = false, v2 = false, v3 = false, v4 = false, v5 = false,
                 v6 = false, v7 = false, v8 = false;
         if (checkIfInsideBoard(coordinates) && checkIfEmptySpot(coordinates)) {
-            v1 = checkRight(coordinates);
+            v1 = (checkDirection(coordinates, new Point(0, 1)));
             //GameManager.printBoard(this);
-            v2 = checkLeft(coordinates);
+            v2 = (checkDirection(coordinates, new Point(1, 0)));
             //GameManager.printBoard(this);
-            v3 = checkUp(coordinates);
+            v3 = (checkDirection(coordinates, new Point(0, -1)));
             //GameManager.printBoard(this);
-            v4 = checkDown(coordinates);
+            v4 = (checkDirection(coordinates, new Point(-1, 0)));
             //GameManager.printBoard(this);
-            v5 = checkDiagonallyRightUp(coordinates);
+            v5 = (checkDirection(coordinates, new Point(1, 1)));
             //GameManager.printBoard(this);
-            v6 = checkDiagonallyRightDown(coordinates);
+            v6 = (checkDirection(coordinates, new Point(1, -1)));
             //GameManager.printBoard(this);
-            v7 = checkDiagonallyLeftUp(coordinates);
+            v7 = (checkDirection(coordinates, new Point(-1, -1)));
             //GameManager.printBoard(this);
-            v8 = checkDiagonallyLeftDown(coordinates);
+            v8 = (checkDirection(coordinates, new Point(-1, 1)));
             //GameManager.printBoard(this);
 
         }
@@ -193,6 +197,37 @@ public class GameGrid extends Observable{
         return possibleDraws;
     }
 
+    private boolean checkDirection(Point coordinates, Point dir){
+        int x = coordinates.x + dir.x;
+        int y = coordinates.y + dir.y;
+        int steps = 0;
+
+        while(true){
+            if (!checkIfInsideBoard(new Point(x, y))) return false;
+            if (checkIfEmptySpot(new Point(x, y))) return false;
+
+            if ((boardMatrix[x][y] == GameManager.getInstance().getCurrentPlayer().getMarkerID()) && steps >= 1) {
+
+                if(flippingTime){
+                    while(steps != 0){
+                        x -= dir.x;
+                        y -= dir.y;
+                        flipMarker(new Point(x, y));
+                        steps--;
+                    }
+                }
+                return true;
+            }else if ((boardMatrix[x][y] == GameManager.getInstance().getCurrentPlayer().getMarkerID()) && steps < 1){
+                return false;
+            }
+
+            steps++;
+            x += dir.x;
+            y += dir.y;
+        }
+    }
+
+
     /**
      * checkRight method checks from the position given to the right to investigate if
      * the move made is a valid move. 
@@ -203,7 +238,7 @@ public class GameGrid extends Observable{
      * marker must have at least another marker inbetween. All
      * the other cases will result in a illegal move and this function will then 
      * return false as it's result.
-     */
+     *//*
     private boolean checkRight(Point coordinates) {
         //Kolla höger
 
@@ -212,7 +247,7 @@ public class GameGrid extends Observable{
                 return false;
             }
             if ((boardMatrix[i][coordinates.y] == GameManager.getInstance().getCurrentPlayer().getMarkerID()) && i > coordinates.x + 1) {
-                if(GameManager.getInstance().getCurrentPlayer() instanceof HumanPlayer){
+                if(GameManager.getInstance().getCurrentPlayer() instanceof ComputerPlayer){
                     for(int ii = i; ii != coordinates.x; ii--)
                         setBoard(new Point(ii, coordinates.y), GameManager.getInstance().getCurrentPlayer().getMarkerID());
                 }
@@ -234,7 +269,7 @@ public class GameGrid extends Observable{
      * marker must have at least another marker inbetween. All
      * the other cases will result in a illegal move and this function will then 
      * return false as it's result.
-     */
+     *//*
     private boolean checkLeft(Point coordinates) {
 
         for (int i = coordinates.x - 1; i >= 0; i--) {
@@ -265,7 +300,7 @@ public class GameGrid extends Observable{
      * marker must have at least another marker inbetween. All
      * the other cases will result in a illegal move and this function will then 
      * return false as it's result.
-     */
+     *//*
     private boolean checkDown(Point coordinates) {
 
         for (int i = coordinates.y + 1; i < getBoardSize(); i++) {
@@ -295,7 +330,7 @@ public class GameGrid extends Observable{
      * marker must have at least another marker inbetween. All
      * the other cases will result in a illegal move and this function will then 
      * return false as it's result.
-     */
+     *//*
     private boolean checkUp(Point coordinates) {
 
         for (int i = coordinates.y - 1; i >= 0; i--) {
@@ -325,7 +360,7 @@ public class GameGrid extends Observable{
      * marker must have at least another marker inbetween. All
      * the other cases will result in a illegal move and this function will then 
      * return false as it's result.
-     */
+     *//*
     private boolean checkDiagonallyRightUp(Point coordinates) {
 
         int y = coordinates.y - 1;
@@ -361,7 +396,7 @@ public class GameGrid extends Observable{
      * marker must have at least another marker inbetween. All
      * the other cases will result in a illegal move and this function will then 
      * return false as it's result.
-     */
+     *//*
     private boolean checkDiagonallyRightDown(Point coordinates) {
 
         int y = coordinates.y + 1;
@@ -396,7 +431,7 @@ public class GameGrid extends Observable{
      * marker must have at least another marker inbetween. All
      * the other cases will result in a illegal move and this function will then 
      * return false as it's result.
-     */
+     *//*
     private boolean checkDiagonallyLeftDown(Point coordinates) {
 
         int y = coordinates.y + 1;
@@ -431,7 +466,7 @@ public class GameGrid extends Observable{
      * marker must have at least another marker inbetween. All
      * the other cases will result in a illegal move and this function will then 
      * return false as it's result.
-     */
+     *//*
     private boolean checkDiagonallyLeftUp(Point coordinates) {
 
         int y = coordinates.y - 1;
@@ -456,7 +491,7 @@ public class GameGrid extends Observable{
         }
 
         return false;
-    }
+    }*/
 
     /**
      * checkIfEmptySpot method checks if the coordinates given represent a empty
@@ -467,6 +502,7 @@ public class GameGrid extends Observable{
      * another players marker.
      */
     public boolean checkIfEmptySpot(Point coordinates) {
+        if (!checkIfInsideBoard(coordinates)) return false;
         return ((boardMatrix[coordinates.x][coordinates.y] == 0));
     }
     

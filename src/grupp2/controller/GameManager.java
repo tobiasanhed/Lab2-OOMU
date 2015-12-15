@@ -28,16 +28,16 @@ public class GameManager implements Runnable {
     private int currentPlayer = 1;
     private GameGrid board = new GameGrid();
     private Point draw = new Point();
-    //private final Object coordO = new Object();
-    //private final Object boardO = new Object();
+    private final Object coordO = new Object();
+    private final Object boardO = new Object();
     private int notAvailableDraws = 0;
     private IPlayer player1;
     private IPlayer player2;
 
-    private final Lock drawLock = new ReentrantLock();
+    /*private final Lock drawLock = new ReentrantLock();
     private final Condition coordO = drawLock.newCondition();
     private final Lock boardLock = new ReentrantLock();
-    private final Condition boardO = boardLock.newCondition();
+    private final Condition boardO = boardLock.newCondition();*/
     
     private static final GameManager INSTANCE = new GameManager();
     
@@ -53,60 +53,57 @@ public class GameManager implements Runnable {
      */
     public void startGame(){
         int[] results;
-        
+        board.initializeBoard();
 
         final Lock lock = new ReentrantLock();
         final Condition condition = lock.newCondition();
+
         lock.lock();
         try {
             Platform.runLater(new Runnable() {
-
                 @Override
                 public void run() {
                     lock.lock();
-                    GameFrame.getInstance().hideGameWindow();
                     SetUpGameDialog newGame = new SetUpGameDialog();
+
+                    GameFrame.getInstance().hideGameWindow();
+                    newGame.showDialog();
+
                     ArrayList<IPlayer> players = newGame.getPlayers();
                     player1 = players.get(0);
                     player2 = players.get(1);
+
                     GameFrame.getInstance().showGameWindow();
                     try {
-                         condition.signal();
-                    } finally {
+                        condition.signal();
+                    }finally {
                         lock.unlock();
                     }
-
                 }
             });
-
-
-        try {
-            condition.await();
-        } catch (InterruptedException ex) {
-            Logger.getLogger(GameManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        }finally {
+            try {
+                condition.await();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        } finally {
             lock.unlock();
         }
-       
-        
-        
-        board.initializeBoard();
-        GameFrame.getInstance().updateBoard();
-        
-        while(true){
 
+        GameFrame.getInstance().updateBoard();
+
+        while(true){
             // If none of the players where able to make a draw we will break this loop and the game will finish.
             if(notAvailableDraws > 1)
                 break;
-            
+
             while (true) {
                 if(board.isGameOver()){
                     notAvailableDraws++; // This player was not able to make a draw and the turn goes to the other player.
                     break;
                 }
                 draw = getCurrentPlayer().getDraw();
-                
+
                 notAvailableDraws = 0; // When a player makes a move we reset this variable.
                 if(getCurrentPlayer() instanceof ComputerPlayer){ // If it's the computer that plays we want to make the illusion that it thinks.
                     try {
@@ -117,7 +114,7 @@ public class GameManager implements Runnable {
                 }
 
                 if(board.isPossibleMove(draw)){
-                    board.setBoard(draw, currentPlayer);
+                    board.updateBoard(draw);
                     GameFrame.getInstance().updateBoard();
                     break;
                 }else{
@@ -182,7 +179,7 @@ public class GameManager implements Runnable {
     public void setCoord(Point draw){
         synchronized(coordO){
             this.draw = draw;
-            coordO.signal();
+            coordO.notify();
         }
     }
     
@@ -194,7 +191,7 @@ public class GameManager implements Runnable {
     public Point getCoord(){
         synchronized(coordO){
             try {
-                coordO.await();
+                coordO.wait();
             } catch (InterruptedException ex) {
                 Logger.getLogger(GameManager.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -210,7 +207,7 @@ public class GameManager implements Runnable {
     public void setBoardNotifier(int[][] boardMatrix){
         synchronized(boardO){
             this.board.setWholeBoard(boardMatrix);
-            boardO.signal();
+            //boardO.notify();
         }
     }
     
@@ -220,11 +217,7 @@ public class GameManager implements Runnable {
      */
     public int[][] getBoardNotifier(){
         synchronized(boardO){
-            try {
-                boardO.await();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+
             return board.getBoard();
         }
     }
