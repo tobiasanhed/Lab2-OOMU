@@ -71,18 +71,20 @@ public class GameBoard{
                         @Override
                         public void handle(KeyEvent event) {
                             Button temp = (Button)event.getSource();
-                            if(event.getCode() == KeyCode.ENTER && temp.isFocused() && GameManager.getInstance().getCurrentPlayer() instanceof HumanPlayer)
+                            if(event.getCode() == KeyCode.ENTER && temp.isFocused() && GameManager.getInstance().getCurrentPlayer() instanceof HumanPlayer) {
                                 currentDraw = draw;
                                 notifyObserver();
+                            }
                         }
                     });
 
                     btn[i][j].setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event){
-                            if(GameManager.getInstance().getCurrentPlayer() instanceof HumanPlayer)
+                            if(GameManager.getInstance().getCurrentPlayer() instanceof HumanPlayer) {
                                 currentDraw = draw;
                                 notifyObserver();
+                            }
                         }
                     });
                     board.add(btn[i][j], j, i);
