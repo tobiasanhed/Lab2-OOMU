@@ -175,19 +175,19 @@ public class GameManager implements Runnable {
      * This function is called by the GUI and notifies the getCoord function whichs is called
      * by the humanplayer. It makes it possible to get a draw from the GUI to the logic of the game.
      * @param draw The coordinates of the draw.
-     */
+     *//*
     public void setCoord(Point draw){
         synchronized(coordO){
             this.draw = draw;
             coordO.notify();
         }
-    }
+    }*/
     
     /**
      * This function waits for the setCoord which is called when a draw is made on the GUI and then returns
      * the coordinates to the logic of the game.
      * @return The coordinates of the draw.
-     */
+     *//*
     public Point getCoord(){
         synchronized(coordO){
             try {
@@ -197,7 +197,7 @@ public class GameManager implements Runnable {
             }
             return draw;
         }
-    }
+    }*/
     
     /**
      * This method is called from the logic of the game when the board-matrix has been updated and

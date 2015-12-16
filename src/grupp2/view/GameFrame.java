@@ -34,7 +34,6 @@ import javafx.stage.Stage;
 public class GameFrame extends Stage{
     private Button newGame = new Button("Nytt parti");
     private Button endGame = new Button("Avsluta");
-    private GameBoard graphicBoard = new GameBoard();
     private Label resultLabel = new Label();
     private int[] results;
     private ArrayList<IPlayer> players;
@@ -51,7 +50,7 @@ public class GameFrame extends Stage{
     public void drawFrame(){
         BorderPane root = new BorderPane();
 
-        root.setCenter(graphicBoard.getGameBoardPane());
+        root.setCenter(GameBoard.getInstance().getGameBoardPane());
         root.setTop(initializeTop());
 
         Scene scene = new Scene(root, 500, 500);
@@ -84,7 +83,7 @@ public class GameFrame extends Stage{
                 
 
                //primaryStage.close();
-               graphicBoard.getGameBoardPane().getChildren().removeAll(graphicBoard.getGameBoardPane());
+               GameBoard.getInstance().getGameBoardPane().getChildren().removeAll(GameBoard.getInstance().getGameBoardPane());
                
                Thread newThread = new Thread(GameManager.getInstance());
                newThread.start();
@@ -120,7 +119,7 @@ public class GameFrame extends Stage{
             @Override
             public void handle(ActionEvent event) {
                //primaryStage.close();
-               graphicBoard.getGameBoardPane().getChildren().removeAll(graphicBoard.getGameBoardPane());
+               GameBoard.getInstance().getGameBoardPane().getChildren().removeAll(GameBoard.getInstance().getGameBoardPane());
                
                Thread newThread = new Thread(GameManager.getInstance());
                newThread.start();
@@ -170,7 +169,7 @@ public class GameFrame extends Stage{
                     Logger.getLogger(GameFrame.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 resultLabel.setText(players.get(0).getName() + ": " + results[0] + "\n" + players.get(1).getName() + ": " + results[1]);
-                graphicBoard.drawGraphicBoard();
+                GameBoard.getInstance().drawGraphicBoard();
             }
         });
     }

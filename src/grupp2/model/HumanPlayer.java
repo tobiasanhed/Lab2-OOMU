@@ -1,7 +1,11 @@
 package grupp2.model;
 
 import grupp2.controller.GameManager;
+import grupp2.view.GameBoard;
+
 import java.awt.Point;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -14,7 +18,8 @@ import java.util.concurrent.locks.ReentrantLock;
 public class HumanPlayer implements IPlayer {
     private String name;
     private int markerID;
-
+    private Point draw;
+    private boolean waitForUpdate;
     public HumanPlayer(){
         
     }
@@ -46,8 +51,21 @@ public class HumanPlayer implements IPlayer {
     
     @Override
     public Point getDraw(){
-        
-        return GameManager.getInstance().getCoord();
+        waitForUpdate = true;
+        GameBoard.getInstance().attach(this);
+        while(waitForUpdate){
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        return draw;
     }
 
+
+    public void update() {
+        this.draw = GameBoard.getInstance().getState();
+        waitForUpdate = false;
+    }
 }

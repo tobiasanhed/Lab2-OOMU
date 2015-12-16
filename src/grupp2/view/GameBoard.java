@@ -8,8 +8,12 @@ package grupp2.view;
 import grupp2.controller.GameManager;
 import grupp2.model.GameGrid;
 import java.awt.Point;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Observer;
 
 import grupp2.model.HumanPlayer;
+import grupp2.model.IPlayer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -28,21 +32,27 @@ import javafx.scene.shape.Circle;
  * @author Thires
  */
 public class GameBoard{
+    private HumanPlayer currentObserver;
     private GridPane board;
     private int [][] currentBoard;
     private Button[][] btn;
+    private Point currentDraw;
 
-/**
+
+    private static final GameBoard INSTANCE = new GameBoard();
+
+
+
+    /**
  * This is the method that initializes the GUI and puts the starting pieces onto the board.
  */
-    public GameBoard(){
+    private GameBoard(){
         board = new GridPane();
         board.setAlignment(Pos.CENTER);
         board.setStyle("-fx-background-color: green");
         board.setGridLinesVisible(true);
         currentBoard = GameManager.getInstance().getBoard();
         btn = new Button[GameGrid.getBoardSize()][GameGrid.getBoardSize()];
-
 
         for (int i = 0; i < btn.length; i++) {
             for (int j = 0; j < btn.length; j++) {
@@ -62,7 +72,8 @@ public class GameBoard{
                         public void handle(KeyEvent event) {
                             Button temp = (Button)event.getSource();
                             if(event.getCode() == KeyCode.ENTER && temp.isFocused() && GameManager.getInstance().getCurrentPlayer() instanceof HumanPlayer)
-                                GameManager.getInstance().setCoord(draw);
+                                currentDraw = draw;
+                                notifyObserver();
                         }
                     });
 
@@ -70,13 +81,28 @@ public class GameBoard{
                         @Override
                         public void handle(ActionEvent event){
                             if(GameManager.getInstance().getCurrentPlayer() instanceof HumanPlayer)
-                                GameManager.getInstance().setCoord(draw);
+                                currentDraw = draw;
+                                notifyObserver();
                         }
                     });
                     board.add(btn[i][j], j, i);
                 }
             }
         }
+    }
+
+    private void notifyObserver(){
+        currentObserver.update();
+    }
+    public Point getState(){
+        return currentDraw;
+    }
+    public static GameBoard getInstance(){
+        return INSTANCE;
+    }
+
+    public void attach(HumanPlayer observer){
+        currentObserver = observer;
     }
     /**
      * The drawGraphicBoard method is used after the game board has been updated
@@ -99,8 +125,8 @@ public class GameBoard{
                     btn[i][j].setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
-                            
-                            GameManager.getInstance().setCoord(draw);
+                            currentDraw = draw;
+                            notifyObserver();
                         }
 
                     });
