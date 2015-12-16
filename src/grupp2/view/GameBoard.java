@@ -14,6 +14,7 @@ import java.util.Observer;
 
 import grupp2.model.HumanPlayer;
 import grupp2.model.IPlayer;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -52,7 +53,7 @@ public class GameBoard{
         board.setStyle("-fx-background-color: green");
         board.setGridLinesVisible(true);
         currentBoard = GameManager.getInstance().getBoard();
-        btn = new Button[GameGrid.getBoardSize()][GameGrid.getBoardSize()];
+        btn = new Button[GameGrid.getInstance().getBoardSize()][GameGrid.getInstance().getBoardSize()];
 
         for (int i = 0; i < btn.length; i++) {
             for (int j = 0; j < btn.length; j++) {
@@ -93,6 +94,16 @@ public class GameBoard{
         }
     }
 
+    public void update(){
+        currentBoard = GameGrid.getInstance().getBoard();
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                drawGraphicBoard();
+            }
+        });
+    }
+
     private void notifyObserver(){
         currentObserver.update();
     }
@@ -111,7 +122,7 @@ public class GameBoard{
      * to display changes made to the state of the game board.
      */
     public void drawGraphicBoard(){
-        currentBoard = GameManager.getInstance().getBoardNotifier();
+        //currentBoard = GameManager.getInstance().getBoardNotifier();
         
         for (int i = 0; i < btn.length; i++) {
             for (int j = 0; j < btn.length; j++) {
@@ -134,7 +145,6 @@ public class GameBoard{
                     });
                     board.add(btn[i][j], j, i);
                 }
-
             }
         }
     }

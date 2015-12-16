@@ -80,26 +80,45 @@ public class GameFrame extends Stage{
         newGame.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent event) {
-                
-
-               //primaryStage.close();
-               GameBoard.getInstance().getGameBoardPane().getChildren().removeAll(GameBoard.getInstance().getGameBoardPane());
-               
-               Thread newThread = new Thread(GameManager.getInstance());
-               newThread.start();
+                //primaryStage.close();
+                // GameBoard.getInstance().getGameBoardPane().getChildren().removeAll(GameBoard.getInstance().getGameBoardPane());
+                startNewGame();
 
             }
         });
         endGame.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent event) {
-                System.exit(1);
+                exitGame();
             }
-            
+
         });
         return top;
-    } 
-    
+    }
+
+    private void initializeExitButton(Button exit){
+        exit.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent event) {
+                System.exit(1);
+            }
+
+        });
+    }
+
+    private void exitGame(){
+        System.exit(1);
+    }
+
+    private void startNewGame(){
+        Thread newThread = new Thread(GameManager.getInstance());
+        newThread.start();
+
+        Thread[] threads = new Thread[Thread.activeCount()];
+        Thread.enumerate(threads);
+        for(Thread i: threads)
+            i.interrupt();
+    }
     /**
      * This function creates the menu of the GUI.
      * @return a menubar representing the menu of the GUI
@@ -118,18 +137,14 @@ public class GameFrame extends Stage{
         newGameMenuItem.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent event) {
-               //primaryStage.close();
-               GameBoard.getInstance().getGameBoardPane().getChildren().removeAll(GameBoard.getInstance().getGameBoardPane());
-               
-               Thread newThread = new Thread(GameManager.getInstance());
-               newThread.start();
+               startNewGame();
             }
-            
+
         });
         exitMenuItem.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                System.exit(1);
+                exitGame();
             }
         });
         aboutGameMenuItem.setOnAction(new EventHandler<ActionEvent>(){
@@ -155,7 +170,7 @@ public class GameFrame extends Stage{
  * The updateBoard method is used to update the GUI after one of the players has
  * played their turn.
  */
-    public void updateBoard(){
+    public void updateResults(){
         results = GameManager.getInstance().getResult();
         players = GameManager.getInstance().getPlayers();
 
@@ -169,7 +184,7 @@ public class GameFrame extends Stage{
                     Logger.getLogger(GameFrame.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 resultLabel.setText(players.get(0).getName() + ": " + results[0] + "\n" + players.get(1).getName() + ": " + results[1]);
-                GameBoard.getInstance().drawGraphicBoard();
+                //GameBoard.getInstance().drawGraphicBoard();
             }
         });
     }

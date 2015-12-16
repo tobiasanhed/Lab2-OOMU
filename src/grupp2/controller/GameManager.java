@@ -26,10 +26,9 @@ import javafx.application.Platform;
  */
 public class GameManager implements Runnable {
     private int currentPlayer = 1;
-    private GameGrid board = new GameGrid();
     private Point draw = new Point();
-    private final Object coordO = new Object();
-    private final Object boardO = new Object();
+    //private final Object coordO = new Object();
+    //private final Object boardO = new Object();
     private int notAvailableDraws = 0;
     private IPlayer player1;
     private IPlayer player2;
@@ -53,7 +52,7 @@ public class GameManager implements Runnable {
      */
     public void startGame(){
         int[] results;
-        board.initializeBoard();
+        GameGrid.getInstance().initializeBoard();
 
         final Lock lock = new ReentrantLock();
         final Condition condition = lock.newCondition();
@@ -90,15 +89,15 @@ public class GameManager implements Runnable {
             lock.unlock();
         }
 
-        GameFrame.getInstance().updateBoard();
+        GameFrame.getInstance().updateResults();
 
-        while(true){
+        while(!Thread.currentThread().isInterrupted()){
             // If none of the players where able to make a draw we will break this loop and the game will finish.
             if(notAvailableDraws > 1)
                 break;
 
             while (true) {
-                if(board.isGameOver()){
+                if(GameGrid.getInstance().isGameOver()){
                     notAvailableDraws++; // This player was not able to make a draw and the turn goes to the other player.
                     break;
                 }
@@ -113,9 +112,10 @@ public class GameManager implements Runnable {
                     }
                 }
 
-                if(board.isPossibleMove(draw)){
-                    board.updateBoard(draw);
-                    GameFrame.getInstance().updateBoard();
+                if(GameGrid.getInstance().isPossibleMove(draw)){
+                    GameGrid.getInstance().updateBoard(draw);
+                    GameFrame.getInstance().updateResults();
+                    setNextPlayer();
                     break;
                 }else{
                     try {
@@ -124,13 +124,8 @@ public class GameManager implements Runnable {
                     } catch (InvalidMoveException ex) {
                         Logger.getLogger(GameManager.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    
                 }
             }
-
-            setNextPlayer();
-                   
-
         }
         results = getResult();
         
@@ -203,31 +198,31 @@ public class GameManager implements Runnable {
      * This method is called from the logic of the game when the board-matrix has been updated and
      * the notifies the getBoardNotifier which returns the matrix to the GUI.
      * @param boardMatrix A matrix representing the board of the game.
-     */
+     *//*
     public void setBoardNotifier(int[][] boardMatrix){
         synchronized(boardO){
-            this.board.setWholeBoard(boardMatrix);
+            GameGrid.getInstance().setWholeBoard(boardMatrix);
             //boardO.notify();
         }
-    }
+    }*/
     
     /**
      * This method is called from the GUI and waits for the setBoardNotifier to signal that it's been updated.
      * @return A matrix representing the board.
-     */
+     *//*
     public int[][] getBoardNotifier(){
         synchronized(boardO){
 
-            return board.getBoard();
+            return GameGrid.getInstance().getBoard();
         }
-    }
+    }*/
     
     /**
      * Calls the logic of the game to calculate the scores of the game and returns it as an array.
      * @return An array with the scores.
      */
     public int[] getResult(){
-        return board.getResult();
+        return GameGrid.getInstance().getResult();
     }
     
     /**
@@ -235,7 +230,7 @@ public class GameManager implements Runnable {
      * @return A matrix that represents the board.
      */
     public int[][] getBoard(){
-        return(board.getBoard());
+        return(GameGrid.getInstance().getBoard());
     }
     
     /**
@@ -256,7 +251,7 @@ public class GameManager implements Runnable {
      * @return A boolean value.
      */
     public boolean isPossibleDraw(Point draw){
-        return board.isPossibleMove(draw);
+        return GameGrid.getInstance().isPossibleMove(draw);
     }
     
     /**
@@ -264,7 +259,7 @@ public class GameManager implements Runnable {
      * @return An ArrayList with coordinates of the legal moves.
      */
     public ArrayList getPossibleDraws(){
-        return board.getPossibleMoves();
+        return GameGrid.getInstance().getPossibleMoves();
     }
 
     /**
@@ -273,8 +268,8 @@ public class GameManager implements Runnable {
      */
     public void printBoard(GameGrid board){
         int[][] boardArray = board.getBoard();
-        for(int i = 0; i < GameGrid.getBoardSize(); i++){
-            for(int j = 0; j < GameGrid.getBoardSize(); j++){
+        for(int i = 0; i < GameGrid.getInstance().getBoardSize(); i++){
+            for(int j = 0; j < GameGrid.getInstance().getBoardSize(); j++){
                 System.out.print("|");
                 if(boardArray[j][i] == 1)
                     System.out.print("B");

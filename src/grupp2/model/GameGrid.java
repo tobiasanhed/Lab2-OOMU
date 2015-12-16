@@ -1,6 +1,8 @@
 package grupp2.model;
 
 import grupp2.controller.GameManager;
+import grupp2.view.GameBoard;
+
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Observable;
@@ -11,11 +13,16 @@ import java.util.Observable;
  */
 public class GameGrid extends Observable{
 
-    private static final int boardSize = 8;
-    private static final int whitePlayer = 2;
-    private static final int blackPlayer = 1;
+    private final int boardSize = 8;
+    private final int whitePlayer = 2;
+    private final int blackPlayer = 1;
     private int[][] boardMatrix = new int[boardSize][boardSize];
     private boolean flippingTime = false;
+    private static final GameGrid INSTANCE = new GameGrid();
+
+    public static GameGrid getInstance(){
+        return INSTANCE;
+    }
 
     /**
      * The getBoard method is a accessor function
@@ -37,7 +44,13 @@ public class GameGrid extends Observable{
         isPossibleMove(coordinates);
         flipMarker(coordinates);
         flippingTime = false;
-        GameManager.getInstance().setBoardNotifier(boardMatrix);
+
+        notifyObserver();
+        //GameManager.getInstance().setBoardNotifier(boardMatrix);
+    }
+
+    private void notifyObserver() {
+        GameBoard.getInstance().update();
     }
 
     private void flipMarker(Point coordinates){
@@ -57,7 +70,7 @@ public class GameGrid extends Observable{
      * getBoardSize method
      * @return returns the size of the board as a int.
      */
-    public static int getBoardSize() {
+    public int getBoardSize() {
         return boardSize;
     }
     
@@ -77,7 +90,8 @@ public class GameGrid extends Observable{
         boardMatrix[3][3] = blackPlayer;
         boardMatrix[4][4] = blackPlayer;
 
-        GameManager.getInstance().setBoardNotifier(boardMatrix);
+        notifyObserver();
+        //GameManager.getInstance().setBoardNotifier(boardMatrix);
     }
     
     /**
@@ -238,260 +252,7 @@ public class GameGrid extends Observable{
      * marker must have at least another marker inbetween. All
      * the other cases will result in a illegal move and this function will then 
      * return false as it's result.
-     *//*
-    private boolean checkRight(Point coordinates) {
-        //Kolla höger
-
-        for (int i = coordinates.x + 1; i < getBoardSize(); i++) {
-            if (boardMatrix[i][coordinates.y] == 0) {
-                return false;
-            }
-            if ((boardMatrix[i][coordinates.y] == GameManager.getInstance().getCurrentPlayer().getMarkerID()) && i > coordinates.x + 1) {
-                if(GameManager.getInstance().getCurrentPlayer() instanceof ComputerPlayer){
-                    for(int ii = i; ii != coordinates.x; ii--)
-                        setBoard(new Point(ii, coordinates.y), GameManager.getInstance().getCurrentPlayer().getMarkerID());
-                }
-                return true;
-            } else if ((boardMatrix[i][coordinates.y] == GameManager.getInstance().getCurrentPlayer().getMarkerID()) && i <= coordinates.x + 1) {
-                return false;
-            }
-        }
-        return false;
-    }
-    
-    /**
-     * checkLeft method checks from the position given to the left to investigate if
-     * the move made is a valid move. 
-     * @param coordinates is the Parameter where the player whishes to make it's move
-     * is a Point object and needs a x and y value.
-     * @return The move is valid if all the markers we have checked is the 
-     * opponents and when we se another of our own marker the position of that 
-     * marker must have at least another marker inbetween. All
-     * the other cases will result in a illegal move and this function will then 
-     * return false as it's result.
-     *//*
-    private boolean checkLeft(Point coordinates) {
-
-        for (int i = coordinates.x - 1; i >= 0; i--) {
-            if (boardMatrix[i][coordinates.y] == 0) {
-                return false;
-            }
-            if ((boardMatrix[i][coordinates.y] == GameManager.getInstance().getCurrentPlayer().getMarkerID()) && i < coordinates.x - 1) {
-                if(GameManager.getInstance().getCurrentPlayer() instanceof HumanPlayer){
-                    for(int ii = i; ii != coordinates.x; ii++)
-                        setBoard(new Point(ii, coordinates.y), GameManager.getInstance().getCurrentPlayer().getMarkerID());
-                }
-                return true;
-            } else if ((boardMatrix[i][coordinates.y] == GameManager.getInstance().getCurrentPlayer().getMarkerID()) && i >= coordinates.x - 1) {
-                return false;
-            }
-        }
-
-        return false;
-    }
-    
-    /**
-     * checkDown method checks from the position given and downwards direction to investigate if
-     * the move made is a valid move. 
-     * @param coordinates is the Parameter where the player whishes to make it's move
-     * is a Point object and needs a x and y value.
-     * @return The move is valid if all the markers we have checked is the 
-     * opponents and when we se another of our own marker the position of that 
-     * marker must have at least another marker inbetween. All
-     * the other cases will result in a illegal move and this function will then 
-     * return false as it's result.
-     *//*
-    private boolean checkDown(Point coordinates) {
-
-        for (int i = coordinates.y + 1; i < getBoardSize(); i++) {
-            if (boardMatrix[coordinates.x][i] == 0) {
-                return false;
-            }
-            if ((boardMatrix[coordinates.x][i] == GameManager.getInstance().getCurrentPlayer().getMarkerID()) && i > coordinates.y + 1) {
-                if(GameManager.getInstance().getCurrentPlayer() instanceof HumanPlayer){
-                    for(int ii = i; ii != coordinates.y; ii--)
-                        setBoard(new Point(coordinates.x, ii), GameManager.getInstance().getCurrentPlayer().getMarkerID());
-                }
-                return true;
-            } else if ((boardMatrix[coordinates.x][i] == GameManager.getInstance().getCurrentPlayer().getMarkerID()) && i <= coordinates.y + 1) {
-                return false;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * checkUp method checks from the position given upwards direction to investigate if
-     * the move made is a valid move. 
-     * @param coordinates is the Parameter where the player whishes to make it's move
-     * is a Point object and needs a x and y value.
-     * @return The move is valid if all the markers we have checked is the 
-     * opponents and when we se another of our own marker the position of that 
-     * marker must have at least another marker inbetween. All
-     * the other cases will result in a illegal move and this function will then 
-     * return false as it's result.
-     *//*
-    private boolean checkUp(Point coordinates) {
-
-        for (int i = coordinates.y - 1; i >= 0; i--) {
-            if (boardMatrix[coordinates.x][i] == 0) {
-                return false;
-            }
-            if ((boardMatrix[coordinates.x][i] == GameManager.getInstance().getCurrentPlayer().getMarkerID()) && i < coordinates.y - 1) {
-                if(GameManager.getInstance().getCurrentPlayer() instanceof HumanPlayer){
-                    for(int ii = i; ii != coordinates.y; ii++)
-                        setBoard(new Point(coordinates.x, ii), GameManager.getInstance().getCurrentPlayer().getMarkerID());
-                }
-                return true;
-            } else if ((boardMatrix[coordinates.x][i] == GameManager.getInstance().getCurrentPlayer().getMarkerID()) && i >= coordinates.y - 1) {
-                return false;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * checkDiagonallyRightUp method checks from the position given in the diagonally direction
-     * upwards and to the right to investigate if the move made is a valid move. 
-     * @param coordinates is the Parameter where the player whishes to make it's move
-     * is a Point object and needs a x and y value.
-     * @return The move is valid if all the markers we have checked is the 
-     * opponents and when we se another of our own marker the position of that 
-     * marker must have at least another marker inbetween. All
-     * the other cases will result in a illegal move and this function will then 
-     * return false as it's result.
-     *//*
-    private boolean checkDiagonallyRightUp(Point coordinates) {
-
-        int y = coordinates.y - 1;
-        for (int x = coordinates.x + 1; x < getBoardSize() && y >= 0; x++) {
-            if (boardMatrix[x][y] == 0) {
-                return false;
-            }
-            if ((boardMatrix[x][y] == GameManager.getInstance().getCurrentPlayer().getMarkerID()) && x > coordinates.x + 1) {
-                if(GameManager.getInstance().getCurrentPlayer() instanceof HumanPlayer){
-                    for(int xx = x; xx != coordinates.x; xx--){
-                        setBoard(new Point(xx, y), GameManager.getInstance().getCurrentPlayer().getMarkerID());
-                        y++;
-                    }
-                }
-                return true;
-            } else if ((boardMatrix[x][y] == GameManager.getInstance().getCurrentPlayer().getMarkerID()) && x <= coordinates.x + 1) {
-                return false;
-            }
-            y--;
-
-        }
-
-        return false;
-    }
-
-    /**
-     * checkDiagonallyRightDown method checks from the position given in the diagonally direction
-     * downwards and to the right to investigate if the move made is a valid move. 
-     * @param coordinates is the Parameter where the player whishes to make it's move
-     * is a Point object and needs a x and y value.
-     * @return The move is valid if all the markers we have checked is the 
-     * opponents and when we se another of our own marker the position of that 
-     * marker must have at least another marker inbetween. All
-     * the other cases will result in a illegal move and this function will then 
-     * return false as it's result.
-     *//*
-    private boolean checkDiagonallyRightDown(Point coordinates) {
-
-        int y = coordinates.y + 1;
-        for (int x = coordinates.x + 1; x < getBoardSize() && y < getBoardSize(); x++) {
-            if (boardMatrix[x][y] == 0) {
-                return false;
-            }
-            if ((boardMatrix[x][y] == GameManager.getInstance().getCurrentPlayer().getMarkerID()) && x > coordinates.x + 1) {
-                if(GameManager.getInstance().getCurrentPlayer() instanceof HumanPlayer){
-                    for(int xx = x; xx != coordinates.x; xx--){
-                        setBoard(new Point(xx, y), GameManager.getInstance().getCurrentPlayer().getMarkerID());
-                        y--;
-                    }
-                }
-                return true;
-            } else if ((boardMatrix[x][y] == GameManager.getInstance().getCurrentPlayer().getMarkerID()) && x <= coordinates.x + 1) {
-                return false;
-            }
-            y++;
-        }
-
-        return false;
-    }
-
-    /**
-     * checkDiagonallyLeftDown method checks from the position given in the diagonally direction
-     * downwards and to the left to investigate if the move made is a valid move. 
-     * @param coordinates is the Parameter where the player whishes to make it's move
-     * is a Point object and needs a x and y value.
-     * @return The move is valid if all the markers we have checked is the 
-     * opponents and when we se another of our own marker the position of that 
-     * marker must have at least another marker inbetween. All
-     * the other cases will result in a illegal move and this function will then 
-     * return false as it's result.
-     *//*
-    private boolean checkDiagonallyLeftDown(Point coordinates) {
-
-        int y = coordinates.y + 1;
-        for (int x = coordinates.x - 1; x >= 0 && y < getBoardSize(); x--) {
-            if (boardMatrix[x][y] == 0) {
-                return false;
-            }
-            if ((boardMatrix[x][y] == GameManager.getInstance().getCurrentPlayer().getMarkerID()) && x < coordinates.x - 1) {
-                if(GameManager.getInstance().getCurrentPlayer() instanceof HumanPlayer){
-                    for(int xx = x; xx != coordinates.x; xx++){
-                        setBoard(new Point(xx, y), GameManager.getInstance().getCurrentPlayer().getMarkerID());
-                        y--;
-                    }
-                }
-                return true;
-            } else if ((boardMatrix[x][y] == GameManager.getInstance().getCurrentPlayer().getMarkerID()) && x >= coordinates.x - 1) {
-                return false;
-            }
-            y++;
-        }
-
-        return false;
-    }
-
-    /**
-     * checkDiagonallyLeftUp method checks from the position given in the diagonally direction
-     * upwards and to the left to investigate if the move made is a valid move. 
-     * @param coordinates is the Parameter where the player whishes to make it's move
-     * is a Point object and needs a x and y value.
-     * @return The move is valid if all the markers we have checked is the 
-     * opponents and when we se another of our own marker the position of that 
-     * marker must have at least another marker inbetween. All
-     * the other cases will result in a illegal move and this function will then 
-     * return false as it's result.
-     *//*
-    private boolean checkDiagonallyLeftUp(Point coordinates) {
-
-        int y = coordinates.y - 1;
-        for (int x = coordinates.x - 1; x >= 0 && y >= 0; x--) {
-            if (boardMatrix[x][y] == 0) {
-
-                return false;
-            }
-            if ((boardMatrix[x][y] == GameManager.getInstance().getCurrentPlayer().getMarkerID()) && x < coordinates.x - 1) {
-                if(GameManager.getInstance().getCurrentPlayer() instanceof HumanPlayer){
-                    for(int xx = x; xx != coordinates.x; xx++){
-                        setBoard(new Point(xx, y), GameManager.getInstance().getCurrentPlayer().getMarkerID());
-                        y++;
-                    }
-                }
-                return true;
-            } else if ((boardMatrix[x][y] == GameManager.getInstance().getCurrentPlayer().getMarkerID()) && x >= coordinates.x - 1) {
-
-                return false;
-            }
-            y--;
-        }
-
-        return false;
-    }*/
+     */
 
     /**
      * checkIfEmptySpot method checks if the coordinates given represent a empty
