@@ -104,9 +104,17 @@ public class GameBoard{
         });
     }
 
+    /**
+     * notifys the obervers of this instance, usually the getDraw of the players.
+     */
     private void notifyObserver(){
         currentObserver.update();
     }
+
+    /**
+     * returns the currendraw
+     * @return
+     */
     public Point getState(){
         return currentDraw;
     }
@@ -114,6 +122,10 @@ public class GameBoard{
         return INSTANCE;
     }
 
+    /**
+     * adds the current player as a observer of the board.
+     * @param observer
+     */
     public void attach(HumanPlayer observer){
         currentObserver = observer;
     }
@@ -122,8 +134,7 @@ public class GameBoard{
      * to display changes made to the state of the game board.
      */
     public void drawGraphicBoard(){
-        //currentBoard = GameManager.getInstance().getBoardNotifier();
-        
+
         for (int i = 0; i < btn.length; i++) {
             for (int j = 0; j < btn.length; j++) {
                 if (currentBoard[i][j] == 2) {

@@ -49,10 +49,17 @@ public class GameGrid extends Observable{
         //GameManager.getInstance().setBoardNotifier(boardMatrix);
     }
 
+    /**
+     * This function notifies the observers of this instance, usually the graphic board.
+     */
     private void notifyObserver() {
         GameBoard.getInstance().update();
     }
 
+    /**
+     * This function flips the marker at the position of the parameter.
+     * @param coordinates
+     */
     private void flipMarker(Point coordinates){
         boardMatrix[coordinates.x][coordinates.y] = GameManager.getInstance().getCurrentPlayer().getMarkerID();
     }
@@ -91,7 +98,6 @@ public class GameGrid extends Observable{
         boardMatrix[4][4] = blackPlayer;
 
         notifyObserver();
-        //GameManager.getInstance().setBoardNotifier(boardMatrix);
     }
     
     /**
@@ -195,7 +201,6 @@ public class GameGrid extends Observable{
         // The simpliest way to solve this was to change this variable and then change it back to its originally state in the
         // end of the function.
         //if(!whereComputer)
-          //  GameManager.getInstance().setIsComputerPlayer(true);
         for (int i = 0; i < getBoardSize(); i++) {
             for (int j = 0; j < getBoardSize(); j++) {
                 coordinates.setLocation(j, i);
@@ -207,10 +212,16 @@ public class GameGrid extends Observable{
             }
         }
 
-        //GameManager.getInstance().setIsComputerPlayer(whereComputer);
         return possibleDraws;
     }
 
+    /**
+     *  This method checks the direction which the parameter says, when it has checked if it's a valid
+     *  move it flips the markers as it goes back to the starting coordinates.
+     * @param coordinates the starting coordinates
+     * @param dir the direction to look
+     * @return A boolean value if it's a valid move or not.
+     */
     private boolean checkDirection(Point coordinates, Point dir){
         int x = coordinates.x + dir.x;
         int y = coordinates.y + dir.y;
@@ -240,19 +251,6 @@ public class GameGrid extends Observable{
             y += dir.y;
         }
     }
-
-
-    /**
-     * checkRight method checks from the position given to the right to investigate if
-     * the move made is a valid move. 
-     * @param coordinates is the Parameter where the player whishes to make it's move
-     * is a Point object and needs a x and y value.
-     * @return The move is valid if all the markers we have checked is the 
-     * opponents and when we se another of our own marker the position of that 
-     * marker must have at least another marker inbetween. All
-     * the other cases will result in a illegal move and this function will then 
-     * return false as it's result.
-     */
 
     /**
      * checkIfEmptySpot method checks if the coordinates given represent a empty

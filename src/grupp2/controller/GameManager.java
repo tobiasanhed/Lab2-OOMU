@@ -27,16 +27,10 @@ import javafx.application.Platform;
 public class GameManager implements Runnable {
     private int currentPlayer = 1;
     private Point draw = new Point();
-    //private final Object coordO = new Object();
-    //private final Object boardO = new Object();
     private int notAvailableDraws = 0;
     private IPlayer player1;
     private IPlayer player2;
 
-    /*private final Lock drawLock = new ReentrantLock();
-    private final Condition coordO = drawLock.newCondition();
-    private final Lock boardLock = new ReentrantLock();
-    private final Condition boardO = boardLock.newCondition();*/
     
     private static final GameManager INSTANCE = new GameManager();
     
@@ -147,6 +141,9 @@ public class GameManager implements Runnable {
     
     }
 
+    /**
+     * This function changes the currentplayer.
+     */
     private void setNextPlayer(){
         if (currentPlayer == 1)
             currentPlayer = 2;
@@ -166,56 +163,7 @@ public class GameManager implements Runnable {
         return players;
     }
     
-    /**
-     * This function is called by the GUI and notifies the getCoord function whichs is called
-     * by the humanplayer. It makes it possible to get a draw from the GUI to the logic of the game.
-     * @param draw The coordinates of the draw.
-     *//*
-    public void setCoord(Point draw){
-        synchronized(coordO){
-            this.draw = draw;
-            coordO.notify();
-        }
-    }*/
-    
-    /**
-     * This function waits for the setCoord which is called when a draw is made on the GUI and then returns
-     * the coordinates to the logic of the game.
-     * @return The coordinates of the draw.
-     *//*
-    public Point getCoord(){
-        synchronized(coordO){
-            try {
-                coordO.wait();
-            } catch (InterruptedException ex) {
-                Logger.getLogger(GameManager.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            return draw;
-        }
-    }*/
-    
-    /**
-     * This method is called from the logic of the game when the board-matrix has been updated and
-     * the notifies the getBoardNotifier which returns the matrix to the GUI.
-     * @param boardMatrix A matrix representing the board of the game.
-     *//*
-    public void setBoardNotifier(int[][] boardMatrix){
-        synchronized(boardO){
-            GameGrid.getInstance().setWholeBoard(boardMatrix);
-            //boardO.notify();
-        }
-    }*/
-    
-    /**
-     * This method is called from the GUI and waits for the setBoardNotifier to signal that it's been updated.
-     * @return A matrix representing the board.
-     *//*
-    public int[][] getBoardNotifier(){
-        synchronized(boardO){
 
-            return GameGrid.getInstance().getBoard();
-        }
-    }*/
     
     /**
      * Calls the logic of the game to calculate the scores of the game and returns it as an array.

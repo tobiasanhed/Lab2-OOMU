@@ -104,11 +104,19 @@ public class SetUpGameDialog {
         dialog.showAndWait();
 
     }
+
+    /**
+     * returns the arraylist containing the players of the game
+     * @return
+     */
     public ArrayList<IPlayer> getPlayers(){
 
         return playerArray;
     }
 
+    /**
+     * Sets up the handlers of the game
+     */
     private void setUpHandlers(){
 
         btn.setOnAction(new EventHandler<ActionEvent>() {

@@ -10,11 +10,7 @@ import javafx.scene.control.Alert.AlertType;
  * @author Thires
  */
 public class InvalidMoveException extends Exception{
-    
-    /**
-     * InvalidMoveException method creates an alert message in order to inform
-     * the player(s) that the move is invalid.
-     */
+
     public InvalidMoveException(){
         
         
