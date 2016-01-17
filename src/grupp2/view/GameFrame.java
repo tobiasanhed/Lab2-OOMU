@@ -117,7 +117,8 @@ public class GameFrame extends Stage{
         Thread[] threads = new Thread[Thread.activeCount()];
         Thread.enumerate(threads);
         for(Thread i: threads)
-            i.interrupt();
+            if(!i.equals(Thread.currentThread()))
+                i.interrupt();
     }
     /**
      * This function creates the menu of the GUI.
